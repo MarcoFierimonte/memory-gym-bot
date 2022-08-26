@@ -1,18 +1,27 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@Component
 public class MyMemoryGymBot extends TelegramLongPollingBot {
+
+    private final DictionaryRepo dictionaryRepo;
+
+    public MyMemoryGymBot(DictionaryRepo dictionaryRepo) {
+        this.dictionaryRepo = dictionaryRepo;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
         // Checking if the update has message and text
         if (update.hasMessage() && update.getMessage().hasText()) {
 
-            DictionaryRepo.connect();
+            System.out.println("#####>>>>" + dictionaryRepo.findAll());
+
 
             if (update.getMessage().isCommand()) {
                 Command command = Command.fromText(update.getMessage().getText());

@@ -11,14 +11,6 @@ public class MemoryGymBotApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MemoryGymBotApplication.class, args);
-
-		try {
-			TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-			// Register long polling bots. They work regardless type of TelegramBotsApi we are creating
-			telegramBotsApi.registerBot(new MyMemoryGymBot());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }
