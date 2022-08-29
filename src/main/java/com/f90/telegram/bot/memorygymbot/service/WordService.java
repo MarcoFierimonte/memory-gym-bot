@@ -34,7 +34,7 @@ public class WordService {
      */
     public void add(String commandValue) {
         if (StringUtils.isNotEmpty(commandValue)) {
-            String[] splitted = commandValue.split(",");
+            String[] splitted = commandValue.split(";");
             String eng = splitted[0].strip();
             String ita = splitted[1].strip();
             Word newWord = new Word(eng, ita);

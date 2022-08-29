@@ -1,6 +1,5 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -8,7 +7,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import javax.annotation.PostConstruct;
 
 @Component
-@Profile(value = "telegram")
+//@Profile(value = "telegram")
 public class TelegramConnection {
 
     private final MyMemoryGymBot memoryGymBot;

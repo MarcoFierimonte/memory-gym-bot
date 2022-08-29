@@ -7,7 +7,7 @@ public enum CustomCommand {
     ADD("/add "),
     DELETE("/delete "),
     TEST("/test "),
-    LEARN("/learn "),
+    LEARN("/learn"),
     UNKWOW(""),
     ;
 
@@ -23,7 +23,8 @@ public enum CustomCommand {
 
     public static String getCommandValue(String input) {
         CustomCommand customCommand = getCommand(input);
-        return input.split(customCommand.getValue())[1];
+        String[] splitted = input.split(customCommand.getValue());
+        return splitted.length > 0 ? splitted[1] : null;
     }
 
     public String getValue() {
