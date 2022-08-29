@@ -6,6 +6,7 @@ public enum CustomCommand {
 
     ADD("/add "),
     DELETE("/delete "),
+    TEST("/test "),
     LEARN("/learn "),
     UNKWOW(""),
     ;

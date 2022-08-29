@@ -1,0 +1,12 @@
+com\f90\telegram\bot\memorygymbot\bot\TelegramConnection.class
+com\f90\telegram\bot\memorygymbot\model\Word.class
+com\f90\telegram\bot\memorygymbot\exception\InternalException.class
+com\f90\telegram\bot\memorygymbot\MemoryGymBotApplication.class
+com\f90\telegram\bot\memorygymbot\controller\WordController.class
+com\f90\telegram\bot\memorygymbot\service\WordService.class
+com\f90\telegram\bot\memorygymbot\bot\Command.class
+com\f90\telegram\bot\memorygymbot\bot\CustomCommand.class
+com\f90\telegram\bot\memorygymbot\repo\DictionaryRepo.class
+com\f90\telegram\bot\memorygymbot\bot\MyMemoryGymBot$1.class
+com\f90\telegram\bot\memorygymbot\bot\MyMemoryGymBot.class
+com\f90\telegram\bot\memorygymbot\dto\WordDTO.class

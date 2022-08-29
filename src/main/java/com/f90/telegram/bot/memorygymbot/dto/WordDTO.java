@@ -1,17 +1,12 @@
-package com.f90.telegram.bot.memorygymbot.model;
+package com.f90.telegram.bot.memorygymbot.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class WordDTO {
 
-@Document("dictionary")
-public class Word {
-
-    @Id
     private String id;
     private String eng;
     private String ita;
 
-    public Word(String eng, String ita) {
+    public WordDTO(String eng, String ita) {
         this.eng = eng;
         this.ita = ita;
     }
