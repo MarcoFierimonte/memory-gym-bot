@@ -20,6 +20,12 @@ public class WordController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Word> findAll() {
+        return wordService.findAll();
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Word> testDefault() {
         return wordService.test(null);

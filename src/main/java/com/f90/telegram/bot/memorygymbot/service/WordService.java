@@ -23,6 +23,10 @@ public class WordService {
         this.dictionaryRepo = dictionaryRepo;
     }
 
+    public List<Word> findAll() {
+        return dictionaryRepo.findAll();
+    }
+
     /**
      * Example of use: /add tin; lattina
      *
