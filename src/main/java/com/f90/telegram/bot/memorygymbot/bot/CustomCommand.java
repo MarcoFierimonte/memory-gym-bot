@@ -6,6 +6,7 @@ public enum CustomCommand {
 
     ADD("/add "),
     DELETE("/delete "),
+    PLAY("/play"),
     TEST("/test "),
     LEARN("/learn"),
     UNKWOW(""),
@@ -18,13 +19,13 @@ public enum CustomCommand {
     }
 
     public static CustomCommand getCommand(String input) {
-        return Arrays.stream(CustomCommand.values()).filter(c -> input.startsWith(c.getValue())).findFirst().orElse(UNKWOW);
+        return Arrays.stream(CustomCommand.values()).filter(c -> input.trim().startsWith(c.getValue().trim())).findFirst().orElse(UNKWOW);
     }
 
     public static String getCommandValue(String input) {
         CustomCommand customCommand = getCommand(input);
         String[] splitted = input.split(customCommand.getValue());
-        return splitted.length > 0 ? splitted[1] : null;
+        return splitted.length > 1 ? splitted[1] : null;
     }
 
     public String getValue() {
