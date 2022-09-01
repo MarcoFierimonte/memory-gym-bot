@@ -4,11 +4,14 @@ import java.util.Arrays;
 
 public enum CustomCommand {
 
-    ADD("/add "),
-    DELETE("/delete "),
-    PLAY("/play"),
-    TEST("/test "),
-    LEARN("/learn"),
+    START("/start"),
+    STOP("/stop"),
+
+    ADD("ADD"),
+    DELETE("DELETE"),
+    PLAY("PLAY"),
+    TEST("TEST"),
+    LEARN("LEARN"),
     UNKWOW(""),
     ;
 

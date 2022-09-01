@@ -34,7 +34,7 @@ public class WordController {
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/test/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Word> test(@PathVariable(value = "number", required = false) Integer number) {
-        return wordService.test(String.valueOf(number));
+        return wordService.test(number);
     }
 
     @ResponseStatus(value = HttpStatus.OK)

@@ -11,15 +11,12 @@ import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class MyMemoryGymBot extends TelegramLongPollingBot {
@@ -42,131 +39,109 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        LOGGER.info("onUpdateReceived() - IN");
-        // Checking if the update has message and text
-        if (update.hasMessage() && update.getMessage().hasText()) {
-
-            if (update.getMessage().isCommand()) {
-                Command command = Command.fromText(update.getMessage().getText());
-                LOGGER.info("onUpdateReceived() - msg: command={}", command);
-
-                boolean showMenu = false;
-                List<Word> result = new ArrayList<>();
-                switch (command.getName()) {
-                    case ADD:
-                        wordService.add(command.getValue());
-                        break;
-                    case TEST:
-                        result = wordService.test(command.getValue());
-                        break;
-                    case LEARN:
-                        result = wordService.findAll();
-                        break;
-                    case DELETE:
-                        wordService.delete(command.getValue());
-                        break;
-                    case PLAY:
-                        sendKeyboard(update, KeyboardBuilder.getMainMenuKeyboard());
-
-                        sendKeyboard(update, KeyboardBuilder.keyboard2());
-                        showMenu = true;
-                        break;
-                    case UNKWOW:
-                    default:
-
-                        break;
-                }
-
-                if(!showMenu) {
-                    if (result.isEmpty()) {
-                        sendToChat(update, "Command=" + command.getName() + " processed.");
-                    } else {
-                        String data = result.stream()
-                                .map(Word::getIta)
-                                .collect(Collectors.joining("\n"));
-                        sendToChat(update, data);
-                    }
-                }
+        try {
+            LOGGER.info("onUpdateReceived() - IN");
+            if (update.hasMessage()) {
+                processMessage(update);
+            } else if (update.hasCallbackQuery()) {
+                processButtonAction(update);
             } else {
-                sendToChat(update, "Please insert a valid command.");
+                LOGGER.info("onUpdateReceived() - msg: received not managed updates. Update=[{}]", update);
             }
-        }
-        else if (update.hasCallbackQuery()) {
-            CallbackQuery callbackQuery = update.getCallbackQuery();
-            String data = callbackQuery.getData();
-            String chatId = callbackQuery.getMessage().getChat().getId().toString();
-            SendChatAction sendChatAction = new SendChatAction();
-            if (data.equals("callback text1")) {
-                sendChatAction.setChatId(chatId);
-                SendMessage sendMessage = new SendMessage();
-                sendMessage.setText("callback from text1");
-                sendMessage.setChatId(chatId);
-                try {
-                    sendChatAction.setAction(ActionType.TYPING);
-                    execute(sendChatAction);
-                    execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
+        } catch (Exception e) {
+            LOGGER.error("Error during 'onUpdateReceived'!", e);
+            if (update.getMessage() != null) {
+                Message message = update.getMessage();
+                String username = message.getChat() != null ? message.getChat().getUserName() : null;
+                Long chatId = message.getChat() != null ? update.getMessage().getChat().getId() : null;
+                String text = message.getText() != null ? update.getMessage().getText() : null;
+                LOGGER.error("Error during 'onUpdateReceived'; user={}, chatId={}, text={}", username, chatId, text);
             }
         }
         LOGGER.info("onUpdateReceived() - OUT");
     }
 
-    private void sendKeyboard(Update update, ReplyKeyboard replyKeyboard) {
-        try {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.enableMarkdown(true);
-            sendMessage.setChatId(update.getMessage().getChatId());
-            sendMessage.setReplyToMessageId(update.getMessage().getMessageId());
-            sendMessage.setReplyMarkup(replyKeyboard);
-            sendMessage.setText("prova");
-
-            execute(sendMessage);
-        } catch (Exception e) {
-            String username = update.getMessage().getChat().getUserName();
-            Long chatId = update.getMessage().getChat().getId();
-            LOGGER.error("Error during 'sendToChat'; user={}, chatId={}", username, chatId, e);
+    private void processMessage(Update update) throws TelegramApiException {
+        if (update.getMessage() != null) {
+            Command command = Command.fromText(update.getMessage().getText());
+            LOGGER.info("processMessage() - msg: command={}", command);
+            switch (command.getName()) {
+                case START:
+                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard());
+                    break;
+                case TEST:
+                    // build response
+                    List<Word> words = wordService.test(3);
+                    sendKeyboard(update.getMessage(), "Guess the words :)", KeyboardBuilder.testWordsKeyboard(words));
+                    break;
+                case UNKWOW:
+                default:
+                    LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
+                    sendToChat(update.getMessage(), "Please insert a valid command.");
+                    break;
+            }
+        } else {
+            LOGGER.error("processMessage() - msg: received 'null' message");
         }
     }
 
-    private void sendToChat(Update update, String text) {
-        try {
-            // Creating object of SendMessage
-            SendMessage message = new SendMessage();
-            // Setting chat id
-            message.setChatId(update.getMessage().getChatId().toString());
-            // Setting reply to message id
-            message.setReplyToMessageId(update.getMessage().getMessageId());
-            // Getting and setting received message text
-            message.setText(text);
-
-            // Sending message
-            execute(message);
-        } catch (Exception e) {
-            String username = update.getMessage().getChat().getUserName();
-            Long chatId = update.getMessage().getChat().getId();
-            LOGGER.error("Error during 'sendToChat'; user={}, chatId={}", username, chatId, e);
-        }
+    private void processButtonAction(Update update) throws TelegramApiException {
+        CallbackQuery callbackQuery = update.getCallbackQuery();
+        String data = callbackQuery.getData();
+        String chatId = callbackQuery.getMessage().getChat().getId().toString();
+//        Word test = wordService.findById(data);
+//        LOGGER.info("processButtonAction() - msg: test word callback={}", test);
+//        switch (data) {
+//            case "TEST_Callback":
+//                break;
+//            default:
+//                LOGGER.info("processButtonAction() - msg: UNKWOW Button Action={}", data);
+//                sendToChat(update.getCallbackQuery().getMessage(), "Invalid Button Action.");
+//                break;
+//        }
     }
 
-    private void sendToChat(Long chatId, String text) {
-        try {
-            // Creating object of SendMessage
-            SendMessage message = new SendMessage();
-            // Setting chat id
-            message.setChatId(chatId);
-            // Getting and setting received message text
-            message.setText(text);
-            // Sending message
-            execute(message);
-        } catch (Exception e) {
-            LOGGER.error("Error during 'sendToChat'; chatId={}", chatId, e);
-        }
+    private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) throws TelegramApiException {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(message.getChatId());
+        sendMessage.setReplyToMessageId(message.getMessageId());
+        sendMessage.setReplyMarkup(replyKeyboard);
+        sendMessage.setText(text);
+        SendChatAction sendChatAction = new SendChatAction();
+        sendChatAction.setChatId(message.getChatId());
+        sendChatAction.setAction(ActionType.TYPING);
+        execute(sendChatAction);
+        execute(sendMessage);
+    }
+
+    private void sendToChat(Message message, String text) throws TelegramApiException {
+        // Creating object of SendMessage
+        SendMessage out = new SendMessage();
+        // Setting chat id
+        out.setChatId(message.getChatId());
+        // Setting reply to message id
+        out.setReplyToMessageId(message.getMessageId());
+        // Getting and setting received message text
+        out.setText(text);
+
+        // Sending message
+        execute(out);
+    }
+
+    private void sendToChat(Long chatId, String text) throws TelegramApiException {
+        // Creating object of SendMessage
+        SendMessage message = new SendMessage();
+        // Setting chat id
+        message.setChatId(chatId);
+        // Getting and setting received message text
+        message.setText(text);
+        // Sending message
+        execute(message);
     }
 
     //@Scheduled(fixedDelay = 15000)
-    public void sendToChatScheduled() {
+    public void sendToChatScheduled() throws TelegramApiException {
         LOGGER.info("sendToChatScheduled() - msg: started job");
         sendToChat(CHAT_ID, "test");
     }

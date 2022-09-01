@@ -1,6 +1,5 @@
 package com.f90.telegram.bot.memorygymbot.service;
 
-import com.f90.telegram.bot.memorygymbot.bot.Command;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import com.f90.telegram.bot.memorygymbot.model.Word;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class WordService {
@@ -25,6 +25,10 @@ public class WordService {
 
     public List<Word> findAll() {
         return dictionaryRepo.findAll();
+    }
+
+    public Word findById(String id) {
+        return dictionaryRepo.findById(id).orElse(null);
     }
 
     /**
@@ -50,7 +54,7 @@ public class WordService {
             Word word = new Word(newWord.getEng(), newWord.getIta());
             insertWord = dictionaryRepo.save(word);
         } else {
-            throw  new InternalException("add() - msg: missing newWord from user.");
+            throw new InternalException("add() - msg: missing newWord from user.");
         }
         return insertWord;
     }
@@ -61,16 +65,11 @@ public class WordService {
      * - /test
      * - /test 3 (any number from 1 to 10)
      *
-     * @param commandValue the chat command value
+     * @param wordsToGuessNumber the chat command value
      */
-    public List<Word> test(String commandValue) {
+    public List<Word> test(Integer wordsToGuessNumber) {
         List<Word> randomWords;
-        if (StringUtils.isNotEmpty(commandValue)) {
-            randomWords = dictionaryRepo.random(Integer.parseInt(commandValue)).getMappedResults();
-        } else {
-            randomWords = dictionaryRepo.random(5).getMappedResults();
-        }
-        return randomWords;
+        return dictionaryRepo.random(Objects.requireNonNullElse(wordsToGuessNumber, 5)).getMappedResults();
     }
 
     /**

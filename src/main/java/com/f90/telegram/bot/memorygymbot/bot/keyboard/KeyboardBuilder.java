@@ -1,5 +1,6 @@
 package com.f90.telegram.bot.memorygymbot.bot.keyboard;
 
+import com.f90.telegram.bot.memorygymbot.model.Word;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -13,53 +14,49 @@ public final class KeyboardBuilder {
     private KeyboardBuilder() {
     }
 
-    public static ReplyKeyboardMarkup getMainMenuKeyboard() {
+    public static ReplyKeyboardMarkup menuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add("button1");
-        keyboardFirstRow.add("button2");
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add("button3");
-        keyboardSecondRow.add("button4");
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
 
+        KeyboardRow keyboardRow1 = new KeyboardRow();
+        keyboardRow1.add("TEST");
+        keyboardRow1.add("LEARN");
+        keyboard.add(keyboardRow1);
+        KeyboardRow keyboardRow2 = new KeyboardRow();
+        keyboardRow2.add("ADD");
+        keyboardRow2.add("DELETE");
+        keyboard.add(keyboardRow2);
+
+        replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }
 
-    public static InlineKeyboardMarkup keyboard2() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> listInlineButtons = new ArrayList<>();
-        List<InlineKeyboardButton> reportSaleBtn = new ArrayList<>();
-        List<InlineKeyboardButton> reportBuyBtn = new ArrayList<>();
-        List<InlineKeyboardButton> reportPriceBtn = new ArrayList<>();
-        InlineKeyboardButton button1 = new InlineKeyboardButton();
-        InlineKeyboardButton button2 = new InlineKeyboardButton();
-        InlineKeyboardButton button3 = new InlineKeyboardButton();
+    public static InlineKeyboardMarkup testWordsKeyboard(List<Word> words) {
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        StringBuilder wordsIds = new StringBuilder();
+        for (Word currentWord : words) {
+            List<InlineKeyboardButton> row = new ArrayList<>();
+            row.add(getButton(currentWord.getIta(), currentWord.getId()));
+            wordsIds.append(currentWord.getId()).append(";");
+            keyboard.add(row);
+        }
+        // add reveals button
+        List<InlineKeyboardButton> revealsButton = new ArrayList<>();
+        revealsButton.add(getButton("REVEALS", "reveals"));
+        keyboard.add(revealsButton);
 
-        button1.setText("text1");
-        button1.setCallbackData("callback text1");
+        InlineKeyboardMarkup out = new InlineKeyboardMarkup();
+        out.setKeyboard(keyboard);
+        return out;
+    }
 
-        button2.setText("text2");
-        button2.setCallbackData("callback text2");
-
-        button3.setText("text3");
-        button3.setCallbackData("callback text3");
-
-        reportSaleBtn.add(button1);
-        reportBuyBtn.add(button2);
-        reportPriceBtn.add(button3);
-        listInlineButtons.add(reportSaleBtn);
-        listInlineButtons.add(reportBuyBtn);
-        listInlineButtons.add(reportPriceBtn);
-        inlineKeyboardMarkup.setKeyboard(listInlineButtons);
-
-        return inlineKeyboardMarkup;
+    private static InlineKeyboardButton getButton(String text, String callback) {
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText(text);
+        button.setCallbackData(callback);
+        return button;
     }
 }
