@@ -46,6 +46,10 @@ public class WordController {
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Word search(@RequestBody WordDTO word) {
-        return wordService.add(Word.builder().ita(word.getIta()).eng(word.getEng()).build());
+        return wordService.add(Word.builder()
+                .ita(word.getIta())
+                .eng(word.getEng())
+                .chatId(69501949L)
+                .build());
     }
 }

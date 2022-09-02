@@ -4,23 +4,16 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("dictionary")
+@Document("user")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
-public class Word {
+public class User {
 
     @Id
-    private String id;
-    private String eng;
-    private String ita;
     private Long chatId;
-
-    public Word(String eng, String ita) {
-        this.eng = eng;
-        this.ita = ita;
-    }
+    private boolean lastTestPending;
 
 }

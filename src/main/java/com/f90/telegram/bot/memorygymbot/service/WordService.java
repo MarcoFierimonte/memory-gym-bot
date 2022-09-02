@@ -53,7 +53,6 @@ public class WordService {
      * @param wordsToGuessNumber the chat command value
      */
     public List<Word> test(Integer wordsToGuessNumber) {
-        List<Word> randomWords;
         return dictionaryRepo.random(Objects.requireNonNullElse(wordsToGuessNumber, 5)).getMappedResults();
     }
 

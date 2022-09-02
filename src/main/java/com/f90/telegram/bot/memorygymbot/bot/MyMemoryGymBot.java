@@ -1,16 +1,20 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
+import com.f90.telegram.bot.memorygymbot.model.User;
 import com.f90.telegram.bot.memorygymbot.model.Word;
+import com.f90.telegram.bot.memorygymbot.repo.UserRepo;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -22,12 +26,13 @@ import java.util.List;
 public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MyMemoryGymBot.class);
-    private static final Long CHAT_ID = 69501949L;
 
     private final WordService wordService;
+    private final UserRepo userRepo;
 
-    public MyMemoryGymBot(WordService wordService) {
+    public MyMemoryGymBot(WordService wordService, UserRepo userRepo) {
         this.wordService = wordService;
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -75,14 +80,17 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     private void processMenuCommand(Update update, Command command) throws TelegramApiException {
         switch (command.getType()) {
             case START:
+                User user = userRepo.findByChatId(update.getMessage().getChatId());
+                if (user == null) {
+                    userRepo.save(User.builder()
+                            .chatId(update.getMessage().getChatId())
+                            .lastTestPending(false)
+                            .build());
+                }
                 sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard());
                 break;
             case TEST: {
-                List<Word> words = wordService.test(3);
-                sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
-                for (Word current : words) {
-                    sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
-                }
+                testUserMemory(update);
                 break;
             }
             case LEARN: {
@@ -107,6 +115,16 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         }
     }
 
+
+    private void testUserMemory(Update update) throws TelegramApiException {
+        List<Word> words = wordService.test(3);
+        sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
+        for (Word current : words) {
+            sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
+        }
+        sendKeyboard(update.getMessage(), "DONE", KeyboardBuilder.doneKeyboard());
+    }
+
     private void processActionCommand(Update update, Command command) throws TelegramApiException {
         switch (command.getType()) {
             case ADD_WORD: {
@@ -121,7 +139,11 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 }
                 String wordToAddIta = values[0].trim();
                 String wordToAddEng = values[1].trim();
-                wordService.add(Word.builder().ita(wordToAddIta).eng(wordToAddEng).build());
+                wordService.add(Word.builder()
+                        .ita(wordToAddIta)
+                        .eng(wordToAddEng)
+                        .chatId(update.getMessage().getChatId())
+                        .build());
                 sendToChat(update.getMessage(), "Word added!", false);
                 break;
             }
@@ -150,6 +172,12 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     }
 
     private void processCallbackQuery(Update update) {
+        Message msg = update.getCallbackQuery().getMessage();
+        if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
+            User user = userRepo.findByChatId(msg.getChatId());
+            user.setLastTestPending(false);
+            userRepo.save(user);
+        }
         LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
 
@@ -167,7 +195,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         execute(sendMessage);
     }
 
-    private Message sendToChat(Message message, String text, boolean replyTo) throws TelegramApiException {
+    private void sendToChat(Message message, String text, boolean replyTo) throws TelegramApiException {
         SendMessage out = new SendMessage();
         out.setChatId(message.getChatId());
         if (replyTo) {
@@ -175,13 +203,26 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         }
         out.enableHtml(true);
         out.setText(text);
-        return execute(out);
+        execute(out);
     }
 
-    //@Scheduled(fixedDelay = 15000)
+    @Scheduled(fixedDelay = 15000)
     public void sendToChatScheduled() throws TelegramApiException {
         LOGGER.info("sendToChatScheduled() - msg: started job");
-        //sendToChat(CHAT_ID, "test");
+        List<User> users = userRepo.findByLastTestPendingIsFalse();
+        for (User user : users) {
+            Chat chat = new Chat();
+            chat.setId(user.getChatId());
+            Message msg = new Message();
+            msg.setChat(chat);
+            Update update = new Update();
+            update.setMessage(msg);
+            // send test
+            testUserMemory(update);
+            // update field
+            user.setLastTestPending(true);
+            userRepo.save(user);
+        }
     }
 
     @Override

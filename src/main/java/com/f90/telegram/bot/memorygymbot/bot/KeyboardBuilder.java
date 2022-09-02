@@ -35,6 +35,16 @@ public final class KeyboardBuilder {
         return replyKeyboardMarkup;
     }
 
+    public static InlineKeyboardMarkup doneKeyboard() {
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        List<InlineKeyboardButton> revealsButton = new ArrayList<>();
+        revealsButton.add(getButton("DONE", "TEST_DONE"));
+        keyboard.add(revealsButton);
+        InlineKeyboardMarkup out = new InlineKeyboardMarkup();
+        out.setKeyboard(keyboard);
+        return out;
+    }
+
     @Deprecated
     public static InlineKeyboardMarkup testWordsKeyboard(List<Word> words) {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
