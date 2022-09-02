@@ -1,6 +1,5 @@
 package com.f90.telegram.bot.memorygymbot.service;
 
-import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
@@ -31,28 +30,14 @@ public class WordService {
         return dictionaryRepo.findById(id).orElse(null);
     }
 
-    /**
-     * Example of use: /add tin; lattina
-     *
-     * @param commandValue the chat command value
-     */
-    public void add(String commandValue) {
-        if (StringUtils.isNotEmpty(commandValue)) {
-            String[] splitted = commandValue.split(";");
-            String eng = splitted[0].strip();
-            String ita = splitted[1].strip();
-            Word newWord = new Word(eng, ita);
-            dictionaryRepo.save(newWord);
-        } else {
-            LOGGER.warn("add() - msg: missing value from user.");
-        }
+    public Word findByIta(String ita) {
+        return dictionaryRepo.findWordByIta(ita);
     }
 
-    public Word add(WordDTO newWord) {
+    public Word add(Word newWord) {
         Word insertWord;
         if (newWord != null) {
-            Word word = new Word(newWord.getEng(), newWord.getIta());
-            insertWord = dictionaryRepo.save(word);
+            insertWord = dictionaryRepo.save(newWord);
         } else {
             throw new InternalException("add() - msg: missing newWord from user.");
         }

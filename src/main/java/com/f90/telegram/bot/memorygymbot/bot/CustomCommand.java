@@ -4,21 +4,28 @@ import java.util.Arrays;
 
 public enum CustomCommand {
 
-    START("/start"),
-    STOP("/stop"),
+    START("/start", CmdType.MENU),
+    STOP("/stop", CmdType.MENU),
 
-    ADD("ADD"),
-    DELETE("DELETE"),
-    PLAY("PLAY"),
-    TEST("TEST"),
-    LEARN("LEARN"),
-    UNKWOW(""),
+    // main menu keyboad buttons
+    ADD("ADD", CmdType.MENU),
+    DELETE("DELETE", CmdType.MENU),
+    TEST("TEST", CmdType.MENU),
+    LEARN("LEARN", CmdType.MENU),
+
+    // operations command
+    ADD_WORD("/add", CmdType.ACTION),
+    DELETE_WORD("/delete", CmdType.ACTION),
+
+    UNKWOW("", CmdType.UNKNOW),
     ;
 
     private final String value;
+    private final CmdType type;
 
-    CustomCommand(String value) {
+    CustomCommand(String value, CmdType type) {
         this.value = value;
+        this.type = type;
     }
 
     public static CustomCommand getCommand(String input) {
@@ -33,5 +40,16 @@ public enum CustomCommand {
 
     public String getValue() {
         return value;
+    }
+
+    public CmdType getType() {
+        return type;
+    }
+
+    public enum CmdType {
+        BOT,
+        MENU,
+        ACTION,
+        UNKNOW,
     }
 }

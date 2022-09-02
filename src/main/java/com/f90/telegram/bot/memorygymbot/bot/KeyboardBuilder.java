@@ -1,4 +1,4 @@
-package com.f90.telegram.bot.memorygymbot.bot.keyboard;
+package com.f90.telegram.bot.memorygymbot.bot;
 
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -19,6 +19,7 @@ public final class KeyboardBuilder {
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
+
         List<KeyboardRow> keyboard = new ArrayList<>();
 
         KeyboardRow keyboardRow1 = new KeyboardRow();
@@ -34,13 +35,12 @@ public final class KeyboardBuilder {
         return replyKeyboardMarkup;
     }
 
+    @Deprecated
     public static InlineKeyboardMarkup testWordsKeyboard(List<Word> words) {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        StringBuilder wordsIds = new StringBuilder();
         for (Word currentWord : words) {
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(getButton(currentWord.getIta(), currentWord.getId()));
-            wordsIds.append(currentWord.getId()).append(";");
             keyboard.add(row);
         }
         // add reveals button

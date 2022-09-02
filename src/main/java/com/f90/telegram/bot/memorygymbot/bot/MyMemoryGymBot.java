@@ -1,8 +1,9 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
-import com.f90.telegram.bot.memorygymbot.bot.keyboard.KeyboardBuilder;
+import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -30,13 +30,6 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         this.wordService = wordService;
     }
 
-    /* TODO:
-    1. create a menù with buttons: TEST, LEARN, ADD, DELETE
-    2. if button TEST is pressed reply with 3 words to play with
-    3. if button LEARN is pressed reply with 10 words completed of ita,eng and pronunciation set
-    4. if button ADD or DELETE is pressed reply with the pre-built commands /add <eng>;<ita> or /delete <ita>
-     */
-
     @Override
     public void onUpdateReceived(Update update) {
         try {
@@ -44,7 +37,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
             if (update.hasMessage()) {
                 processMessage(update);
             } else if (update.hasCallbackQuery()) {
-                processButtonAction(update);
+                processCallbackQuery(update);
             } else {
                 LOGGER.info("onUpdateReceived() - msg: received not managed updates. Update=[{}]", update);
             }
@@ -65,40 +58,99 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         if (update.getMessage() != null) {
             Command command = Command.fromText(update.getMessage().getText());
             LOGGER.info("processMessage() - msg: command={}", command);
-            switch (command.getName()) {
-                case START:
-                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard());
-                    break;
-                case TEST:
-                    // build response
-                    List<Word> words = wordService.test(3);
-                    sendKeyboard(update.getMessage(), "Guess the words :)", KeyboardBuilder.testWordsKeyboard(words));
-                    break;
-                case UNKWOW:
-                default:
-                    LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
-                    sendToChat(update.getMessage(), "Please insert a valid command.");
-                    break;
+            if (command.getCmdType() == CustomCommand.CmdType.MENU) {
+                processMenuCommand(update, command);
+            } else if (command.getCmdType() == CustomCommand.CmdType.ACTION) {
+                processActionCommand(update, command);
+            } else {
+                LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
+                sendToChat(update.getMessage(), "Please insert a valid command.", true);
             }
         } else {
             LOGGER.error("processMessage() - msg: received 'null' message");
         }
     }
 
-    private void processButtonAction(Update update) throws TelegramApiException {
-        CallbackQuery callbackQuery = update.getCallbackQuery();
-        String data = callbackQuery.getData();
-        String chatId = callbackQuery.getMessage().getChat().getId().toString();
-//        Word test = wordService.findById(data);
-//        LOGGER.info("processButtonAction() - msg: test word callback={}", test);
-//        switch (data) {
-//            case "TEST_Callback":
-//                break;
-//            default:
-//                LOGGER.info("processButtonAction() - msg: UNKWOW Button Action={}", data);
-//                sendToChat(update.getCallbackQuery().getMessage(), "Invalid Button Action.");
-//                break;
-//        }
+
+    private void processMenuCommand(Update update, Command command) throws TelegramApiException {
+        switch (command.getType()) {
+            case START:
+                sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard());
+                break;
+            case TEST: {
+                List<Word> words = wordService.test(3);
+                sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
+                for (Word current : words) {
+                    sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
+                }
+                break;
+            }
+            case LEARN: {
+                List<Word> words = wordService.test(5);
+                sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
+                for (Word current : words) {
+                    sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
+                }
+                break;
+            }
+            case ADD:
+                sendToChat(update.getMessage(), "Replace [ita;eng] with the word you want add", false);
+                sendToChat(update.getMessage(), "/add [ita;eng]", false);
+                break;
+            case DELETE:
+                sendToChat(update.getMessage(), "Replace 'ita' with the word you want delete", false);
+                sendToChat(update.getMessage(), "/delete [ita]", false);
+                break;
+            case UNKWOW:
+            default:
+                break;
+        }
+    }
+
+    private void processActionCommand(Update update, Command command) throws TelegramApiException {
+        switch (command.getType()) {
+            case ADD_WORD: {
+                String inputWord = command.getValue().trim();
+                if (!(inputWord.startsWith("[") && inputWord.endsWith("]"))) {
+                    throw new InternalException("Error during ADD WORD operation. Invalid format: " + command.getValue() + "; correct format: /add [ita;eng]");
+                }
+                inputWord = inputWord.substring(1, inputWord.length() - 1);
+                String[] values = inputWord.split(";");
+                if (values.length != 2) {
+                    throw new InternalException("Error during ADD WORD operation. Invalid format: " + command.getValue() + "; correct format: /add [ita;eng]");
+                }
+                String wordToAddIta = values[0].trim();
+                String wordToAddEng = values[1].trim();
+                wordService.add(Word.builder().ita(wordToAddIta).eng(wordToAddEng).build());
+                sendToChat(update.getMessage(), "Word added!", false);
+                break;
+            }
+            case DELETE_WORD: {
+                String inputWord = command.getValue().trim();
+                if (!(inputWord.startsWith("[") && inputWord.endsWith("]"))) {
+                    throw new InternalException("Error during DELETE WORD operation. Invalid format: " + command.getValue() + "; correct format: /delete [ita]");
+                }
+                inputWord = inputWord.substring(1, inputWord.length() - 1);
+                if (StringUtils.isNotEmpty(inputWord)) {
+                    Word toDelete = wordService.findByIta(inputWord);
+                    if (toDelete == null) {
+                        throw new InternalException("Error during DELETE WORD operation; word not found: " + inputWord);
+                    }
+                    wordService.delete(toDelete.getIta());
+                    sendToChat(update.getMessage(), "Word deleted!", false);
+                } else {
+                    throw new InternalException("Error during DELETE WORD operation; 'wordItaToDelete' invalid format:" + inputWord);
+                }
+                break;
+            }
+            case UNKWOW:
+            default:
+                break;
+        }
+    }
+
+    private void processCallbackQuery(Update update) {
+        LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
 
     private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) throws TelegramApiException {
@@ -115,35 +167,21 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         execute(sendMessage);
     }
 
-    private void sendToChat(Message message, String text) throws TelegramApiException {
-        // Creating object of SendMessage
+    private Message sendToChat(Message message, String text, boolean replyTo) throws TelegramApiException {
         SendMessage out = new SendMessage();
-        // Setting chat id
         out.setChatId(message.getChatId());
-        // Setting reply to message id
-        out.setReplyToMessageId(message.getMessageId());
-        // Getting and setting received message text
+        if (replyTo) {
+            out.setReplyToMessageId(message.getMessageId());
+        }
+        out.enableHtml(true);
         out.setText(text);
-
-        // Sending message
-        execute(out);
-    }
-
-    private void sendToChat(Long chatId, String text) throws TelegramApiException {
-        // Creating object of SendMessage
-        SendMessage message = new SendMessage();
-        // Setting chat id
-        message.setChatId(chatId);
-        // Getting and setting received message text
-        message.setText(text);
-        // Sending message
-        execute(message);
+        return execute(out);
     }
 
     //@Scheduled(fixedDelay = 15000)
     public void sendToChatScheduled() throws TelegramApiException {
         LOGGER.info("sendToChatScheduled() - msg: started job");
-        sendToChat(CHAT_ID, "test");
+        //sendToChat(CHAT_ID, "test");
     }
 
     @Override
@@ -157,4 +195,24 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         return "MemoryGymBot";
     }
 
+    /*
+    try{
+            String word="〜のそばに";
+            word=java.net.URLEncoder.encode(word, "UTF-8");
+            URL url = new URL("http://translate.google.com/translate_tts?tl=eng&q="+word);
+            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+            urlConn.addRequestProperty("User-Agent", "Mozilla/4.76");
+            InputStream audioSrc = urlConn.getInputStream();
+            DataInputStream read = new DataInputStream(audioSrc);
+            OutputStream outstream = new FileOutputStream(new File("mysound.mp3"));
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = read.read(buffer)) > 0) {
+                    outstream.write(buffer, 0, len);
+            }
+            outstream.close();
+        }catch(IOException e){
+                   System.out.println(e.getMessage());
+        }
+     */
 }

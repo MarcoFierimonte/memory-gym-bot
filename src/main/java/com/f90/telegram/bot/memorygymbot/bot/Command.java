@@ -2,11 +2,11 @@ package com.f90.telegram.bot.memorygymbot.bot;
 
 public class Command {
 
-    private final CustomCommand name;
+    private final CustomCommand type;
     private final String value;
 
-    public Command(CustomCommand name, String value) {
-        this.name = name;
+    public Command(CustomCommand type, String value) {
+        this.type = type;
         this.value = value;
     }
 
@@ -14,8 +14,12 @@ public class Command {
         return new Command(CustomCommand.getCommand(text), CustomCommand.getCommandValue(text));
     }
 
-    public CustomCommand getName() {
-        return name;
+    public CustomCommand.CmdType getCmdType() {
+        return type.getType();
+    }
+
+    public CustomCommand getType() {
+        return type;
     }
 
     public String getValue() {
@@ -25,7 +29,7 @@ public class Command {
     @Override
     public String toString() {
         return "Command{" +
-                "name=" + name +
+                "type=" + type +
                 ", value='" + value + '\'' +
                 '}';
     }

@@ -1,9 +1,15 @@
 package com.f90.telegram.bot.memorygymbot.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("dictionary")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Word {
 
     @Id

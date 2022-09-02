@@ -9,6 +9,8 @@ public interface DictionaryRepo extends MongoRepository<Word, String> {
 
     Long deleteByIta(String ita);
 
+    Word findWordByIta(String ita);
+
     @Aggregation(pipeline = {"{$sample:{size: ?0 }}"})
     AggregationResults<Word> random(Integer number);
 }
