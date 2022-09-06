@@ -23,13 +23,16 @@ public class TestController {
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
+        log.info("viewHomePage() - msg");
         return "index";
     }
 
     @GetMapping("/addWord")
-    public String addNewEmployee(Model model) {
+    public String addWordForm(Model model) {
         WordDTO word = new WordDTO();
+        log.info("addWordForm() - IN");
         model.addAttribute("word", word);
+        log.info("addWordForm() - OUT");
         return "addWord";
     }
 
