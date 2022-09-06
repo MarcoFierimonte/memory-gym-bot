@@ -52,7 +52,7 @@ public final class KeyboardBuilder {
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setText("START_WEB_APP");
         button.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/addUser")
+                .url("https://memorygymbot.oa.r.appspot.com/addWord")
                 .build());
         startBtn.add(button);
         keyboard.add(startBtn);

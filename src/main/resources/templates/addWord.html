@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add user</title>
+    <meta charset="UTF-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<h1>Add User</h1>
+
+<form action="#" th:action="@{/save}" th:object="${word}" method="post">
+    <p>ITA: <input type="text" th:field="*{ita}"></p>
+    <p>ENG: <input type="text" th:field="*{eng}"></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"></p>
+</form>
+
+</body>
+</html>
