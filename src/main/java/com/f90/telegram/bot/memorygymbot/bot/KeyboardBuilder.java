@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,21 @@ public final class KeyboardBuilder {
         List<InlineKeyboardButton> revealsButton = new ArrayList<>();
         revealsButton.add(getButton("DONE", "TEST_DONE"));
         keyboard.add(revealsButton);
+        InlineKeyboardMarkup out = new InlineKeyboardMarkup();
+        out.setKeyboard(keyboard);
+        return out;
+    }
+
+    public static InlineKeyboardMarkup webAppKeyboard() {
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        List<InlineKeyboardButton> startBtn = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("START_WEB_APP");
+        button.setWebApp(WebAppInfo.builder()
+                .url("https://memorygymbot.oa.r.appspot.com/addUser")
+                .build());
+        startBtn.add(button);
+        keyboard.add(startBtn);
         InlineKeyboardMarkup out = new InlineKeyboardMarkup();
         out.setKeyboard(keyboard);
         return out;

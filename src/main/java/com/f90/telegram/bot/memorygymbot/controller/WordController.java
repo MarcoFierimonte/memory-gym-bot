@@ -1,6 +1,7 @@
 package com.f90.telegram.bot.memorygymbot.controller;
 
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
+import com.f90.telegram.bot.memorygymbot.model.User;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,12 @@ public class WordController {
 
     public WordController(WordService wordService) {
         this.wordService = wordService;
+    }
+
+
+    @GetMapping("/addUser")
+    public String sendForm(User user) {
+        return "addUser";
     }
 
     @ResponseStatus(value = HttpStatus.OK)

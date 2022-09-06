@@ -69,7 +69,8 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 processActionCommand(update, command);
             } else {
                 LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
-                sendToChat(update.getMessage(), "Please insert a valid command.", true);
+                sendKeyboard(update.getMessage(), "Test web app!", KeyboardBuilder.webAppKeyboard());
+                //sendToChat(update.getMessage(), "Please insert a valid command.", true);
             }
         } else {
             LOGGER.error("processMessage() - msg: received 'null' message");
@@ -122,7 +123,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         for (Word current : words) {
             sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
         }
-        sendKeyboard(update.getMessage(), "DONE", KeyboardBuilder.doneKeyboard());
+        sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
     }
 
     private void processActionCommand(Update update, Command command) throws TelegramApiException {
@@ -185,13 +186,13 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId());
-        sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setReplyMarkup(replyKeyboard);
         sendMessage.setText(text);
-        SendChatAction sendChatAction = new SendChatAction();
-        sendChatAction.setChatId(message.getChatId());
-        sendChatAction.setAction(ActionType.TYPING);
-        execute(sendChatAction);
+
+//        SendChatAction sendChatAction = new SendChatAction();
+//        sendChatAction.setChatId(message.getChatId());
+//        sendChatAction.setAction(ActionType.TYPING);
+//        execute(sendChatAction);
         execute(sendMessage);
     }
 
@@ -208,9 +209,9 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     @Scheduled(fixedDelay = 15000)
     public void sendToChatScheduled() throws TelegramApiException {
-        LOGGER.info("sendToChatScheduled() - msg: started job");
         List<User> users = userRepo.findByLastTestPendingIsFalse();
         for (User user : users) {
+            LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", user.getChatId());
             Chat chat = new Chat();
             chat.setId(user.getChatId());
             Message msg = new Message();
