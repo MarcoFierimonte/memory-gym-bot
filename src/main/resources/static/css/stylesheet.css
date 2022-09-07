@@ -24,7 +24,8 @@ body {
 }
 
 .subtitle {
-    color: #eee;
+    position: relative;
+    color: chocolate;
     font-family: sans-serif;
     font-size: 16px;
     font-weight: 600;

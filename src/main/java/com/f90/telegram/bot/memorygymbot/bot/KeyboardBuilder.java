@@ -61,21 +61,6 @@ public final class KeyboardBuilder {
         return out;
     }
 
-    public static InlineKeyboardMarkup webAppKeyboard() {
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        List<InlineKeyboardButton> startBtn = new ArrayList<>();
-        InlineKeyboardButton button = new InlineKeyboardButton();
-        button.setText("START_WEB_APP");
-        button.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/newWord")
-                .build());
-        startBtn.add(button);
-        keyboard.add(startBtn);
-        InlineKeyboardMarkup out = new InlineKeyboardMarkup();
-        out.setKeyboard(keyboard);
-        return out;
-    }
-
     @Deprecated
     public static InlineKeyboardMarkup testWordsKeyboard(List<Word> words) {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
