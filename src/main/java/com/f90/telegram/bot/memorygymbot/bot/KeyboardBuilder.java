@@ -4,6 +4,7 @@ import com.f90.telegram.bot.memorygymbot.model.Word;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 
@@ -27,9 +28,23 @@ public final class KeyboardBuilder {
         keyboardRow1.add("TEST");
         keyboardRow1.add("LEARN");
         keyboard.add(keyboardRow1);
+
         KeyboardRow keyboardRow2 = new KeyboardRow();
-        keyboardRow2.add("ADD");
-        keyboardRow2.add("DELETE");
+
+        KeyboardButton btnAdd = new KeyboardButton();
+        btnAdd.setText("ADD");
+        btnAdd.setWebApp(WebAppInfo.builder()
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/newWord")
+                .build());
+        keyboardRow2.add(btnAdd);
+
+        KeyboardButton btnDelete = new KeyboardButton();
+        btnDelete.setText("DELETE");
+        btnDelete.setWebApp(WebAppInfo.builder()
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/deleteWord")
+                .build());
+        keyboardRow2.add(btnDelete);
+
         keyboard.add(keyboardRow2);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
@@ -52,7 +67,7 @@ public final class KeyboardBuilder {
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setText("START_WEB_APP");
         button.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/addWord")
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/newWord")
                 .build());
         startBtn.add(button);
         keyboard.add(startBtn);

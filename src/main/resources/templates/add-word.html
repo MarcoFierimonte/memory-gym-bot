@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add user</title>
+    <meta charset="UTF-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link th:href="@{/css/stylesheet.css}" rel="stylesheet" />
+</head>
+<body>
+
+<form action="#" th:action="@{/v1/memorygymbot/words/add}" th:object="${word}" method="post">
+    <div class="title">Add new word</div>
+    <div class="input-container ic1">
+        <input id="ita" class="input" type="text" th:field="*{ita}" placeholder=" " />
+        <div class="cut"></div>
+        <label for="ita" class="placeholder">Ita</label>
+    </div>
+    <div class="input-container ic2">
+        <input id="eng" class="input" type="text" th:field="*{eng}" placeholder=" " />
+        <div class="cut"></div>
+        <label for="eng" class="placeholder">Eng</label>
+    </div>
+    <div class="input-container ic2">
+        <input id="pronounce" class="input" type="text" th:field="*{pronounce}" placeholder=" " />
+        <div class="cut"></div>
+        <label for="pronounce" class="placeholder">Pronounce</label>
+    </div>
+    <input type="submit" value="Submit" class="submit"/>
+</form>
+
+</body>
+</html>

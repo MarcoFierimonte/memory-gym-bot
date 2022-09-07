@@ -63,12 +63,9 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
             LOGGER.info("processMessage() - msg: command={}", command);
             if (command.getCmdType() == CustomCommand.CmdType.MENU) {
                 processMenuCommand(update, command);
-            } else if (command.getCmdType() == CustomCommand.CmdType.ACTION) {
-                processActionCommand(update, command);
             } else {
                 LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
-                sendKeyboard(update.getMessage(), "Test web app!", KeyboardBuilder.webAppKeyboard());
-                //sendToChat(update.getMessage(), "Please insert a valid command.", true);
+                sendToChat(update.getMessage(), "Please insert a valid command.", true);
             }
         } else {
             LOGGER.error("processMessage() - msg: received 'null' message");
@@ -101,19 +98,13 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 break;
             }
             case ADD:
-                sendToChat(update.getMessage(), "Replace [ita;eng] with the word you want add", false);
-                sendToChat(update.getMessage(), "/add [ita;eng]", false);
-                break;
             case DELETE:
-                sendToChat(update.getMessage(), "Replace 'ita' with the word you want delete", false);
-                sendToChat(update.getMessage(), "/delete [ita]", false);
-                break;
             case UNKWOW:
             default:
+                LOGGER.warn("processMenuCommand() - msg: unrecognized command={}", command);
                 break;
         }
     }
-
 
     private void testUserMemory(Update update) throws TelegramApiException {
         List<Word> words = wordService.test(3);
@@ -124,6 +115,57 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
     }
 
+    private void processCallbackQuery(Update update) {
+        Message msg = update.getCallbackQuery().getMessage();
+        if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
+            User user = userRepo.findByChatId(msg.getChatId());
+            user.setLastTestPending(false);
+            userRepo.save(user);
+        }
+        LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
+    }
+
+    private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) throws TelegramApiException {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(message.getChatId());
+        sendMessage.setReplyMarkup(replyKeyboard);
+        sendMessage.setText(text);
+        execute(sendMessage);
+    }
+
+    private void sendToChat(Message message, String text, boolean replyTo) throws TelegramApiException {
+        SendMessage out = new SendMessage();
+        out.setChatId(message.getChatId());
+        if (replyTo) {
+            out.setReplyToMessageId(message.getMessageId());
+        }
+        out.enableHtml(true);
+        out.setText(text);
+        execute(out);
+    }
+
+    @Scheduled(fixedDelay = 15000)
+    public void sendToChatScheduled() throws TelegramApiException {
+        List<User> users = userRepo.findByLastTestPendingIsFalse();
+        for (User user : users) {
+            LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", user.getChatId());
+            Chat chat = new Chat();
+            chat.setId(user.getChatId());
+            Message msg = new Message();
+            msg.setChat(chat);
+            Update update = new Update();
+            update.setMessage(msg);
+            // send test
+            testUserMemory(update);
+            // update field
+            user.setLastTestPending(true);
+            userRepo.save(user);
+        }
+    }
+
+
+    @Deprecated
     private void processActionCommand(Update update, Command command) throws TelegramApiException {
         switch (command.getType()) {
             case ADD_WORD: {
@@ -167,60 +209,6 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
             case UNKWOW:
             default:
                 break;
-        }
-    }
-
-    private void processCallbackQuery(Update update) {
-        Message msg = update.getCallbackQuery().getMessage();
-        if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
-            User user = userRepo.findByChatId(msg.getChatId());
-            user.setLastTestPending(false);
-            userRepo.save(user);
-        }
-        LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
-    }
-
-    private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) throws TelegramApiException {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(message.getChatId());
-        sendMessage.setReplyMarkup(replyKeyboard);
-        sendMessage.setText(text);
-
-//        SendChatAction sendChatAction = new SendChatAction();
-//        sendChatAction.setChatId(message.getChatId());
-//        sendChatAction.setAction(ActionType.TYPING);
-//        execute(sendChatAction);
-        execute(sendMessage);
-    }
-
-    private void sendToChat(Message message, String text, boolean replyTo) throws TelegramApiException {
-        SendMessage out = new SendMessage();
-        out.setChatId(message.getChatId());
-        if (replyTo) {
-            out.setReplyToMessageId(message.getMessageId());
-        }
-        out.enableHtml(true);
-        out.setText(text);
-        execute(out);
-    }
-
-    @Scheduled(fixedDelay = 15000)
-    public void sendToChatScheduled() throws TelegramApiException {
-        List<User> users = userRepo.findByLastTestPendingIsFalse();
-        for (User user : users) {
-            LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", user.getChatId());
-            Chat chat = new Chat();
-            chat.setId(user.getChatId());
-            Message msg = new Message();
-            msg.setChat(chat);
-            Update update = new Update();
-            update.setMessage(msg);
-            // send test
-            testUserMemory(update);
-            // update field
-            user.setLastTestPending(true);
-            userRepo.save(user);
         }
     }
 

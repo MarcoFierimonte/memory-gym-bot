@@ -1,9 +1,9 @@
 package com.f90.telegram.bot.memorygymbot.controller;
 
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
-import com.f90.telegram.bot.memorygymbot.model.User;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,18 +12,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/words")
+@Slf4j
 public class WordController {
 
     private final WordService wordService;
 
     public WordController(WordService wordService) {
         this.wordService = wordService;
-    }
-
-
-    @GetMapping("/addUser")
-    public String sendForm(User user) {
-        return "addUser";
     }
 
     @ResponseStatus(value = HttpStatus.OK)
@@ -52,11 +47,14 @@ public class WordController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Word search(@RequestBody WordDTO word) {
+    public Word addWord(@RequestBody WordDTO word) {
+        log.info("addWord() - msg: word={}", word);
         return wordService.add(Word.builder()
                 .ita(word.getIta())
                 .eng(word.getEng())
                 .chatId(69501949L)
                 .build());
     }
+
+
 }
