@@ -8,6 +8,7 @@ import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,16 +25,17 @@ public class WordService {
         this.dictionaryRepo = dictionaryRepo;
     }
 
-    public List<WordDTO> findAll() {
-        return WordMapper.toWordDTOs(dictionaryRepo.findAll());
+    public List<WordDTO> findAll(Long chatId) {
+        Example<Word> query = Example.of(Word.builder().chatId(chatId).build());
+        return WordMapper.toWordDTOs(dictionaryRepo.findAll(query));
     }
 
-    public WordDTO findById(String id) {
-        return WordMapper.toWordDTO(dictionaryRepo.findById(id).orElse(null));
-    }
-
-    public WordDTO findByIta(String ita) {
-        return WordMapper.toWordDTO(dictionaryRepo.findWordByIta(ita));
+    public WordDTO findByIta(Long chatId, String ita) {
+        Example<Word> query = Example.of(Word.builder()
+                .chatId(chatId)
+                .ita(ita)
+                .build());
+        return WordMapper.toWordDTO(dictionaryRepo.findOne(query).orElse(null));
     }
 
     public WordDTO add(Word newWord) {
@@ -46,13 +48,18 @@ public class WordService {
         return WordMapper.toWordDTO(updatedWord);
     }
 
-    public List<WordDTO> test(Integer wordsToGuessNumber) {
-        return WordMapper.toWordDTOs(dictionaryRepo.random(Objects.requireNonNullElse(wordsToGuessNumber, 5)).getMappedResults());
+    public List<WordDTO> test(Long chatId, Integer wordsToGuessNumber) {
+        return WordMapper.toWordDTOs(
+                dictionaryRepo.random(chatId, Objects.requireNonNullElse(wordsToGuessNumber, 5)).getMappedResults()
+        );
     }
 
-    public void deleteByIta(String word) {
-        if (StringUtils.isNotEmpty(word)) {
-            dictionaryRepo.deleteByIta(word);
+    public void deleteByIta(Long chatId, String ita) {
+        if (StringUtils.isNotEmpty(ita)) {
+            dictionaryRepo.delete(Word.builder()
+                    .chatId(chatId)
+                    .ita(ita)
+                    .build());
         } else {
             LOGGER.warn("delete() - msg: missing value from user.");
         }

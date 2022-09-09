@@ -13,10 +13,6 @@ public enum CustomCommand {
     TEST("TEST", CmdType.MENU),
     LEARN("LEARN", CmdType.MENU),
 
-    // operations command
-    ADD_WORD("/add", CmdType.ACTION),
-    DELETE_WORD("/delete", CmdType.ACTION),
-
     UNKWOW("", CmdType.UNKNOW),
     ;
 

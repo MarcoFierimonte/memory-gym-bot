@@ -11,6 +11,9 @@ public interface DictionaryRepo extends MongoRepository<Word, String>, WordRepo 
 
     Word findWordByIta(String ita);
 
-    @Aggregation(pipeline = {"{$sample:{size: ?0 }}"})
-    AggregationResults<Word> random(Integer number);
+    @Aggregation(pipeline = {
+            "{$match:{'chatId': ?0 }",
+            "{$sample:{size: ?1 }}"}
+    )
+    AggregationResults<Word> random(Long chatId, Integer number);
 }

@@ -24,20 +24,21 @@ public class WordController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<WordDTO> findAll() {
-        return wordService.findAll();
+    public List<WordDTO> findAll(@RequestParam(name = "chatId", required = false) Long chatId) {
+        return wordService.findAll(chatId);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<WordDTO> testDefault() {
-        return wordService.test(null);
+    public List<WordDTO> testDefault(@RequestParam(name = "chatId", required = false) Long chatId) {
+        return wordService.test(chatId, null);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/test/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<WordDTO> test(@PathVariable(value = "number") Integer number) {
-        return wordService.test(number);
+    public List<WordDTO> test(@PathVariable(value = "number") Integer number,
+                              @RequestParam(name = "chatId") Long chatId) {
+        return wordService.test(chatId, number);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
@@ -48,14 +49,15 @@ public class WordController {
                 .ita(word.getIta())
                 .eng(word.getEng())
                 .pronounce(word.getPronounce())
-                .chatId(69501949L)
+                .chatId(word.getChatId())
                 .build());
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping(value = "/ita/{word}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteIta(@PathVariable(value = "word") String word) {
-        wordService.deleteByIta(word);
+    public void deleteIta(@PathVariable(value = "word") String word,
+                          @RequestParam(name = "chatId") Long chatId) {
+        wordService.deleteByIta(chatId, word);
     }
 
 }

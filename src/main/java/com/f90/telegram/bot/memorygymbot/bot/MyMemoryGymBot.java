@@ -41,6 +41,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 processCallbackQuery(update);
             } else {
                 LOGGER.info("onUpdateReceived() - msg: received not managed updates. Update=[{}]", update);
+                sendToChat(update.getMessage(), "Please insert a valid command.", true);
             }
         } catch (Exception e) {
             LOGGER.error("Error during 'onUpdateReceived'!", e);
@@ -56,56 +57,45 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     }
 
     private void processMessage(Update update) throws TelegramApiException {
-        if (update.getMessage() != null) {
-            Command command = Command.fromText(update.getMessage().getText());
-            LOGGER.info("processMessage() - msg: command={}", command);
-            if (command.getCmdType() == CustomCommand.CmdType.MENU) {
-                processMenuCommand(update, command);
-            } else {
-                LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
-                sendToChat(update.getMessage(), "Please insert a valid command.", true);
+        Command command = Command.fromText(update.getMessage().getText());
+        LOGGER.info("processMessage() - msg: command={}", command);
+        if (command.getCmdType() == CustomCommand.CmdType.MENU) {
+            switch (command.getType()) {
+                case START: {
+                    User user = userRepo.findByChatId(update.getMessage().getChatId());
+                    if (user == null) {
+                        userRepo.save(User.builder()
+                                .chatId(update.getMessage().getChatId())
+                                .lastTestPending(false)
+                                .build());
+                    }
+                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
+                    break;
+                }
+                case TEST: {
+                    testUserMemory(update);
+                    break;
+                }
+                case LEARN: {
+                    List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 5);
+                    sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
+                    for (WordDTO current : words) {
+                        sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
+                    }
+                    break;
+                }
+                default:
+                    LOGGER.warn("processMenuCommand() - msg: not managed command={}", command);
+                    break;
             }
         } else {
-            LOGGER.error("processMessage() - msg: received 'null' message");
-        }
-    }
-
-
-    private void processMenuCommand(Update update, Command command) throws TelegramApiException {
-        switch (command.getType()) {
-            case START:
-                User user = userRepo.findByChatId(update.getMessage().getChatId());
-                if (user == null) {
-                    userRepo.save(User.builder()
-                            .chatId(update.getMessage().getChatId())
-                            .lastTestPending(false)
-                            .build());
-                }
-                sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard());
-                break;
-            case TEST: {
-                testUserMemory(update);
-                break;
-            }
-            case LEARN: {
-                List<WordDTO> words = wordService.test(5);
-                sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
-                for (WordDTO current : words) {
-                    sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
-                }
-                break;
-            }
-            case ADD:
-            case DELETE:
-            case UNKWOW:
-            default:
-                LOGGER.warn("processMenuCommand() - msg: not managed command={}", command);
-                break;
+            LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
+            sendToChat(update.getMessage(), "Please insert a valid command.", true);
         }
     }
 
     private void testUserMemory(Update update) throws TelegramApiException {
-        List<WordDTO> words = wordService.test(3);
+        List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 3);
         sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
         for (WordDTO current : words) {
             sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);

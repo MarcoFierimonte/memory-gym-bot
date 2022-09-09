@@ -16,7 +16,7 @@ public final class KeyboardBuilder {
     private KeyboardBuilder() {
     }
 
-    public static ReplyKeyboardMarkup menuKeyboard() {
+    public static ReplyKeyboardMarkup menuKeyboard(Long chatId) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -34,14 +34,14 @@ public final class KeyboardBuilder {
         KeyboardButton btnAdd = new KeyboardButton();
         btnAdd.setText("ADD");
         btnAdd.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/newWord")
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/newWord?chatId=" + chatId)
                 .build());
         keyboardRow2.add(btnAdd);
 
         KeyboardButton btnDelete = new KeyboardButton();
         btnDelete.setText("DELETE");
         btnDelete.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/deleteWord")
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/deleteWord?chatId=" + chatId)
                 .build());
         keyboardRow2.add(btnDelete);
 

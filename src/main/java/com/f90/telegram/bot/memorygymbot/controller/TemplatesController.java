@@ -32,9 +32,11 @@ public class TemplatesController {
     }
 
     @GetMapping("/newWord")
-    public String addWordPage(Model model) {
+    public String addWordPage(@RequestParam(value = "chatId") Long chatId,
+                              Model model) {
         log.info("addWordPage() - msg: called /newWord");
         WordDTO word = new WordDTO();
+        word.setChatId(chatId);
         model.addAttribute("word", word);
         return "add-word";
     }
@@ -53,7 +55,7 @@ public class TemplatesController {
         wordService.add(Word.builder()
                 .ita(word.getIta())
                 .eng(word.getEng())
-                .chatId(69501949L)
+                .chatId(word.getChatId())
                 .build());
         return "redirect:/v1/memorygymbot/done";
     }
@@ -61,7 +63,7 @@ public class TemplatesController {
     @PostMapping("/words/delete")
     public String deleteWord(@ModelAttribute("word") WordDTO word) {
         log.info("deleteWord() - msg:  word to delete={}", word);
-        wordService.deleteByIta(word.getIta());
+        wordService.deleteByIta(word.getChatId(), word.getIta());
         return "redirect:/v1/memorygymbot/done";
     }
 }

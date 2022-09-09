@@ -20,5 +20,8 @@ public class WordDTO {
 
     private String pronounce;
 
+    @NotEmpty
+    private Long chatId;
+
 }
 
