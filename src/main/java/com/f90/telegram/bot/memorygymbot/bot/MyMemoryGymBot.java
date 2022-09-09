@@ -99,7 +99,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
             case DELETE:
             case UNKWOW:
             default:
-                LOGGER.warn("processMenuCommand() - msg: unrecognized command={}", command);
+                LOGGER.warn("processMenuCommand() - msg: not managed command={}", command);
                 break;
         }
     }
