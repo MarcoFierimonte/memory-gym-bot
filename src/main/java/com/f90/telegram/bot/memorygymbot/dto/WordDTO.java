@@ -3,6 +3,7 @@ package com.f90.telegram.bot.memorygymbot.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class WordDTO {
 
     private String pronounce;
 
-    @NotEmpty
+    @NotNull
     private Long chatId;
 
 }

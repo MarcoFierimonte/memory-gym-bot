@@ -1,20 +1,10 @@
-# Read Me First
-The following was discovered as part of building this project:
+# USE MONGODB IMPORT FILE EXAMPLE
 
-* The original package name 'com.f90.telegram.bot.memory-gym-bot' is invalid and this project uses 'com.f90.telegram.bot.memorygymbot' instead.
+.\mongoimport.exe --uri "mongodb+srv://<user>:<pwd>@cluster0.n7aqfhp.mongodb.net" --db memory_gym_bot --collection init_dataset --jsonArray --drop --file ./initDataset.json
 
-# Getting Started
 
-### Reference Documentation
-For further reference, please consider the following sections:
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.7.3/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.7.3/maven-plugin/reference/html/#build-image)
-* [Spring Data MongoDB](https://docs.spring.io/spring-boot/docs/2.7.3/reference/htmlsingle/#data.nosql.mongodb)
 
-### Guides
-The following guides illustrate how to use some features concretely:
 
-* [Accessing Data with MongoDB](https://spring.io/guides/gs/accessing-data-mongodb/)
+
 

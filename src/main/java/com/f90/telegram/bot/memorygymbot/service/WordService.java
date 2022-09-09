@@ -3,11 +3,14 @@ package com.f90.telegram.bot.memorygymbot.service;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import com.f90.telegram.bot.memorygymbot.mapper.WordMapper;
+import com.f90.telegram.bot.memorygymbot.model.InitDatasetWord;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
+import com.f90.telegram.bot.memorygymbot.repo.InitDatasetRepo;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,9 +18,11 @@ import java.util.Objects;
 public class WordService {
 
     private final DictionaryRepo dictionaryRepo;
+    private final InitDatasetRepo initDatasetRepo;
 
-    public WordService(DictionaryRepo dictionaryRepo) {
+    public WordService(DictionaryRepo dictionaryRepo, InitDatasetRepo initDatasetRepo) {
         this.dictionaryRepo = dictionaryRepo;
+        this.initDatasetRepo = initDatasetRepo;
     }
 
     public List<WordDTO> findAll(Long chatId) {
@@ -51,9 +56,23 @@ public class WordService {
     }
 
     public void delete(Word input) {
-        if(input.getChatId() == null) {
+        if (input.getChatId() == null) {
             throw new InternalException("add() - msg: missing mandatory 'chatId' param.");
         }
         dictionaryRepo.deleteEntry(input);
+    }
+
+    public void init(Long chatId) {
+        List<InitDatasetWord> initDatasetWords = initDatasetRepo.findAll();
+        List<Word> words = new ArrayList<>(initDatasetWords.size());
+        for (InitDatasetWord initWord : initDatasetWords) {
+            words.add(Word.builder()
+                    .chatId(chatId)
+                    .ita(initWord.getIta())
+                    .eng(initWord.getEng())
+                    .pronounce(initWord.getPronounce())
+                    .build());
+        }
+        dictionaryRepo.saveAll(words);
     }
 }

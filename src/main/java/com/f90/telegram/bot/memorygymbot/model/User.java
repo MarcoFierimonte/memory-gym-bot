@@ -16,8 +16,8 @@ public class User {
     @Id
     private Long chatId;
 
+    private Long userId;
     private String userName;
-
     private boolean lastTestPending;
 
 }

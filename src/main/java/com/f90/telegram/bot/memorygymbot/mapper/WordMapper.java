@@ -22,6 +22,7 @@ public class WordMapper {
         return Word.builder()
                 .ita(in.getIta())
                 .eng(in.getEng())
+                .chatId(in.getChatId())
                 .pronounce(in.getPronounce())
                 .build();
     }
@@ -46,6 +47,7 @@ public class WordMapper {
         return WordDTO.builder()
                 .ita(in.getIta())
                 .eng(in.getEng())
+                .chatId(in.getChatId())
                 .pronounce(in.getPronounce())
                 .build();
     }

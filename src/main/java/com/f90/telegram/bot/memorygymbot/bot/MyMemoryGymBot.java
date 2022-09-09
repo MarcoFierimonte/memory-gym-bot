@@ -2,7 +2,7 @@ package com.f90.telegram.bot.memorygymbot.bot;
 
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.model.User;
-import com.f90.telegram.bot.memorygymbot.repo.UserRepo;
+import com.f90.telegram.bot.memorygymbot.service.UserService;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +24,11 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyMemoryGymBot.class);
 
     private final WordService wordService;
-    private final UserRepo userRepo;
+    private final UserService userService;
 
-    public MyMemoryGymBot(WordService wordService, UserRepo userRepo) {
+    public MyMemoryGymBot(WordService wordService, UserService userService) {
         this.wordService = wordService;
-        this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     @Override
@@ -62,13 +62,16 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         if (command.getCmdType() == CustomCommand.CmdType.MENU) {
             switch (command.getType()) {
                 case START: {
-                    User user = userRepo.findByChatId(update.getMessage().getChatId());
+                    User user = userService.findByChatId(update.getMessage().getChatId());
                     if (user == null) {
-                        userRepo.save(User.builder()
+                        userService.save(User.builder()
                                 .chatId(update.getMessage().getChatId())
-                                .userName(update.getMessage().getChat().getUserName())
+                                .userId(update.getMessage().getFrom().getId())
+                                .userName(userService.getUserName(update))
                                 .lastTestPending(false)
                                 .build());
+                        wordService.init(update.getMessage().getChatId());
+                        LOGGER.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
                     }
                     sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
                     break;
@@ -79,9 +82,13 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 }
                 case LEARN: {
                     List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 5);
-                    sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
-                    for (WordDTO current : words) {
-                        sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
+                    if (!words.isEmpty()) {
+                        sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
+                        for (WordDTO current : words) {
+                            sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
+                        }
+                    } else {
+                        sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
                     }
                     break;
                 }
@@ -97,22 +104,24 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     private void testUserMemory(Update update) throws TelegramApiException {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 3);
-        if(!words.isEmpty()) {
+        if (!words.isEmpty()) {
             LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
                 sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
             }
             sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
+        } else {
+            sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
         }
     }
 
     private void processCallbackQuery(Update update) {
         Message msg = update.getCallbackQuery().getMessage();
         if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
-            User user = userRepo.findByChatId(msg.getChatId());
+            User user = userService.findByChatId(msg.getChatId());
             user.setLastTestPending(false);
-            userRepo.save(user);
+            userService.save(user);
         }
         LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
@@ -139,7 +148,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     @Scheduled(fixedDelay = 15000)
     public void sendToChatScheduled() throws TelegramApiException {
-        List<User> users = userRepo.findByLastTestPendingIsFalse();
+        List<User> users = userService.findAll(User.builder().lastTestPending(false).build());
         for (User user : users) {
             Chat chat = new Chat();
             chat.setId(user.getChatId());
@@ -151,10 +160,9 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
             testUserMemory(update);
             // update field
             user.setLastTestPending(true);
-            userRepo.save(user);
+            userService.save(user);
         }
     }
-
 
     @Override
     public String getBotToken() {
