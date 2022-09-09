@@ -10,4 +10,6 @@ public class EmojiUtil {
     public static final String FINGER_TO_RIGHT = "\uD83D\uDC49";
     public static final String STAR_FACE = "\uD83E\uDD29";
     public static final String NERD_FACE = "\uD83E\uDD13";
+
+    public static final String VOICE_HEAD = "\uD83D\uDDE3";
 }

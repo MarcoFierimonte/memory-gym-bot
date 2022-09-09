@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class MyMemoryGymBot extends TelegramLongPollingBot {
@@ -83,6 +84,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 case LEARN: {
                     List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 5);
                     if (!words.isEmpty()) {
+                        sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖➖➖➖", false);
                         sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
                         for (WordDTO current : words) {
                             sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
@@ -103,9 +105,10 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     }
 
     private void testUserMemory(Update update) throws TelegramApiException {
-        List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 3);
+        List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
         if (!words.isEmpty()) {
             LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
+            sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖➖➖➖", false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
                 sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
@@ -116,12 +119,13 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         }
     }
 
-    private void processCallbackQuery(Update update) {
+    private void processCallbackQuery(Update update) throws TelegramApiException {
         Message msg = update.getCallbackQuery().getMessage();
         if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
             User user = userService.findByChatId(msg.getChatId());
             user.setLastTestPending(false);
             userService.save(user);
+            sendToChat(update.getCallbackQuery().getMessage(), "Current 'test' completed! Wait for next!", true);
         }
         LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
@@ -146,7 +150,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         execute(out);
     }
 
-    @Scheduled(fixedDelay = 15000)
+    @Scheduled(fixedRate = 2, timeUnit = TimeUnit.HOURS)
     public void sendToChatScheduled() throws TelegramApiException {
         List<User> users = userService.findAll(User.builder().lastTestPending(false).build());
         for (User user : users) {
