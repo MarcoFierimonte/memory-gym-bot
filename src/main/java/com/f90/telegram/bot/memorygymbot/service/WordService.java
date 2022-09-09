@@ -54,6 +54,6 @@ public class WordService {
         if(input.getChatId() == null) {
             throw new InternalException("add() - msg: missing mandatory 'chatId' param.");
         }
-        dictionaryRepo.delete(input);
+        dictionaryRepo.deleteEntry(input);
     }
 }

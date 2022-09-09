@@ -44,7 +44,6 @@ public class WordController {
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public WordDTO addWord(@RequestBody @Valid WordDTO word) {
-        log.info("addWord() - msg: word={}", word);
         return wordService.add(Word.builder()
                 .ita(word.getIta())
                 .eng(word.getEng())

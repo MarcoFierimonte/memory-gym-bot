@@ -27,7 +27,16 @@ public class WordRepoImpl implements WordRepo {
         updateFields.set("pronounce", word.getPronounce());
 
         mongoOperations.upsert(findQuery, updateFields, Word.class);
+
         return mongoOperations.findOne(findQuery, Word.class);
+    }
+
+    @Override
+    public Word deleteEntry(Word word) {
+        Query findQuery = new Query();
+        findQuery.addCriteria(Criteria.where("ita").is(word.getIta()));
+        findQuery.addCriteria(Criteria.where("chatId").is(word.getChatId()));
+        return mongoOperations.findAndRemove(findQuery, Word.class);
     }
 
 }

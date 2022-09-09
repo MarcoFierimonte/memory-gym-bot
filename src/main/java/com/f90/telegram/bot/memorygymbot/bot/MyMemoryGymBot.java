@@ -66,6 +66,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                     if (user == null) {
                         userRepo.save(User.builder()
                                 .chatId(update.getMessage().getChatId())
+                                .userName(update.getMessage().getChat().getUserName())
                                 .lastTestPending(false)
                                 .build());
                     }
@@ -96,11 +97,14 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     private void testUserMemory(Update update) throws TelegramApiException {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 3);
-        sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
-        for (WordDTO current : words) {
-            sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
+        if(!words.isEmpty()) {
+            LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
+            sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
+            for (WordDTO current : words) {
+                sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
+            }
+            sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
         }
-        sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
     }
 
     private void processCallbackQuery(Update update) {
@@ -137,7 +141,6 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     public void sendToChatScheduled() throws TelegramApiException {
         List<User> users = userRepo.findByLastTestPendingIsFalse();
         for (User user : users) {
-            LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", user.getChatId());
             Chat chat = new Chat();
             chat.setId(user.getChatId());
             Message msg = new Message();

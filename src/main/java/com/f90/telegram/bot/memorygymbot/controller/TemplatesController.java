@@ -22,20 +22,17 @@ public class TemplatesController {
 
     @GetMapping("/home")
     public String viewHomePage() {
-        log.info("viewHomePage() - msg");
         return "index";
     }
 
     @GetMapping("/done")
     public String operationDonePage() {
-        log.info("operationDonePage() - msg");
         return "done";
     }
 
     @GetMapping("/newWord")
     public String addWordPage(@RequestParam(value = "chatId") Long chatId,
                               Model model) {
-        log.info("addWordPage() - msg: called /newWord");
         WordDTO word = new WordDTO();
         word.setChatId(chatId);
         model.addAttribute("word", word);
@@ -45,7 +42,6 @@ public class TemplatesController {
     @GetMapping("/deleteWord")
     public String deleteWordPage(@RequestParam(value = "chatId") Long chatId,
                                  Model model) {
-        log.info("deleteWordPage() - msg: called /deleteWord");
         WordDTO word = new WordDTO();
         word.setChatId(chatId);
         model.addAttribute("word", word);
@@ -54,7 +50,6 @@ public class TemplatesController {
 
     @PostMapping("/words/add")
     public String addNewWord(@ModelAttribute("word") WordDTO word) {
-        log.info("addNewWord() - msg: new word={}", word);
         wordService.add(Word.builder()
                 .ita(word.getIta())
                 .eng(word.getEng())
@@ -65,7 +60,6 @@ public class TemplatesController {
 
     @PostMapping("/words/delete")
     public String deleteWord(@ModelAttribute("word") WordDTO word) {
-        log.info("deleteWord() - msg:  word to delete={}", word);
         wordService.delete(WordMapper.toWord(word));
         return "redirect:/v1/memorygymbot/done";
     }
