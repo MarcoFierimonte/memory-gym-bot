@@ -84,7 +84,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 case LEARN: {
                     List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 5);
                     if (!words.isEmpty()) {
-                        sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖➖➖➖", false);
+                        sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
                         sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
                         for (WordDTO current : words) {
                             sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
@@ -108,7 +108,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
         if (!words.isEmpty()) {
             LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
-            sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖➖➖➖", false);
+            sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
                 sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
