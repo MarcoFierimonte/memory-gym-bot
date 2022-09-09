@@ -7,12 +7,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface DictionaryRepo extends MongoRepository<Word, String>, WordRepo {
 
-    Long deleteByIta(String ita);
-
-    Word findWordByIta(String ita);
-
     @Aggregation(pipeline = {
-            "{$match:{'chatId': ?0 }",
+            "{'$match':{'chatId': ?0 }}",
             "{$sample:{size: ?1 }}"}
     )
     AggregationResults<Word> random(Long chatId, Integer number);

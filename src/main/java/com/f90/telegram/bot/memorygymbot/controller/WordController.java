@@ -57,7 +57,10 @@ public class WordController {
     @DeleteMapping(value = "/ita/{word}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteIta(@PathVariable(value = "word") String word,
                           @RequestParam(name = "chatId") Long chatId) {
-        wordService.deleteByIta(chatId, word);
+        wordService.delete(Word.builder()
+                .chatId(chatId)
+                .ita(word)
+                .build());
     }
 
 }

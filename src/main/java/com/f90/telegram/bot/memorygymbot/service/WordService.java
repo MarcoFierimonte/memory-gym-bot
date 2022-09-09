@@ -5,9 +5,6 @@ import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import com.f90.telegram.bot.memorygymbot.mapper.WordMapper;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +13,6 @@ import java.util.Objects;
 
 @Component
 public class WordService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WordService.class);
 
     private final DictionaryRepo dictionaryRepo;
 
@@ -30,20 +25,21 @@ public class WordService {
         return WordMapper.toWordDTOs(dictionaryRepo.findAll(query));
     }
 
-    public WordDTO findByIta(Long chatId, String ita) {
+    public WordDTO find(Word input) {
         Example<Word> query = Example.of(Word.builder()
-                .chatId(chatId)
-                .ita(ita)
+                .chatId(input.getChatId())
+                .ita(input.getIta())
+                .eng(input.getEng())
                 .build());
         return WordMapper.toWordDTO(dictionaryRepo.findOne(query).orElse(null));
     }
 
     public WordDTO add(Word newWord) {
         Word updatedWord;
-        if (newWord != null) {
+        if (newWord != null && newWord.getChatId() != null) {
             updatedWord = dictionaryRepo.update(newWord);
         } else {
-            throw new InternalException("add() - msg: missing newWord from user.");
+            throw new InternalException("add() - msg: missing mandatory params.");
         }
         return WordMapper.toWordDTO(updatedWord);
     }
@@ -54,14 +50,10 @@ public class WordService {
         );
     }
 
-    public void deleteByIta(Long chatId, String ita) {
-        if (StringUtils.isNotEmpty(ita)) {
-            dictionaryRepo.delete(Word.builder()
-                    .chatId(chatId)
-                    .ita(ita)
-                    .build());
-        } else {
-            LOGGER.warn("delete() - msg: missing value from user.");
+    public void delete(Word input) {
+        if(input.getChatId() == null) {
+            throw new InternalException("add() - msg: missing mandatory 'chatId' param.");
         }
+        dictionaryRepo.delete(input);
     }
 }

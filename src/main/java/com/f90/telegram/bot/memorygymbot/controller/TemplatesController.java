@@ -1,6 +1,7 @@
 package com.f90.telegram.bot.memorygymbot.controller;
 
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
+import com.f90.telegram.bot.memorygymbot.mapper.WordMapper;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,9 +43,11 @@ public class TemplatesController {
     }
 
     @GetMapping("/deleteWord")
-    public String deleteWordPage(Model model) {
+    public String deleteWordPage(@RequestParam(value = "chatId") Long chatId,
+                                 Model model) {
         log.info("deleteWordPage() - msg: called /deleteWord");
         WordDTO word = new WordDTO();
+        word.setChatId(chatId);
         model.addAttribute("word", word);
         return "delete-word";
     }
@@ -63,7 +66,7 @@ public class TemplatesController {
     @PostMapping("/words/delete")
     public String deleteWord(@ModelAttribute("word") WordDTO word) {
         log.info("deleteWord() - msg:  word to delete={}", word);
-        wordService.deleteByIta(word.getChatId(), word.getIta());
+        wordService.delete(WordMapper.toWord(word));
         return "redirect:/v1/memorygymbot/done";
     }
 }
