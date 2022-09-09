@@ -8,14 +8,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
 @Setter
 public class Word {
 
     @Id
     private String id;
+
     private String eng;
     private String ita;
+    private String pronounce;
+
     private Long chatId;
 
     public Word(String eng, String ita) {
@@ -23,4 +25,29 @@ public class Word {
         this.ita = ita;
     }
 
+    public Word(String eng, String ita, String pronounce) {
+        this.eng = eng;
+        this.ita = ita;
+        this.pronounce = pronounce;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEng() {
+        return eng != null ? eng.strip().toLowerCase() : null;
+    }
+
+    public String getIta() {
+        return ita != null ? ita.strip().toLowerCase() : null;
+    }
+
+    public String getPronounce() {
+        return pronounce != null ? pronounce.strip().toLowerCase() : null;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
 }

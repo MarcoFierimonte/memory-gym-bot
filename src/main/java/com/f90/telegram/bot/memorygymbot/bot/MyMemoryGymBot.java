@@ -1,11 +1,9 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
-import com.f90.telegram.bot.memorygymbot.exception.InternalException;
+import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.model.User;
-import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.UserRepo;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -90,9 +88,9 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
                 break;
             }
             case LEARN: {
-                List<Word> words = wordService.test(5);
+                List<WordDTO> words = wordService.test(5);
                 sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
-                for (Word current : words) {
+                for (WordDTO current : words) {
                     sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
                 }
                 break;
@@ -107,9 +105,9 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     }
 
     private void testUserMemory(Update update) throws TelegramApiException {
-        List<Word> words = wordService.test(3);
+        List<WordDTO> words = wordService.test(3);
         sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
-        for (Word current : words) {
+        for (WordDTO current : words) {
             sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
         }
         sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
@@ -165,53 +163,6 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     }
 
 
-    @Deprecated
-    private void processActionCommand(Update update, Command command) throws TelegramApiException {
-        switch (command.getType()) {
-            case ADD_WORD: {
-                String inputWord = command.getValue().trim();
-                if (!(inputWord.startsWith("[") && inputWord.endsWith("]"))) {
-                    throw new InternalException("Error during ADD WORD operation. Invalid format: " + command.getValue() + "; correct format: /add [ita;eng]");
-                }
-                inputWord = inputWord.substring(1, inputWord.length() - 1);
-                String[] values = inputWord.split(";");
-                if (values.length != 2) {
-                    throw new InternalException("Error during ADD WORD operation. Invalid format: " + command.getValue() + "; correct format: /add [ita;eng]");
-                }
-                String wordToAddIta = values[0].trim();
-                String wordToAddEng = values[1].trim();
-                wordService.add(Word.builder()
-                        .ita(wordToAddIta)
-                        .eng(wordToAddEng)
-                        .chatId(update.getMessage().getChatId())
-                        .build());
-                sendToChat(update.getMessage(), "Word added!", false);
-                break;
-            }
-            case DELETE_WORD: {
-                String inputWord = command.getValue().trim();
-                if (!(inputWord.startsWith("[") && inputWord.endsWith("]"))) {
-                    throw new InternalException("Error during DELETE WORD operation. Invalid format: " + command.getValue() + "; correct format: /delete [ita]");
-                }
-                inputWord = inputWord.substring(1, inputWord.length() - 1);
-                if (StringUtils.isNotEmpty(inputWord)) {
-                    Word toDelete = wordService.findByIta(inputWord);
-                    if (toDelete == null) {
-                        throw new InternalException("Error during DELETE WORD operation; word not found: " + inputWord);
-                    }
-                    wordService.delete(toDelete.getIta());
-                    sendToChat(update.getMessage(), "Word deleted!", false);
-                } else {
-                    throw new InternalException("Error during DELETE WORD operation; 'wordItaToDelete' invalid format:" + inputWord);
-                }
-                break;
-            }
-            case UNKWOW:
-            default:
-                break;
-        }
-    }
-
     @Override
     public String getBotToken() {
         return "5430654397:AAFFfiCrefgArpKkBVBSaAUxu60TgPcGjjs";
@@ -223,24 +174,4 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         return "MemoryGymBot";
     }
 
-    /*
-    try{
-            String word="〜のそばに";
-            word=java.net.URLEncoder.encode(word, "UTF-8");
-            URL url = new URL("http://translate.google.com/translate_tts?tl=eng&q="+word);
-            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-            urlConn.addRequestProperty("User-Agent", "Mozilla/4.76");
-            InputStream audioSrc = urlConn.getInputStream();
-            DataInputStream read = new DataInputStream(audioSrc);
-            OutputStream outstream = new FileOutputStream(new File("mysound.mp3"));
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = read.read(buffer)) > 0) {
-                    outstream.write(buffer, 0, len);
-            }
-            outstream.close();
-        }catch(IOException e){
-                   System.out.println(e.getMessage());
-        }
-     */
 }

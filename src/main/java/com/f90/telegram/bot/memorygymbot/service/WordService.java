@@ -1,6 +1,8 @@
 package com.f90.telegram.bot.memorygymbot.service;
 
+import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
+import com.f90.telegram.bot.memorygymbot.mapper.WordMapper;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
 import org.apache.commons.lang3.StringUtils;
@@ -22,46 +24,33 @@ public class WordService {
         this.dictionaryRepo = dictionaryRepo;
     }
 
-    public List<Word> findAll() {
-        return dictionaryRepo.findAll();
+    public List<WordDTO> findAll() {
+        return WordMapper.toWordDTOs(dictionaryRepo.findAll());
     }
 
-    public Word findById(String id) {
-        return dictionaryRepo.findById(id).orElse(null);
+    public WordDTO findById(String id) {
+        return WordMapper.toWordDTO(dictionaryRepo.findById(id).orElse(null));
     }
 
-    public Word findByIta(String ita) {
-        return dictionaryRepo.findWordByIta(ita);
+    public WordDTO findByIta(String ita) {
+        return WordMapper.toWordDTO(dictionaryRepo.findWordByIta(ita));
     }
 
-    public Word add(Word newWord) {
-        Word insertWord;
+    public WordDTO add(Word newWord) {
+        Word updatedWord;
         if (newWord != null) {
-            insertWord = dictionaryRepo.save(newWord);
+            updatedWord = dictionaryRepo.update(newWord);
         } else {
             throw new InternalException("add() - msg: missing newWord from user.");
         }
-        return insertWord;
+        return WordMapper.toWordDTO(updatedWord);
     }
 
-    /**
-     * Return a list of ITA words to translate. By default, 5 words, but you can specify a custom number from 1 to 10.
-     * Example of use:
-     * - /test
-     * - /test 3 (any number from 1 to 10)
-     *
-     * @param wordsToGuessNumber the chat command value
-     */
-    public List<Word> test(Integer wordsToGuessNumber) {
-        return dictionaryRepo.random(Objects.requireNonNullElse(wordsToGuessNumber, 5)).getMappedResults();
+    public List<WordDTO> test(Integer wordsToGuessNumber) {
+        return WordMapper.toWordDTOs(dictionaryRepo.random(Objects.requireNonNullElse(wordsToGuessNumber, 5)).getMappedResults());
     }
 
-    /**
-     * Example of use: /delete lattina
-     *
-     * @param word the word to delete
-     */
-    public void delete(String word) {
+    public void deleteByIta(String word) {
         if (StringUtils.isNotEmpty(word)) {
             dictionaryRepo.deleteByIta(word);
         } else {

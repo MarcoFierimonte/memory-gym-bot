@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,38 +24,38 @@ public class WordController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Word> findAll() {
+    public List<WordDTO> findAll() {
         return wordService.findAll();
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Word> testDefault() {
+    public List<WordDTO> testDefault() {
         return wordService.test(null);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/test/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Word> test(@PathVariable(value = "number", required = false) Integer number) {
+    public List<WordDTO> test(@PathVariable(value = "number") Integer number) {
         return wordService.test(number);
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public WordDTO addWord(@RequestBody @Valid WordDTO word) {
+        log.info("addWord() - msg: word={}", word);
+        return wordService.add(Word.builder()
+                .ita(word.getIta())
+                .eng(word.getEng())
+                .pronounce(word.getPronounce())
+                .chatId(69501949L)
+                .build());
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping(value = "/ita/{word}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteIta(@PathVariable(value = "word") String word) {
-        wordService.delete(word);
+        wordService.deleteByIta(word);
     }
-
-    @ResponseStatus(value = HttpStatus.OK)
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Word addWord(@RequestBody WordDTO word) {
-        log.info("addWord() - msg: word={}", word);
-        return wordService.add(Word.builder()
-                .ita(word.getIta())
-                .eng(word.getEng())
-                .chatId(69501949L)
-                .build());
-    }
-
 
 }

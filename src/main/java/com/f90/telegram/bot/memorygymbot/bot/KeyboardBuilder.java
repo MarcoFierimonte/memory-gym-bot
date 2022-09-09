@@ -66,7 +66,7 @@ public final class KeyboardBuilder {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         for (Word currentWord : words) {
             List<InlineKeyboardButton> row = new ArrayList<>();
-            row.add(getButton(currentWord.getIta(), currentWord.getId()));
+            row.add(getButton(currentWord.getIta(), currentWord.getIta()));
             keyboard.add(row);
         }
         // add reveals button

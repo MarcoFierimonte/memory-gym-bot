@@ -61,7 +61,7 @@ public class TemplatesController {
     @PostMapping("/words/delete")
     public String deleteWord(@ModelAttribute("word") WordDTO word) {
         log.info("deleteWord() - msg:  word to delete={}", word);
-        wordService.delete(word.getIta());
+        wordService.deleteByIta(word.getIta());
         return "redirect:/v1/memorygymbot/done";
     }
 }
