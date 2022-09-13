@@ -170,7 +170,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "5430654397:AAGmIq3jr3c0OHNqPgsWzfWKTaCXgOB-Cmc";
+        return "5430654397:AAGJqJ5mXvShDTHXN4HO7ZWsKZRLhf0eHaE";
     }
 
 
