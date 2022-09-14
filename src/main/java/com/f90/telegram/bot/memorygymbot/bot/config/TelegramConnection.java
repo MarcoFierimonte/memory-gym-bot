@@ -23,21 +23,21 @@ public class TelegramConnection {
 
     private final TelegramWebhookBot memoryGymBot;
 
-    TelegramConnection(TelegramWebhookBot memoryGymBotExecutor) {
-        this.memoryGymBot = memoryGymBotExecutor;
+    TelegramConnection(TelegramWebhookBot telegramMemoryGymBot) {
+        this.memoryGymBot = telegramMemoryGymBot;
     }
 
     @PostConstruct
     public void init() {
         try {
             log.info("init() - msg: starting TelegramConnection; profiles={}", activeProfiles);
-            DefaultWebhook defaultWebhook = new DefaultWebhook();
-            if(activeProfiles.contains("local")) {
-                defaultWebhook.setInternalUrl("http://localhost:8082");
-            }
-            defaultWebhook.registerWebhook(memoryGymBot);
+//            DefaultWebhook defaultWebhook = new DefaultWebhook();
+//            if(activeProfiles.contains("local")) {
+//                defaultWebhook.setInternalUrl("http://localhost:8082");
+//            }
+//            defaultWebhook.registerWebhook(memoryGymBot);
 
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class, defaultWebhook);
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(memoryGymBot, SetWebhook.builder().url("https://memorygymbot.oa.r.appspot.com").build());
 
         } catch (Exception e) {

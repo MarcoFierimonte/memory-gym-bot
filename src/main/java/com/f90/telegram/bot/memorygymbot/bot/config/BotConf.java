@@ -18,11 +18,10 @@ public class BotConf {
 
     @Profile(value = {"!local"})
     @Bean
-    public TelegramWebhookBot memoryGymBotExecutor(MemoryGymBotExecutor memoryGymBotExecutor) {
+    public TelegramWebhookBot telegramMemoryGymBot(MemoryGymBotExecutor memoryGymBotExecutor) {
         TelegramWebhookBot bot = new TelegramWebhookBot() {
             @Override
             public String getBotToken() {
-
                 return memoryGymBotExecutor.getBotToken();
             }
 
@@ -55,7 +54,7 @@ public class BotConf {
 
     @Profile(value = {"local"})
     @Bean
-    public TelegramLongPollingBot memoryGymBotExecutorLocal(MemoryGymBotExecutor memoryGymBotExecutor) {
+    public TelegramLongPollingBot telegramMemoryGymBotLocal(MemoryGymBotExecutor memoryGymBotExecutor) {
         TelegramLongPollingBot bot = new TelegramLongPollingBot() {
             @Override
             public String getBotToken() {

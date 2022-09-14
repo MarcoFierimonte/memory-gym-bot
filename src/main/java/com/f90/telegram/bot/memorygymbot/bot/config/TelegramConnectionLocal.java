@@ -16,8 +16,8 @@ public class TelegramConnectionLocal {
 
     private final TelegramLongPollingBot memoryGymBot;
 
-    TelegramConnectionLocal(TelegramLongPollingBot memoryGymBotExecutorLocal) {
-        this.memoryGymBot = memoryGymBotExecutorLocal;
+    TelegramConnectionLocal(TelegramLongPollingBot telegramMemoryGymBotLocal) {
+        this.memoryGymBot = telegramMemoryGymBotLocal;
     }
 
     @PostConstruct
