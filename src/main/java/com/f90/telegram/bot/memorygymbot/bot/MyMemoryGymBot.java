@@ -6,9 +6,11 @@ import com.f90.telegram.bot.memorygymbot.service.UserService;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.bots.TelegramWebhookBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -20,12 +22,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class MyMemoryGymBot extends TelegramLongPollingBot {
+public class MyMemoryGymBot extends TelegramWebhookBot {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MyMemoryGymBot.class);
 
     private final WordService wordService;
     private final UserService userService;
+
+    @Value("${telegram.token}")
+    private String token;
 
     public MyMemoryGymBot(WordService wordService, UserService userService) {
         this.wordService = wordService;
@@ -33,28 +38,34 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {
-        try {
-            LOGGER.info("onUpdateReceived() - IN");
-            if (update.hasMessage()) {
-                processMessage(update);
-            } else if (update.hasCallbackQuery()) {
-                processCallbackQuery(update);
-            } else {
-                LOGGER.info("onUpdateReceived() - msg: received not managed updates. Update=[{}]", update);
-                sendToChat(update.getMessage(), "Please insert a valid command.", true);
-            }
-        } catch (Exception e) {
-            LOGGER.error("Error during 'onUpdateReceived'!", e);
-            if (update.getMessage() != null) {
-                Message message = update.getMessage();
-                String username = message.getChat() != null ? message.getChat().getUserName() : null;
-                Long chatId = message.getChat() != null ? update.getMessage().getChat().getId() : null;
-                String text = message.getText() != null ? update.getMessage().getText() : null;
-                LOGGER.error("Error during 'onUpdateReceived'; user={}, chatId={}, text={}", username, chatId, text);
+    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+        LOGGER.info("onUpdateReceived() - IN");
+        if (update != null) {
+            try {
+                if (update.hasMessage()) {
+                    processMessage(update);
+                } else if (update.hasCallbackQuery()) {
+                    processCallbackQuery(update);
+                } else {
+                    LOGGER.info("onUpdateReceived() - msg: received not managed updates. Update=[{}]", update);
+                    sendToChat(update.getMessage(), "Please insert a valid command.", true);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error during 'onUpdateReceived'!", e);
+                logError(update.getMessage());
             }
         }
         LOGGER.info("onUpdateReceived() - OUT");
+        return null;
+    }
+
+    private void logError(Message message) {
+        if (message != null) {
+            String username = message.getChat() != null ? message.getChat().getUserName() : null;
+            Long chatId = message.getChat() != null ? message.getChat().getId() : null;
+            String text = message.getText() != null ? message.getText() : null;
+            LOGGER.error("Error during 'onUpdateReceived'; user={}, chatId={}, text={}", username, chatId, text);
+        }
     }
 
     private void processMessage(Update update) throws TelegramApiException {
@@ -170,7 +181,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "5430654397:AAGJqJ5mXvShDTHXN4HO7ZWsKZRLhf0eHaE";
+        return token;
     }
 
 
@@ -179,4 +190,9 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
         return "MemoryGymBot";
     }
 
+
+    @Override
+    public String getBotPath() {
+        return "webhook";
+    }
 }

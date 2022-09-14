@@ -2,6 +2,13 @@ runtime: java11
 instance_class: F2
 
 
-basic_scaling:
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: 1
+  min_pending_latency: automatic
+  max_pending_latency: 0.030s
   max_instances: 1
-  idle_timeout: 25m
+
+env_variables:
+  ENV: "prod"
+  TELEGRAM_TOKEN: "5430654397:AAGJqJ5mXvShDTHXN4HO7ZWsKZRLhf0eHaE"
