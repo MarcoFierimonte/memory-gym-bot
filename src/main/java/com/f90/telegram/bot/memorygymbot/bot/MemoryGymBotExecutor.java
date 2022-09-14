@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -22,23 +20,27 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class MyMemoryGymBot extends TelegramWebhookBot {
+public class MemoryGymBotExecutor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MyMemoryGymBot.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryGymBotExecutor.class);
 
     private final WordService wordService;
     private final UserService userService;
+    private Send sendExecutor;
 
     @Value("${telegram.token}")
     private String token;
 
-    public MyMemoryGymBot(WordService wordService, UserService userService) {
+    protected MemoryGymBotExecutor(WordService wordService, UserService userService) {
         this.wordService = wordService;
         this.userService = userService;
     }
 
-    @Override
-    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+    public void setSendExecutor(Send sendExecutor) {
+        this.sendExecutor = sendExecutor;
+    }
+
+    public void onUpdateReceived(Update update) {
         LOGGER.info("onUpdateReceived() - IN");
         if (update != null) {
             try {
@@ -56,7 +58,6 @@ public class MyMemoryGymBot extends TelegramWebhookBot {
             }
         }
         LOGGER.info("onUpdateReceived() - OUT");
-        return null;
     }
 
     private void logError(Message message) {
@@ -115,7 +116,7 @@ public class MyMemoryGymBot extends TelegramWebhookBot {
         }
     }
 
-    private void testUserMemory(Update update) throws TelegramApiException {
+    private void testUserMemory(Update update) {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
         if (!words.isEmpty()) {
             LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
@@ -130,7 +131,7 @@ public class MyMemoryGymBot extends TelegramWebhookBot {
         }
     }
 
-    private void processCallbackQuery(Update update) throws TelegramApiException {
+    private void processCallbackQuery(Update update) {
         Message msg = update.getCallbackQuery().getMessage();
         if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
             User user = userService.findByChatId(msg.getChatId());
@@ -141,16 +142,16 @@ public class MyMemoryGymBot extends TelegramWebhookBot {
         LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
 
-    private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) throws TelegramApiException {
+    private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId());
         sendMessage.setReplyMarkup(replyKeyboard);
         sendMessage.setText(text);
-        execute(sendMessage);
+        sendExecutor.execute(sendMessage);
     }
 
-    private void sendToChat(Message message, String text, boolean replyTo) throws TelegramApiException {
+    private void sendToChat(Message message, String text, boolean replyTo) {
         SendMessage out = new SendMessage();
         out.setChatId(message.getChatId());
         if (replyTo) {
@@ -158,7 +159,7 @@ public class MyMemoryGymBot extends TelegramWebhookBot {
         }
         out.enableHtml(true);
         out.setText(text);
-        execute(out);
+        sendExecutor.execute(out);
     }
 
     @Scheduled(fixedRate = 2, timeUnit = TimeUnit.HOURS)
@@ -179,20 +180,14 @@ public class MyMemoryGymBot extends TelegramWebhookBot {
         }
     }
 
-    @Override
     public String getBotToken() {
         return token;
     }
 
 
-    @Override
     public String getBotUsername() {
         return "MemoryGymBot";
     }
 
 
-    @Override
-    public String getBotPath() {
-        return "webhook";
-    }
 }

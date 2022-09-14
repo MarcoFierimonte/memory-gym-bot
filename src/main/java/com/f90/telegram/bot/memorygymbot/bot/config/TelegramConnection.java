@@ -1,8 +1,10 @@
-package com.f90.telegram.bot.memorygymbot.bot;
+package com.f90.telegram.bot.memorygymbot.bot.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -13,15 +15,16 @@ import java.util.List;
 
 @Component
 @Slf4j
+@Profile(value = {"!local"})
 public class TelegramConnection {
 
     @Value("${spring.profiles.active}")
     private List<String> activeProfiles;
 
-    private final MyMemoryGymBot memoryGymBot;
+    private final TelegramWebhookBot memoryGymBot;
 
-    TelegramConnection(MyMemoryGymBot memoryGymBot) {
-        this.memoryGymBot = memoryGymBot;
+    TelegramConnection(TelegramWebhookBot memoryGymBotExecutor) {
+        this.memoryGymBot = memoryGymBotExecutor;
     }
 
     @PostConstruct
