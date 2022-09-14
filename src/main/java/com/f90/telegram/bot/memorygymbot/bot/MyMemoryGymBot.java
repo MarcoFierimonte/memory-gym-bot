@@ -125,7 +125,7 @@ public class MyMemoryGymBot extends TelegramLongPollingBot {
             User user = userService.findByChatId(msg.getChatId());
             user.setLastTestPending(false);
             userService.save(user);
-            sendToChat(update.getCallbackQuery().getMessage(), "Current 'test' completed! Wait for next!", true);
+            sendToChat(update.getCallbackQuery().getMessage(), "Current 'test' completed! " + EmojiUtil.HAPPY_FACE, true);
         }
         LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
