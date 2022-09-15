@@ -3,9 +3,11 @@ package com.f90.telegram.bot.memorygymbot.bot.config;
 import com.f90.telegram.bot.memorygymbot.bot.MemoryGymBotExecutor;
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -15,6 +17,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Configuration
 @Slf4j
 public class BotConf {
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
 
     @Profile(value = {"!local"})
     @Bean

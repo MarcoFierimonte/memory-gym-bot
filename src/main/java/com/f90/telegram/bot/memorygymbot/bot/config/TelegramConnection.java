@@ -31,13 +31,12 @@ public class TelegramConnection {
     public void init() {
         try {
             log.info("init() - msg: starting TelegramConnection; profiles={}", activeProfiles);
-//            DefaultWebhook defaultWebhook = new DefaultWebhook();
-//            if(activeProfiles.contains("local")) {
-//                defaultWebhook.setInternalUrl("http://localhost:8082");
-//            }
-//            defaultWebhook.registerWebhook(memoryGymBot);
+            DefaultWebhook defaultWebhook = new DefaultWebhook();
+            defaultWebhook.setInternalUrl("http://localhost:8090");
+            defaultWebhook.registerWebhook(memoryGymBot);
 
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class, defaultWebhook);
+
             telegramBotsApi.registerBot(memoryGymBot, SetWebhook.builder().url("https://memorygymbot.oa.r.appspot.com").build());
 
         } catch (Exception e) {
