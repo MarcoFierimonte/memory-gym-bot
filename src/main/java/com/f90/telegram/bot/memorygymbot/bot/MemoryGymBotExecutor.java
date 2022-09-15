@@ -4,10 +4,8 @@ import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.model.User;
 import com.f90.telegram.bot.memorygymbot.service.UserService;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -17,12 +15,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Component
+@Slf4j
 public class MemoryGymBotExecutor {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryGymBotExecutor.class);
 
     private final WordService wordService;
     private final UserService userService;
@@ -41,7 +37,7 @@ public class MemoryGymBotExecutor {
     }
 
     public void onUpdateReceived(Update update) {
-        LOGGER.info("onUpdateReceived() - IN");
+        log.info("onUpdateReceived() - IN");
         if (update != null) {
             try {
                 if (update.hasMessage()) {
@@ -49,15 +45,15 @@ public class MemoryGymBotExecutor {
                 } else if (update.hasCallbackQuery()) {
                     processCallbackQuery(update);
                 } else {
-                    LOGGER.info("onUpdateReceived() - msg: received not managed updates. Update=[{}]", update);
+                    log.info("onUpdateReceived() - msg: received not managed updates. Update=[{}]", update);
                     sendToChat(update.getMessage(), "Please insert a valid command.", true);
                 }
             } catch (Exception e) {
-                LOGGER.error("Error during 'onUpdateReceived'!", e);
+                log.error("Error during 'onUpdateReceived'!", e);
                 logError(update.getMessage());
             }
         }
-        LOGGER.info("onUpdateReceived() - OUT");
+        log.info("onUpdateReceived() - OUT");
     }
 
     private void logError(Message message) {
@@ -65,13 +61,13 @@ public class MemoryGymBotExecutor {
             String username = message.getChat() != null ? message.getChat().getUserName() : null;
             Long chatId = message.getChat() != null ? message.getChat().getId() : null;
             String text = message.getText() != null ? message.getText() : null;
-            LOGGER.error("Error during 'onUpdateReceived'; user={}, chatId={}, text={}", username, chatId, text);
+            log.error("Error during 'onUpdateReceived'; user={}, chatId={}, text={}", username, chatId, text);
         }
     }
 
     private void processMessage(Update update) throws TelegramApiException {
         Command command = Command.fromText(update.getMessage().getText());
-        LOGGER.info("processMessage() - msg: command={}", command);
+        log.info("processMessage() - msg: command={}", command);
         if (command.getCmdType() == CustomCommand.CmdType.MENU) {
             switch (command.getType()) {
                 case START: {
@@ -84,7 +80,7 @@ public class MemoryGymBotExecutor {
                                 .lastTestPending(false)
                                 .build());
                         wordService.init(update.getMessage().getChatId());
-                        LOGGER.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
+                        log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
                     }
                     sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
                     break;
@@ -107,11 +103,11 @@ public class MemoryGymBotExecutor {
                     break;
                 }
                 default:
-                    LOGGER.warn("processMenuCommand() - msg: not managed command={}", command);
+                    log.warn("processMenuCommand() - msg: not managed command={}", command);
                     break;
             }
         } else {
-            LOGGER.info("processMessage() - msg: UNKWOW command={}", command);
+            log.info("processMessage() - msg: UNKWOW command={}", command);
             sendToChat(update.getMessage(), "Please insert a valid command.", true);
         }
     }
@@ -119,7 +115,7 @@ public class MemoryGymBotExecutor {
     private void testUserMemory(Update update) {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
         if (!words.isEmpty()) {
-            LOGGER.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
+            log.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
             sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
@@ -139,7 +135,7 @@ public class MemoryGymBotExecutor {
             userService.save(user);
             sendToChat(update.getCallbackQuery().getMessage(), "Current 'test' completed! " + EmojiUtil.HAPPY_FACE, true);
         }
-        LOGGER.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
+        log.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
 
     private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) {
@@ -162,8 +158,7 @@ public class MemoryGymBotExecutor {
         sendExecutor.execute(out);
     }
 
-    @Scheduled(fixedRate = 1, timeUnit = TimeUnit.HOURS)
-    public void sendToChatScheduled() {
+    public void sendTestToAllUsers() {
         List<User> users = userService.findAll(User.builder().lastTestPending(false).build());
         for (User user : users) {
             Chat chat = new Chat();
@@ -172,6 +167,7 @@ public class MemoryGymBotExecutor {
             msg.setChat(chat);
             Update update = new Update();
             update.setMessage(msg);
+            log.info("sendTestToAllUsers() - msg: sending 'test' to user={}", user.getUserName());
             // send test
             testUserMemory(update);
             // update field

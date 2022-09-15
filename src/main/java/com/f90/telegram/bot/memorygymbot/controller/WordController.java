@@ -1,8 +1,10 @@
 package com.f90.telegram.bot.memorygymbot.controller;
 
+import com.f90.telegram.bot.memorygymbot.bot.MemoryGymBotExecutor;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,14 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/words")
+@RequiredArgsConstructor
 @Slf4j
 public class WordController {
 
     private final WordService wordService;
-
-    public WordController(WordService wordService) {
-        this.wordService = wordService;
-    }
+    private final MemoryGymBotExecutor memoryGymBotExecutor;
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,4 +62,10 @@ public class WordController {
                 .build());
     }
 
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "/trigger")
+    public void triggerTest() {
+        new Thread(memoryGymBotExecutor::sendTestToAllUsers).start();
+
+    }
 }
