@@ -31,7 +31,6 @@ public class BotProxyController {
 
     @RequestMapping("/telegram/**")
     public ResponseEntity<String> mirrorRest(@RequestBody(required = false) String body, HttpMethod method, HttpServletRequest request) throws URISyntaxException {
-        log.info("mirrorRest() - msg: received http requiest; method={}, uri={}", method, request.getRequestURI());
         URI uri = new URI("http", null, "localhost", 8090, "/callback/webhook", request.getQueryString(), null);
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("Content-Type", "application/json");

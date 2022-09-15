@@ -1,6 +1,7 @@
 package com.f90.telegram.bot.memorygymbot.util;
 
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
+import com.google.common.base.Joiner;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,11 +13,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.Temporal;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The type Logging handler.
@@ -56,7 +63,10 @@ public class LoggingHandler {
     private void logRequest(JoinPoint joinPoint) throws InternalException {
         Object[] args = joinPoint.getArgs();
         CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
-        StringBuilder builder = new StringBuilder();
+        Map<String, String> argsMap = new LinkedHashMap<>();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        argsMap.put("requestURL", request.getRequestURL().toString());
+        argsMap.put("httpMethod", request.getMethod());
         for (int i = 0; i < args.length; i++) {
             String argName = codeSignature.getParameterNames()[i];
             String jsonArg;
@@ -69,15 +79,10 @@ public class LoggingHandler {
                     jsonArg = "@" + args[i].getClass().getSimpleName();
                 }
             }
-            builder.append(argName)
-                    .append("=[")
-                    .append(jsonArg)
-                    .append("]");
-            if (i < args.length - 1) {
-                builder.append(",");
-            }
+            argsMap.put(argName, jsonArg);
         }
-        LOGGER.info("{}.{}() - IN: {}", joinPoint.getSignature().getDeclaringType().getSimpleName(), joinPoint.getSignature().getName(), builder);
+        String argsAsString = Joiner.on(", ").withKeyValueSeparator("=").join(argsMap);
+        LOGGER.info("{}.{}() - IN: {}", joinPoint.getSignature().getDeclaringType().getSimpleName(), joinPoint.getSignature().getName(), argsAsString);
     }
 
     private void logResponse(Object response, String className, String methodName, long timeElapsed) throws InternalException {
