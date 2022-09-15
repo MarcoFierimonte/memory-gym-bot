@@ -162,8 +162,8 @@ public class MemoryGymBotExecutor {
         sendExecutor.execute(out);
     }
 
-    @Scheduled(fixedRate = 2, timeUnit = TimeUnit.HOURS)
-    public void sendToChatScheduled() throws TelegramApiException {
+    @Scheduled(fixedRate = 1, timeUnit = TimeUnit.HOURS)
+    public void sendToChatScheduled() {
         List<User> users = userService.findAll(User.builder().lastTestPending(false).build());
         for (User user : users) {
             Chat chat = new Chat();

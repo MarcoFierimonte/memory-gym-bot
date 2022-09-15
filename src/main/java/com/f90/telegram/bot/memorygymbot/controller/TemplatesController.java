@@ -55,12 +55,12 @@ public class TemplatesController {
                 .eng(word.getEng())
                 .chatId(word.getChatId())
                 .build());
-        return "redirect:/v1/memorygymbot/done";
+        return "done";
     }
 
     @PostMapping("/words/delete")
     public String deleteWord(@ModelAttribute("word") WordDTO word) {
         wordService.delete(WordMapper.toWord(word));
-        return "redirect:/v1/memorygymbot/done";
+        return "done";
     }
 }
