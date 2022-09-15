@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +31,11 @@ public class BotProxyController {
 
     @RequestMapping("/**")
     public ResponseEntity<String> mirrorRest(@RequestBody(required = false) String body, HttpMethod method, HttpServletRequest request) throws URISyntaxException {
-        log.info("mirrorRest() - msg: received http requiest; method={}, uri={}, body={}", method, request.getRequestURI(), body);
+        log.info("mirrorRest() - msg: received http requiest; method={}, uri={}", method, request.getRequestURI());
         URI uri = new URI("http", null, "localhost", 8090, "/callback/webhook", request.getQueryString(), null);
-        HttpEntity<String> entity = new HttpEntity<>(body);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("Content-Type", "application/json");
+        HttpEntity<String> entity = new HttpEntity<>(body, headers);
         try {
             return restTemplate.exchange(uri, method, entity, String.class);
         } catch (Exception ex) {
