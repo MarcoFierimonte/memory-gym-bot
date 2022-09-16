@@ -8,7 +8,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -32,12 +34,19 @@ public class UserService {
         return userRepo.findByChatId(chatId);
     }
 
-    public List<User> findAll(User input) {
-        Example<User> query = Example.of(User.builder()
-                .chatId(input.getChatId())
-                .userName(input.getUserName())
-                .lastTestPending(input.isLastTestPending())
-                .build());
-        return userRepo.findAll(query);
+    public List<User> findAll(Optional<User> input) {
+        List<User> out;
+        Example<User> query;
+        if (input.isPresent()) {
+            query = Example.of(User.builder()
+                    .chatId(input.get().getChatId())
+                    .userName(input.get().getUserName())
+                    .lastTestPending(input.get().isLastTestPending())
+                    .build());
+            out = userRepo.findAll(query);
+        } else {
+            out = userRepo.findAll();
+        }
+        return out;
     }
 }

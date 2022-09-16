@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -65,7 +66,7 @@ public class MemoryGymBotExecutor {
         }
     }
 
-    private void processMessage(Update update) throws TelegramApiException {
+    private void processMessage(Update update) {
         Command command = Command.fromText(update.getMessage().getText());
         log.info("processMessage() - msg: command={}", command);
         if (command.getCmdType() == CustomCommand.CmdType.MENU) {
@@ -121,7 +122,6 @@ public class MemoryGymBotExecutor {
             for (WordDTO current : words) {
                 sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
             }
-            sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
         } else {
             sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
         }
@@ -159,7 +159,7 @@ public class MemoryGymBotExecutor {
     }
 
     public void sendTestToAllUsers() {
-        List<User> users = userService.findAll(User.builder().lastTestPending(false).build());
+        List<User> users = userService.findAll(Optional.of(User.builder().lastTestPending(false).build()));
         for (User user : users) {
             Chat chat = new Chat();
             chat.setId(user.getChatId());
@@ -173,6 +173,21 @@ public class MemoryGymBotExecutor {
             // update field
             user.setLastTestPending(true);
             userService.save(user);
+            sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
+        }
+    }
+
+    public void addWordsToAllUsers() {
+        List<User> users = userService.findAll(Optional.empty());
+        for (User user : users) {
+            Chat chat = new Chat();
+            chat.setId(user.getChatId());
+            Message msg = new Message();
+            msg.setChat(chat);
+            Update update = new Update();
+            update.setMessage(msg);
+            wordService.init(user.getChatId());
+            log.info("addWordsToAllUsers() - msg: completed for user={}", user.getChatId());
         }
     }
 

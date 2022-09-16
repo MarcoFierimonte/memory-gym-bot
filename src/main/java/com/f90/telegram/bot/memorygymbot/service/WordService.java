@@ -10,7 +10,6 @@ import com.f90.telegram.bot.memorygymbot.repo.InitDatasetRepo;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,15 +63,14 @@ public class WordService {
 
     public void init(Long chatId) {
         List<InitDatasetWord> initDatasetWords = initDatasetRepo.findAll();
-        List<Word> words = new ArrayList<>(initDatasetWords.size());
         for (InitDatasetWord initWord : initDatasetWords) {
-            words.add(Word.builder()
+            dictionaryRepo.update(Word.builder()
                     .chatId(chatId)
                     .ita(initWord.getIta())
                     .eng(initWord.getEng())
                     .pronounce(initWord.getPronounce())
                     .build());
         }
-        dictionaryRepo.saveAll(words);
     }
+
 }

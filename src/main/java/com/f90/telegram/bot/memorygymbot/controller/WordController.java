@@ -64,8 +64,13 @@ public class WordController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/trigger")
-    public void triggerTest() {
+    public void triggerTests() {
         new Thread(memoryGymBotExecutor::sendTestToAllUsers).start();
+    }
 
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "/init/sync_users")
+    public void addWordsToAllUsers() {
+        memoryGymBotExecutor.addWordsToAllUsers();
     }
 }

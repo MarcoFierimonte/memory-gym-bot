@@ -35,8 +35,8 @@
     "pronounce": "hant"
   },
   {
-    "ita": "drops",
-    "eng": "gocce",
+    "ita": "gocce",
+    "eng": "drops",
     "pronounce": ""
   },
   {
@@ -48,5 +48,105 @@
     "ita": "colpevole",
     "eng": "guilty",
     "pronounce": "ghilti"
+  },
+  {
+    "ita": "fattura",
+    "eng": "invoice",
+    "pronounce": "invois"
+  },
+  {
+    "ita": "piuttosto difficile",
+    "eng": "quite difficult",
+    "pronounce": ""
+  },
+  {
+    "ita": "vergogna",
+    "eng": "shame",
+    "pronounce": ""
+  },
+  {
+    "ita": "si vergogna",
+    "eng": "ashamed",
+    "pronounce": ""
+  },
+  {
+    "ita": "presto",
+    "eng": "soon",
+    "pronounce": "seen"
+  },
+  {
+    "ita": "prendere il sole",
+    "eng": "sunbathe",
+    "pronounce": "sanbeit"
+  },
+  {
+    "ita": "essenza",
+    "eng": "gist",
+    "pronounce": ""
+  },
+  {
+    "ita": "rubare",
+    "eng": "steal",
+    "pronounce": ""
+  },
+  {
+    "ita": "tuffo",
+    "eng": "plunge",
+    "pronounce": "plange"
+  },
+  {
+    "ita": "sfocato",
+    "eng": "blurry",
+    "pronounce": "blerri"
+  },
+  {
+    "ita": "fioco,debole",
+    "eng": "dim",
+    "pronounce": ""
+  },
+  {
+    "ita": "folla",
+    "eng": "crowd",
+    "pronounce": "craud"
+  },
+  {
+    "ita": "pece,intonazione",
+    "eng": "pitch",
+    "pronounce": ""
+  },
+  {
+    "ita": "ferroviere",
+    "eng": "railway worker",
+    "pronounce": ""
+  },
+  {
+    "ita": "andare in pensione",
+    "eng": "retire",
+    "pronounce": ""
+  },
+  {
+    "ita": "tra,in mezzo a",
+    "eng": "among",
+    "pronounce": "èmong"
+  },
+  {
+    "ita": "fratello maggiore",
+    "eng": "elder brother",
+    "pronounce": "èlde brotha"
+  },
+  {
+    "ita": "fratelli,sorelle",
+    "eng": "siblings",
+    "pronounce": ""
+  },
+  {
+    "ita": "campagna",
+    "eng": "countryside",
+    "pronounce": ""
+  },
+  {
+    "ita": "rilassarsi",
+    "eng": "to chill, relax",
+    "pronounce": ""
   }
 ]
