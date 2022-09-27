@@ -123,3 +123,27 @@ body {
 .submit:active {
     background-color: #06b;
 }
+
+<!-- config page-->
+
+ .toggle-switch {
+     position: relative;
+     width: 200px;
+ }
+
+.slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+label {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background-color: var(--dark);
+    border-radius: 50px;
+    cursor: pointer;
+}

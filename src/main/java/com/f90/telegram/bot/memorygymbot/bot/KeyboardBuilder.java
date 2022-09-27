@@ -24,28 +24,38 @@ public final class KeyboardBuilder {
 
         List<KeyboardRow> keyboard = new ArrayList<>();
 
+        // row 1
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add("TEST");
         keyboardRow1.add("LEARN");
         keyboard.add(keyboardRow1);
 
+        // row 2
         KeyboardRow keyboardRow2 = new KeyboardRow();
-
         KeyboardButton btnAdd = new KeyboardButton();
         btnAdd.setText("ADD");
         btnAdd.setWebApp(WebAppInfo.builder()
                 .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/newWord?chatId=" + chatId)
                 .build());
         keyboardRow2.add(btnAdd);
-
         KeyboardButton btnDelete = new KeyboardButton();
         btnDelete.setText("DELETE");
         btnDelete.setWebApp(WebAppInfo.builder()
                 .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/deleteWord?chatId=" + chatId)
                 .build());
         keyboardRow2.add(btnDelete);
-
         keyboard.add(keyboardRow2);
+
+        // row 3
+        KeyboardRow keyboardRow3 = new KeyboardRow();
+        KeyboardButton btnConfig = new KeyboardButton();
+        btnConfig.setText("CONFIG");
+        btnConfig.setWebApp(WebAppInfo.builder()
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/config?chatId=" + chatId)
+                .build());
+        keyboardRow3.add(btnConfig);
+        keyboardRow3.add("BOT-INFO");
+        keyboard.add(keyboardRow3);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

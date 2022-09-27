@@ -18,6 +18,6 @@ public class User {
 
     private Long userId;
     private String userName;
-    private boolean lastTestPending;
+    private boolean testNotificationEnabled;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Builder
 @Setter
+@ToString
 public class Word {
 
     @Id

@@ -11,6 +11,6 @@ import lombok.*;
 public class UserDTO {
 
     private Long chatId;
-    private boolean lastTestPending;
+    private boolean notificationEnabled;
 
 }

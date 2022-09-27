@@ -73,4 +73,5 @@ public class WordController {
     public void addWordsToAllUsers() {
         memoryGymBotExecutor.addWordsToAllUsers();
     }
+
 }
