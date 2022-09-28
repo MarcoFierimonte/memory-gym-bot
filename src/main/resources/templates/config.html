@@ -19,7 +19,7 @@
             <form action="#" th:action="@{/v1/memorygymbot/users/add}" th:object="${userConfigs}" method="post">
                 <div class="ml-2">
                     <div class="form-group mt-3">
-                        <span class="ml-2">Notification Enabled <input type="checkbox" th:field="*{notificationEnabled}" data-toggle="switch"/></span>
+                        <span class="ml-2">Notification Enabled <input type="checkbox" th:field="*{testNotificationEnabled}" data-toggle="switch"/></span>
                     </div>
                 </div>
                 <input id="chatId" class="input" type="hidden" th:field="*{chatId}" th:value="${userConfigs.chatId}" />
