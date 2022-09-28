@@ -1,6 +1,8 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
+import com.f90.telegram.bot.memorygymbot.dto.UserDTO;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
+import com.f90.telegram.bot.memorygymbot.mapper.UserMapper;
 import com.f90.telegram.bot.memorygymbot.model.User;
 import com.f90.telegram.bot.memorygymbot.service.UserService;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
@@ -71,7 +73,7 @@ public class MemoryGymBotExecutor {
         if (command.getCmdType() == CustomCommand.CmdType.MENU) {
             switch (command.getType()) {
                 case START: {
-                    User user = userService.findByChatId(update.getMessage().getChatId());
+                    UserDTO user = userService.findByChatId(update.getMessage().getChatId());
                     if (user == null) {
                         userService.save(User.builder()
                                 .chatId(update.getMessage().getChatId())
@@ -129,9 +131,9 @@ public class MemoryGymBotExecutor {
     private void processCallbackQuery(Update update) {
         Message msg = update.getCallbackQuery().getMessage();
         if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
-            User user = userService.findByChatId(msg.getChatId());
+            UserDTO user = userService.findByChatId(msg.getChatId());
             user.setTestNotificationEnabled(false);
-            userService.save(user);
+            userService.save(UserMapper.toUser(user));
             sendToChat(update.getCallbackQuery().getMessage(), "Current 'test' completed! " + EmojiUtil.HAPPY_FACE, true);
         }
         log.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
@@ -158,8 +160,8 @@ public class MemoryGymBotExecutor {
     }
 
     public void sendTestToAllUsers() {
-        List<User> users = userService.findAll(Optional.of(User.builder().testNotificationEnabled(true).build()));
-        for (User user : users) {
+        List<UserDTO> users = userService.findAll(Optional.of(User.builder().testNotificationEnabled(true).build()));
+        for (UserDTO user : users) {
             Chat chat = new Chat();
             chat.setId(user.getChatId());
             Message msg = new Message();
@@ -171,13 +173,14 @@ public class MemoryGymBotExecutor {
             testUserMemory(update);
             // update field
             user.setTestNotificationEnabled(true);
-            userService.save(user);
+            userService.save(UserMapper.toUser(user));
+
         }
     }
 
     public void addWordsToAllUsers() {
-        List<User> users = userService.findAll(Optional.empty());
-        for (User user : users) {
+        List<UserDTO> users = userService.findAll(Optional.empty());
+        for (UserDTO user : users) {
             Chat chat = new Chat();
             chat.setId(user.getChatId());
             Message msg = new Message();

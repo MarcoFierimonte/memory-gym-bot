@@ -35,7 +35,7 @@ public final class KeyboardBuilder {
         KeyboardButton btnAdd = new KeyboardButton();
         btnAdd.setText("ADD");
         btnAdd.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/newWord?chatId=" + chatId)
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/addWord?chatId=" + chatId)
                 .build());
         keyboardRow2.add(btnAdd);
         KeyboardButton btnDelete = new KeyboardButton();

@@ -1,5 +1,7 @@
 package com.f90.telegram.bot.memorygymbot.service;
 
+import com.f90.telegram.bot.memorygymbot.dto.UserDTO;
+import com.f90.telegram.bot.memorygymbot.mapper.UserMapper;
 import com.f90.telegram.bot.memorygymbot.model.User;
 import com.f90.telegram.bot.memorygymbot.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +27,15 @@ public class UserService {
         return userName;
     }
 
-    public User save(User user) {
-        return userRepo.save(user);
+    public UserDTO save(User user) {
+        return UserMapper.toUserDTO(userRepo.save(user));
     }
 
-    public User findByChatId(Long chatId) {
-        return userRepo.findByChatId(chatId);
+    public UserDTO findByChatId(Long chatId) {
+        return UserMapper.toUserDTO(userRepo.findByChatId(chatId));
     }
 
-    public List<User> findAll(Optional<User> input) {
+    public List<UserDTO> findAll(Optional<User> input) {
         List<User> out;
         Example<User> query;
         if (input.isPresent()) {
@@ -46,6 +48,6 @@ public class UserService {
         } else {
             out = userRepo.findAll();
         }
-        return out;
+        return UserMapper.toUserDTOs(out);
     }
 }

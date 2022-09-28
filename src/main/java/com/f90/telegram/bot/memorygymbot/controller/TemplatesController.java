@@ -2,6 +2,7 @@ package com.f90.telegram.bot.memorygymbot.controller;
 
 import com.f90.telegram.bot.memorygymbot.dto.UserDTO;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
+import com.f90.telegram.bot.memorygymbot.mapper.UserMapper;
 import com.f90.telegram.bot.memorygymbot.mapper.WordMapper;
 import com.f90.telegram.bot.memorygymbot.model.User;
 import com.f90.telegram.bot.memorygymbot.model.Word;
@@ -32,21 +33,21 @@ public class TemplatesController {
         return "done";
     }
 
-    @GetMapping("/newWord")
+    @GetMapping("/addWord")
     public String addWordPage(@RequestParam(value = "chatId") Long chatId,
                               Model model) {
-        WordDTO word = new WordDTO();
-        word.setChatId(chatId);
-        model.addAttribute("word", word);
+        WordDTO wordDTO = new WordDTO();
+        wordDTO.setChatId(chatId);
+        model.addAttribute("word", wordDTO);
         return "add-word";
     }
 
     @GetMapping("/deleteWord")
     public String deleteWordPage(@RequestParam(value = "chatId") Long chatId,
                                  Model model) {
-        WordDTO word = new WordDTO();
-        word.setChatId(chatId);
-        model.addAttribute("word", word);
+        WordDTO wordDTO = new WordDTO();
+        wordDTO.setChatId(chatId);
+        model.addAttribute("word", wordDTO);
         return "delete-word";
     }
 
@@ -54,37 +55,29 @@ public class TemplatesController {
     public String configsPage(@RequestParam(value = "chatId") Long chatId,
                               Model model) {
         // retrive previous user configs
-        User currentUserConfigs = userService.findByChatId(chatId);
-        UserDTO user = new UserDTO();
-        user.setChatId(chatId);
-        user.setNotificationEnabled(currentUserConfigs.isTestNotificationEnabled());
-        model.addAttribute("userConfigs", user);
+        UserDTO currentUserConfigs = userService.findByChatId(chatId);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setChatId(chatId);
+        userDTO.setTestNotificationEnabled(currentUserConfigs.isTestNotificationEnabled());
+        model.addAttribute("userConfigs", userDTO);
         return "config";
     }
 
     @PostMapping("/words/add")
-    public String addNewWord(@ModelAttribute("word") WordDTO word) {
-        wordService.add(Word.builder()
-                .ita(word.getIta())
-                .eng(word.getEng())
-                .pronounce(word.getPronounce())
-                .chatId(word.getChatId())
-                .build());
+    public String addNewWord(@ModelAttribute("word") WordDTO wordDTO) {
+        wordService.add(WordMapper.toWord(wordDTO));
         return "done";
     }
 
     @PostMapping("/words/delete")
-    public String deleteWord(@ModelAttribute("word") WordDTO word) {
-        wordService.delete(WordMapper.toWord(word));
+    public String deleteWord(@ModelAttribute("word") WordDTO wordDTO) {
+        wordService.delete(WordMapper.toWord(wordDTO));
         return "done";
     }
 
     @PostMapping(value = "/users/add")
     public String upserUser(@ModelAttribute("userConfig") UserDTO userDTO) {
-        userService.save(User.builder()
-                .chatId(userDTO.getChatId())
-                .testNotificationEnabled(userDTO.isNotificationEnabled())
-                .build());
+        userService.save(UserMapper.toUser(userDTO));
         return "done";
     }
 }

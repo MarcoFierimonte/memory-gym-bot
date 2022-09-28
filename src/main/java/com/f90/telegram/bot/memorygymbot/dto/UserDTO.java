@@ -11,6 +11,8 @@ import lombok.*;
 public class UserDTO {
 
     private Long chatId;
-    private boolean notificationEnabled;
+    private Long userId;
+    private String userName;
+    private boolean testNotificationEnabled;
 
 }
