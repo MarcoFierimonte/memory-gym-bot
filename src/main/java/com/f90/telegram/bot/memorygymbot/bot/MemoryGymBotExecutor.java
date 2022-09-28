@@ -12,7 +12,6 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +77,7 @@ public class MemoryGymBotExecutor {
                                 .chatId(update.getMessage().getChatId())
                                 .userId(update.getMessage().getFrom().getId())
                                 .userName(userService.getUserName(update))
-                                .lastTestPending(false)
+                                .testNotificationEnabled(false)
                                 .build());
                         wordService.init(update.getMessage().getChatId());
                         log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
@@ -131,7 +130,7 @@ public class MemoryGymBotExecutor {
         Message msg = update.getCallbackQuery().getMessage();
         if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
             User user = userService.findByChatId(msg.getChatId());
-            user.setLastTestPending(false);
+            user.setTestNotificationEnabled(false);
             userService.save(user);
             sendToChat(update.getCallbackQuery().getMessage(), "Current 'test' completed! " + EmojiUtil.HAPPY_FACE, true);
         }
@@ -159,7 +158,7 @@ public class MemoryGymBotExecutor {
     }
 
     public void sendTestToAllUsers() {
-        List<User> users = userService.findAll(Optional.of(User.builder().lastTestPending(false).build()));
+        List<User> users = userService.findAll(Optional.of(User.builder().testNotificationEnabled(true).build()));
         for (User user : users) {
             Chat chat = new Chat();
             chat.setId(user.getChatId());
@@ -171,9 +170,8 @@ public class MemoryGymBotExecutor {
             // send test
             testUserMemory(update);
             // update field
-            user.setLastTestPending(true);
+            user.setTestNotificationEnabled(true);
             userService.save(user);
-            sendKeyboard(update.getMessage(), "Press to next quiz!", KeyboardBuilder.doneKeyboard());
         }
     }
 

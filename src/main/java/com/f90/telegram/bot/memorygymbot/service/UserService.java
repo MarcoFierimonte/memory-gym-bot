@@ -8,7 +8,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +40,7 @@ public class UserService {
             query = Example.of(User.builder()
                     .chatId(input.get().getChatId())
                     .userName(input.get().getUserName())
-                    .lastTestPending(input.get().isLastTestPending())
+                    .testNotificationEnabled(input.get().isTestNotificationEnabled())
                     .build());
             out = userRepo.findAll(query);
         } else {
