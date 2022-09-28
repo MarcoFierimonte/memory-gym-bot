@@ -52,7 +52,7 @@ public class TemplatesController {
 
     @GetMapping("/config")
     public String configsPage(@RequestParam(value = "chatId") Long chatId,
-                             Model model) {
+                              Model model) {
         // retrive previous user configs
         User currentUserConfigs = userService.findByChatId(chatId);
         UserDTO user = new UserDTO();
@@ -67,6 +67,7 @@ public class TemplatesController {
         wordService.add(Word.builder()
                 .ita(word.getIta())
                 .eng(word.getEng())
+                .pronounce(word.getPronounce())
                 .chatId(word.getChatId())
                 .build());
         return "done";
