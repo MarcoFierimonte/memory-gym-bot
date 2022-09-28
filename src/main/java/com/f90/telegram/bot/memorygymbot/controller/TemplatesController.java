@@ -60,7 +60,7 @@ public class TemplatesController {
         userDTO.setChatId(chatId);
         userDTO.setTestNotificationEnabled(currentUserConfigs.isTestNotificationEnabled());
         model.addAttribute("userConfigs", userDTO);
-        return "config";
+        return "config2";
     }
 
     @PostMapping("/words/add")
