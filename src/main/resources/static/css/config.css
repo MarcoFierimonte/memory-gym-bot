@@ -88,6 +88,41 @@
   left: 39px;
   position: absolute;
 }
+.config-text2-button {
+  display: flex;
+  align-self: center;
+  margin-top: var(--dl-space-space-unit);
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.secondary-button-container {
+  display: flex;
+  position: relative;
+}
+.secondary-button-root-class-name5 {
+  flex: 2;
+  width: auto;
+  align-self: center;
+  margin-top: var(--dl-space-space-unitandhalf);
+  margin-bottom: var(--dl-space-space-doubleunit);
+}
+.secondary-button-button {
+  color: var(--dl-color-gray-white);
+  width: 123px;
+  align-self: center;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06);
+  text-align: center;
+  transition: 0.3s;
+  line-height: 1;
+  padding-top: var(--dl-space-space-halfunit);
+  border-width: 0px;
+  padding-left: var(--dl-space-space-unit);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  text-transform: uppercase;
+  background-color: var(--dl-color-secondary-300);
+}
 .config-text2 {
   top: 19px;
   left: 69px;
