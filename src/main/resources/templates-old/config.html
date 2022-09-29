@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update preferences</title>
+    <meta charset="UTF-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link th:href="@{/css/stylesheet.css}" rel="stylesheet"/>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-switch/bootstrap-switch.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            <h2 class="mt-5">Bot Configurations</h2>
+
+            <form action="#" th:action="@{/v1/memorygymbot/users/add}" th:object="${userConfigs}" method="post">
+                <div class="ml-2">
+                    <div class="form-group mt-3">
+                        <span class="ml-2">Notification Enabled <input type="checkbox" th:field="*{testNotificationEnabled}" data-toggle="switch"/></span>
+                    </div>
+                </div>
+                <input id="chatId" class="input" type="hidden" th:field="*{chatId}" th:value="${userConfigs.chatId}" />
+                <button class="btn btn-primary" type="submit">Submit form</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap-switch/bootstrap-switch.min.js}"></script>
+
+<script>
+    $('[data-toggle="switch"]').bootstrapSwitch();
+</script>
+
+</body>
+</html>

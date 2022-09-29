@@ -39,7 +39,7 @@ public class TemplatesController {
         WordDTO wordDTO = new WordDTO();
         wordDTO.setChatId(chatId);
         model.addAttribute("word", wordDTO);
-        return "add-word";
+        return "add-new-word";
     }
 
     @GetMapping("/deleteWord")
@@ -60,24 +60,24 @@ public class TemplatesController {
         userDTO.setChatId(chatId);
         userDTO.setTestNotificationEnabled(currentUserConfigs.isTestNotificationEnabled());
         model.addAttribute("userConfigs", userDTO);
-        return "config2";
+        return "config";
     }
 
     @PostMapping("/words/add")
     public String addNewWord(@ModelAttribute("word") WordDTO wordDTO) {
         wordService.add(WordMapper.toWord(wordDTO));
-        return "done";
+        return "index";
     }
 
     @PostMapping("/words/delete")
     public String deleteWord(@ModelAttribute("word") WordDTO wordDTO) {
         wordService.delete(WordMapper.toWord(wordDTO));
-        return "done";
+        return "index";
     }
 
     @PostMapping(value = "/users/add")
     public String upserUser(@ModelAttribute("userConfig") UserDTO userDTO) {
         userService.save(UserMapper.toUser(userDTO));
-        return "done";
+        return "index";
     }
 }

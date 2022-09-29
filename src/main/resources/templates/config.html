@@ -1,44 +1,111 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Update preferences</title>
-    <meta charset="UTF-8">
+<html lang="en">
+  <head>
+    <title>Config - Notus Pro</title>
+    <meta property="og:title" content="Config - Notus Pro" />
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link th:href="@{/css/stylesheet.css}" rel="stylesheet"/>
-    <link th:rel="stylesheet" th:href="@{assets/bootstrap-switch/bootstrap-switch.min.css}"/>
-    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-</head>
-<body>
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6 {  margin: 0;  padding: 0;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen","Ubuntu", "Cantarell", "Fira Sans","Droid Sans", "Helvetica Neue", sans-serif;
+        font-size: 1.12rem;
+      }
 
-<div class="container">
+      body {
+        font-weight: 300;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.75;
+        color: var(--dl-color-gray-900);
+        background-color: var(--dl-color-gray-white);
+      }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
+    <div>
+      <link th:href="@{/css/config.css}" rel="stylesheet" />
 
-    <div class="row">
-        <div class="col">
-            <h2 class="mt-5">Bot Configurations</h2>
-
-            <form action="#" th:action="@{/v1/memorygymbot/users/add}" th:object="${userConfigs}" method="post">
-                <div class="ml-2">
-                    <div class="form-group mt-3">
-                        <span class="ml-2">Notification Enabled <input type="checkbox" th:field="*{testNotificationEnabled}" data-toggle="switch"/></span>
-                    </div>
+      <div class="config-container">
+        <div class="config-section3">
+          <div class="config-container1">
+            <div class="config-container2">
+              <div class="config-container3">
+                <h6 class="config-text textSM">MEMORY GYM BOT</h6>
+                <div class="config-contact">
+                  <h2 class="config-text1">Bot Configurations</h2>
                 </div>
+              </div>
+            </div>
+            <div class="config-form">
+              <form action="#" th:action="@{/v1/memorygymbot/users/add}" th:object="${userConfigs}" method="post">
                 <input id="chatId" class="input" type="hidden" th:field="*{chatId}" th:value="${userConfigs.chatId}" />
-                <button class="btn btn-primary" type="submit">Submit form</button>
-            </form>
-
+                <input type="checkbox" class="config-checkbox" th:field="*{testNotificationEnabled}" />
+                <span class="config-text2">Enable 'test' notifications</span>
+                <div
+                  data-thq="thq-dropdown"
+                  class="config-thq-dropdown list-item"
+                >
+                  <div
+                    data-thq="thq-dropdown-toggle"
+                    class="config-dropdown-toggle"
+                  >
+                    <span class="config-text3">Frequency</span>
+                    <div
+                      data-thq="thq-dropdown-arrow"
+                      class="config-dropdown-arrow"
+                    >
+                      <svg viewBox="0 0 1024 1024" class="config-icon">
+                        <path d="M426 726v-428l214 214z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <ul data-thq="thq-dropdown-list" class="config-dropdown-list">
+                    <li data-thq="thq-dropdown" class="config-dropdown list-item">
+                      <div
+                        data-thq="thq-dropdown-toggle"
+                        class="config-dropdown-toggle1"
+                      >
+                        <span class="config-text4">3 hours</span>
+                      </div>
+                    </li>
+                    <li
+                      data-thq="thq-dropdown"
+                      class="config-dropdown1 list-item"
+                    >
+                      <div
+                        data-thq="thq-dropdown-toggle"
+                        class="config-dropdown-toggle2"
+                      >
+                        <span class="config-text5">6 hours</span>
+                      </div>
+                    </li>
+                    <li
+                      data-thq="thq-dropdown"
+                      class="config-dropdown2 list-item"
+                    >
+                      <div
+                        data-thq="thq-dropdown-toggle"
+                        class="config-dropdown-toggle3"
+                      >
+                        <span class="config-text6">12 hours</span>
+                      </div>
+                    </li>
+                    <li
+                      data-thq="thq-dropdown"
+                      class="config-dropdown3 list-item"
+                    ></li>
+                  </ul>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-
-<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{assets/bootstrap-switch/bootstrap-switch.min.js}"></script>
-
-<script>
-    $('[data-toggle="switch"]').bootstrapSwitch();
-</script>
-
-</body>
+  </body>
 </html>
