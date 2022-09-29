@@ -75,7 +75,7 @@ public class TemplatesController {
         return "index";
     }
 
-    @PostMapping(value = "/users/add")
+    @PostMapping(value = "/users/config")
     public String upserUser(@ModelAttribute("userConfig") UserDTO userDTO) {
         userService.save(UserMapper.toUser(userDTO));
         return "index";
