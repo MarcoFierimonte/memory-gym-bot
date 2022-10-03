@@ -4,8 +4,6 @@ import com.f90.telegram.bot.memorygymbot.dto.UserDTO;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.mapper.UserMapper;
 import com.f90.telegram.bot.memorygymbot.mapper.WordMapper;
-import com.f90.telegram.bot.memorygymbot.model.User;
-import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.service.UserService;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +28,7 @@ public class TemplatesController {
 
     @GetMapping("/done")
     public String operationDonePage() {
-        return "done";
+        return "index";
     }
 
     @GetMapping("/addWord")

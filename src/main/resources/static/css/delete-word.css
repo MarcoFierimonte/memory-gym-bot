@@ -94,16 +94,16 @@
   height: auto;
   display: flex;
   min-height: 100vh;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
+  background-color: #263b82;
 }
 .delete-word-section3 {
-  width: 100%;
-  height: 1002px;
+  width: auto;
+  height: auto;
   display: flex;
   position: relative;
   align-items: center;
-  padding-top: var(--dl-space-space-fiveunits);
   padding-left: var(--dl-space-space-tripleunit);
   padding-right: var(--dl-space-space-tripleunit);
   flex-direction: column;
@@ -132,6 +132,7 @@
 }
 .delete-word-text {
   font-style: normal;
+  margin-top: var(--dl-space-space-unit);
   font-weight: 700;
 }
 .delete-word-contact {
@@ -209,7 +210,33 @@
   }
 }
 @media(max-width: 479px) {
+  .delete-word-container {
+    border-color: var(--dl-color-gray-900);
+    border-width: 1px;
+    background-color: #263b82;
+  }
+  .delete-word-section3 {
+    width: auto;
+    height: auto;
+    align-self: center;
+    padding-top: 0px;
+  }
+  .delete-word-text {
+    margin-top: var(--dl-space-space-unit);
+  }
   .delete-word-text1 {
     text-align: center;
+  }
+  .delete-word-form {
+    width: auto;
+    height: auto;
+    max-width: auto;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .delete-word-container4 {
+    width: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 }

@@ -4,15 +4,18 @@
   overflow: auto;
   min-height: 100vh;
   align-items: center;
+  border-color: #263b82;
+  border-width: 1px;
   flex-direction: column;
+  background-color: #263b82;
 }
 .config-section3 {
-  width: 100%;
-  height: 1002px;
+  width: auto;
+  height: auto;
   display: flex;
   position: relative;
   align-items: center;
-  padding-top: var(--dl-space-space-fiveunits);
+  margin-right: 0px;
   padding-left: var(--dl-space-space-tripleunit);
   padding-right: var(--dl-space-space-tripleunit);
   flex-direction: column;
@@ -20,8 +23,8 @@
   background-color: #263b82;
 }
 .config-container1 {
-  width: 631px;
-  height: 405px;
+  width: auto;
+  height: auto;
   display: flex;
   position: relative;
   align-items: center;
@@ -33,10 +36,10 @@
   flex-direction: column;
 }
 .config-container3 {
-  width: 100%;
+  width: auto;
   display: flex;
   position: relative;
-  max-width: 1320px;
+  max-width: auto;
   align-items: center;
   padding-left: var(--dl-space-space-unit);
   padding-right: var(--dl-space-space-unit);
@@ -44,6 +47,7 @@
 }
 .config-text {
   font-style: normal;
+  margin-top: var(--dl-space-space-unit);
   font-weight: 700;
 }
 .config-contact {
@@ -56,23 +60,16 @@
   justify-content: center;
 }
 .config-text1 {
-  top: 15px;
-  left: -118px;
   color: var(--dl-color-gray-white);
-  width: 250px;
-  bottom: var(--dl-space-space-halfunit);
-  position: absolute;
+  width: auto;
   align-self: stretch;
+  margin-top: var(--dl-space-space-halfunit);
 }
 .config-form {
-  top: 124px;
-  left: 93px;
-  width: 460px;
-  height: 138px;
-  margin: auto;
+  width: auto;
+  height: auto;
   display: flex;
-  position: absolute;
-  max-width: 700px;
+  max-width: auto;
   align-items: center;
   padding-top: var(--dl-space-space-twoandhalf);
   padding-left: 44px;
@@ -84,56 +81,20 @@
   background-color: var(--dl-color-pimary-800);
 }
 .config-checkbox {
-  top: 30px;
-  left: 39px;
-  position: absolute;
-}
-.config-text2-button {
-  display: flex;
   align-self: center;
-  margin-top: var(--dl-space-space-unit);
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
-.secondary-button-container {
-  display: flex;
-  position: relative;
-}
-.secondary-button-root-class-name5 {
-  flex: 2;
-  width: auto;
-  align-self: center;
-  margin-top: var(--dl-space-space-unitandhalf);
-  margin-bottom: var(--dl-space-space-doubleunit);
-}
-.secondary-button-button {
-  color: var(--dl-color-gray-white);
-  width: 123px;
-  align-self: center;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06);
-  text-align: center;
-  transition: 0.3s;
-  line-height: 1;
-  padding-top: var(--dl-space-space-halfunit);
-  border-width: 0px;
-  padding-left: var(--dl-space-space-unit);
-  padding-right: var(--dl-space-space-unit);
-  padding-bottom: var(--dl-space-space-halfunit);
-  text-transform: uppercase;
-  background-color: var(--dl-color-secondary-300);
+  margin-right: var(--dl-space-space-halfunit);
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .config-text2 {
-  top: 19px;
-  left: 69px;
   color: rgb(0, 0, 0);
-  margin: auto;
-  position: absolute;
   align-self: flex-start;
   font-style: normal;
   font-family: Nunito;
   font-weight: 700;
   line-height: 2;
+  margin-left: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-halfunit);
 }
 .config-thq-dropdown {
   cursor: pointer;
@@ -142,20 +103,17 @@
   border-radius: 2px;
 }
 .config-dropdown-toggle {
-  top: -16px;
   fill: #595959;
-  left: 25px;
   color: #595959;
-  width: 130px;
+  width: auto;
   display: inline-flex;
-  position: absolute;
   align-items: center;
   padding-top: var(--dl-space-space-halfunit);
   border-color: #263b82;
   border-width: 0.01px;
-  padding-left: var(--dl-space-space-unit);
+  padding-left: var(--dl-space-space-doubleunit);
   border-radius: 2px;
-  padding-right: var(--dl-space-space-unit);
+  padding-right: var(--dl-space-space-doubleunit);
   padding-bottom: var(--dl-space-space-halfunit);
   justify-content: center;
 }
@@ -310,9 +268,45 @@
   .config-form {
     width: 100%;
   }
+  .config-text2 {
+    margin-left: var(--dl-space-space-halfunit);
+    margin-right: var(--dl-space-space-halfunit);
+  }
 }
 @media(max-width: 479px) {
+  .config-container1 {
+    width: auto;
+    height: auto;
+  }
+  .config-container3 {
+    width: auto;
+    max-width: auto;
+  }
   .config-text1 {
+    width: auto;
     text-align: center;
+  }
+  .config-form {
+    width: auto;
+    height: 80%;
+    max-width: auto;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+  }
+  .config-checkbox {
+    margin-left: var(--dl-space-space-halfunit);
+  }
+  .config-text2 {
+    margin-left: var(--dl-space-space-halfunit);
+  }
+  .config-dropdown-toggle {
+    width: auto;
+    margin-left: var(--dl-space-space-unit);
+    margin-right: var(--dl-space-space-unit);
+  }
+  .config-dropdown-list {
+    left: 0%;
   }
 }

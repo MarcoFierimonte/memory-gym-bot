@@ -49,12 +49,19 @@ public final class KeyboardBuilder {
         // row 3
         KeyboardRow keyboardRow3 = new KeyboardRow();
         KeyboardButton btnConfig = new KeyboardButton();
-        btnConfig.setText("CONFIG");
+        btnConfig.setText("CONFIGS");
         btnConfig.setWebApp(WebAppInfo.builder()
                 .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/config?chatId=" + chatId)
                 .build());
         keyboardRow3.add(btnConfig);
-        keyboardRow3.add("BOT-INFO");
+
+        KeyboardButton btnInfo = new KeyboardButton();
+        btnInfo.setText("INFO");
+        btnInfo.setWebApp(WebAppInfo.builder()
+                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/home")
+                .build());
+
+        keyboardRow3.add(btnInfo);
         keyboard.add(keyboardRow3);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
