@@ -49,6 +49,7 @@ public class WordMapper {
                 .eng(in.getEng())
                 .chatId(in.getChatId())
                 .pronounce(in.getPronounce())
+                .frequency(in.getFrequency())
                 .build();
     }
 

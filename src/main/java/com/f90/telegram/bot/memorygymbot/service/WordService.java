@@ -7,6 +7,8 @@ import com.f90.telegram.bot.memorygymbot.model.InitDatasetWord;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
 import com.f90.telegram.bot.memorygymbot.repo.InitDatasetRepo;
+import com.f90.telegram.bot.memorygymbot.repo.WordRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
@@ -14,15 +16,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class WordService {
 
     private final DictionaryRepo dictionaryRepo;
     private final InitDatasetRepo initDatasetRepo;
-
-    public WordService(DictionaryRepo dictionaryRepo, InitDatasetRepo initDatasetRepo) {
-        this.dictionaryRepo = dictionaryRepo;
-        this.initDatasetRepo = initDatasetRepo;
-    }
 
     public List<WordDTO> findAll(Long chatId) {
         Example<Word> query = Example.of(Word.builder().chatId(chatId).build());
@@ -49,9 +47,21 @@ public class WordService {
     }
 
     public List<WordDTO> test(Long chatId, Integer wordsToGuessNumber) {
-        return WordMapper.toWordDTOs(
-                dictionaryRepo.random(chatId, Objects.requireNonNullElse(wordsToGuessNumber, 5)).getMappedResults()
-        );
+        Integer wordsToGuess = Objects.requireNonNullElse(wordsToGuessNumber, 4);
+        List<Word> extractedWords = dictionaryRepo.random(chatId, wordsToGuess).getMappedResults();
+        if(extractedWords.size() == wordsToGuess) {
+            // set words as "extracted"
+            extractedWords.forEach(current ->
+            {
+                current.setFrequency(1);
+                dictionaryRepo.update(current);
+            });
+        } else {
+            dictionaryRepo.restoreFrequencies(chatId);
+            extractedWords = dictionaryRepo.random(chatId, wordsToGuess).getMappedResults();
+        }
+
+        return WordMapper.toWordDTOs(extractedWords);
     }
 
     public void delete(Word input) {

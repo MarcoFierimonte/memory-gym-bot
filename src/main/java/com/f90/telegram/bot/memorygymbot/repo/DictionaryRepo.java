@@ -9,6 +9,7 @@ public interface DictionaryRepo extends MongoRepository<Word, String>, WordRepo 
 
     @Aggregation(pipeline = {
             "{'$match':{'chatId': ?0 }}",
+            "{'$match':{'frequency': 0 }}",
             "{$sample:{size: ?1 }}"}
     )
     AggregationResults<Word> random(Long chatId, Integer number);

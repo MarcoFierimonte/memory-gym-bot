@@ -79,7 +79,7 @@ public class MemoryGymBotExecutor {
                                 .chatId(update.getMessage().getChatId())
                                 .userId(update.getMessage().getFrom().getId())
                                 .userName(userService.getUserName(update))
-                                .testNotificationEnabled(false)
+                                .testNotificationEnabled(true)
                                 .build());
                         wordService.init(update.getMessage().getChatId());
                         log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
@@ -92,7 +92,7 @@ public class MemoryGymBotExecutor {
                     break;
                 }
                 case LEARN: {
-                    List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 5);
+                    List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
                     if (!words.isEmpty()) {
                         sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
                         sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
