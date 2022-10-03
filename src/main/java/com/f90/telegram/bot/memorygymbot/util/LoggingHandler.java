@@ -1,5 +1,6 @@
 package com.f90.telegram.bot.memorygymbot.util;
 
+import com.f90.telegram.bot.memorygymbot.dto.Dto;
 import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import com.google.common.base.Joiner;
 import org.aspectj.lang.JoinPoint;
@@ -102,7 +103,7 @@ public class LoggingHandler {
     }
 
     private boolean validateLog(Object arg) {
-        return arg != null && (ClassUtils.isPrimitiveOrWrapper(arg.getClass()) || arg instanceof String || arg instanceof Temporal || arg instanceof Collection);
+        return arg != null && (ClassUtils.isPrimitiveOrWrapper(arg.getClass()) || arg instanceof String || arg instanceof Temporal || arg instanceof Collection || arg instanceof Dto);
     }
 
 }

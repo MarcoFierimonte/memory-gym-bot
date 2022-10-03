@@ -8,7 +8,9 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class UserDTO {
+public class UserDTO implements Dto {
+
+    private static final long serialVersionUID = -1109278781348767792L;
 
     private Long chatId;
     private Long userId;

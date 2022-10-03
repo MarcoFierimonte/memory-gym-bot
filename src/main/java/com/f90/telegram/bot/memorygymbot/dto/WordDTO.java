@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
-public class WordDTO {
+public class WordDTO implements Dto {
+
+    private static final long serialVersionUID = 253853225712145074L;
 
     @NotEmpty
     private String eng;
