@@ -72,21 +72,6 @@ public class MemoryGymBotExecutor {
         log.info("processMessage() - msg: command={}", command);
         if (command.getCmdType() == CustomCommand.CmdType.MENU) {
             switch (command.getType()) {
-                case START: {
-                    UserDTO user = userService.findByChatId(update.getMessage().getChatId());
-                    if (user == null) {
-                        userService.save(User.builder()
-                                .chatId(update.getMessage().getChatId())
-                                .userId(update.getMessage().getFrom().getId())
-                                .userName(userService.getUserName(update))
-                                .testNotificationEnabled(true)
-                                .build());
-                        wordService.init(update.getMessage().getChatId());
-                        log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
-                    }
-                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
-                    break;
-                }
                 case TEST: {
                     testUserMemory(update);
                     break;
@@ -105,8 +90,21 @@ public class MemoryGymBotExecutor {
                     break;
                 }
                 default:
-                    log.warn("processMenuCommand() - msg: not managed command={}", command);
+                case START: {
+                    UserDTO user = userService.findByChatId(update.getMessage().getChatId());
+                    if (user == null) {
+                        userService.save(User.builder()
+                                .chatId(update.getMessage().getChatId())
+                                .userId(update.getMessage().getFrom().getId())
+                                .userName(userService.getUserName(update))
+                                .testNotificationEnabled(true)
+                                .build());
+                        wordService.init(update.getMessage().getChatId());
+                        log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
+                    }
+                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
                     break;
+                }
             }
         } else {
             log.info("processMessage() - msg: UNKWOW command={}", command);
