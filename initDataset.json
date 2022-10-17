@@ -250,7 +250,7 @@
     "pronounce": "polis man"
   },
   {
-    "ita": "sterlina",
+    "ita": "sterlina,libbra",
     "eng": "pound",
     "pronounce": "paund"
   },
@@ -323,5 +323,80 @@
     "ita": "orecchio",
     "eng": "ear",
     "pronounce": "eer"
+  },
+  {
+    "ita": "scendere da",
+    "eng": "get off",
+    "pronounce": ""
+  },
+  {
+    "ita": "nonna",
+    "eng": "grandmother",
+    "pronounce": ""
+  },
+  {
+    "ita": "maggiordomo",
+    "eng": "butler",
+    "pronounce": "batle'"
+  },
+  {
+    "ita": "soddisfatto",
+    "eng": "pleased with",
+    "pronounce": "plizd wit"
+  },
+  {
+    "ita": "in anticipo",
+    "eng": "in advance",
+    "pronounce": "in edvans"
+  },
+  {
+    "ita": "togliere un vestito",
+    "eng": "take off a dress",
+    "pronounce": ""
+  },
+  {
+    "ita": "esitazione",
+    "eng": "hesitation",
+    "pronounce": "hesitescion"
+  },
+  {
+    "ita": "finora",
+    "eng": "so far,till now",
+    "pronounce": ""
+  },
+  {
+    "ita": "forse",
+    "eng": "perhaps",
+    "pronounce": ""
+  },
+  {
+    "ita": "realizzare",
+    "eng": "to achieve,accomplish",
+    "pronounce": "to aciv"
+  },
+  {
+    "ita": "offerta",
+    "eng": "bid",
+    "pronounce": "biid"
+  },
+  {
+    "ita": "febbre",
+    "eng": "fever",
+    "pronounce": "feva'"
+  },
+  {
+    "ita": "unghie",
+    "eng": "nails",
+    "pronounce": "neils"
+  },
+  {
+    "ita": "mal di gola",
+    "eng": "sore throat",
+    "pronounce": "sor troth"
+  },
+  {
+    "ita": "dirottare",
+    "eng": "hijack",
+    "pronounce": "haijack"
   }
 ]

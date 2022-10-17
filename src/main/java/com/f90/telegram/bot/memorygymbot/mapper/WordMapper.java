@@ -24,12 +24,13 @@ public class WordMapper {
                 .eng(in.getEng())
                 .chatId(in.getChatId())
                 .pronounce(in.getPronounce())
+                .frequency(in.getFrequency() != null ? in.getFrequency() : 0)
                 .build();
     }
 
     public static List<Word> toWords(List<WordDTO> words) {
         final List<Word> out;
-        if(words != null) {
+        if (words != null) {
             out = new ArrayList<>(words.size());
             words.forEach(word -> out.add(toWord(word)));
         } else {
@@ -49,12 +50,13 @@ public class WordMapper {
                 .eng(in.getEng())
                 .chatId(in.getChatId())
                 .pronounce(in.getPronounce())
+                .frequency(in.getFrequency() != null ? in.getFrequency() : 0)
                 .build();
     }
 
     public static List<WordDTO> toWordDTOs(List<Word> words) {
         final List<WordDTO> out;
-        if(words != null) {
+        if (words != null) {
             out = new ArrayList<>(words.size());
             words.forEach(word -> out.add(toWordDTO(word)));
         } else {

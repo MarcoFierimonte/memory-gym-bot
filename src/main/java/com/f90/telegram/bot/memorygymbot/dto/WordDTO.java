@@ -26,5 +26,7 @@ public class WordDTO implements Dto {
     @NotNull
     private Long chatId;
 
+    private Integer frequency;
+
 }
 

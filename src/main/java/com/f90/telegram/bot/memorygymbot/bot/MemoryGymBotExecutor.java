@@ -72,27 +72,12 @@ public class MemoryGymBotExecutor {
         log.info("processMessage() - msg: command={}", command);
         if (command.getCmdType() == CustomCommand.CmdType.MENU) {
             switch (command.getType()) {
-                case START: {
-                    UserDTO user = userService.findByChatId(update.getMessage().getChatId());
-                    if (user == null) {
-                        userService.save(User.builder()
-                                .chatId(update.getMessage().getChatId())
-                                .userId(update.getMessage().getFrom().getId())
-                                .userName(userService.getUserName(update))
-                                .testNotificationEnabled(false)
-                                .build());
-                        wordService.init(update.getMessage().getChatId());
-                        log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
-                    }
-                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
-                    break;
-                }
                 case TEST: {
                     testUserMemory(update);
                     break;
                 }
                 case LEARN: {
-                    List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 5);
+                    List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
                     if (!words.isEmpty()) {
                         sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
                         sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
@@ -105,12 +90,27 @@ public class MemoryGymBotExecutor {
                     break;
                 }
                 default:
-                    log.warn("processMenuCommand() - msg: not managed command={}", command);
+                case START: {
+                    UserDTO user = userService.findByChatId(update.getMessage().getChatId());
+                    if (user == null) {
+                        userService.save(User.builder()
+                                .chatId(update.getMessage().getChatId())
+                                .userId(update.getMessage().getFrom().getId())
+                                .userName(userService.getUserName(update))
+                                .testNotificationEnabled(true)
+                                .build());
+                        wordService.init(update.getMessage().getChatId());
+                        log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
+                    }
+                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
                     break;
+                }
             }
         } else {
             log.info("processMessage() - msg: UNKWOW command={}", command);
             sendToChat(update.getMessage(), "Please insert a valid command.", true);
+            sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
+
         }
     }
 
@@ -189,6 +189,23 @@ public class MemoryGymBotExecutor {
             update.setMessage(msg);
             wordService.init(user.getChatId());
             log.info("addWordsToAllUsers() - msg: completed for user={}", user.getChatId());
+        }
+    }
+
+    public void newBotUpgrades() {
+        List<UserDTO> users = userService.findAll(Optional.empty());
+        for (UserDTO user : users) {
+            Chat chat = new Chat();
+            chat.setId(user.getChatId());
+            Message msg = new Message();
+            msg.setChat(chat);
+            Update update = new Update();
+            update.setMessage(msg);
+            sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
+            sendToChat(update.getMessage(), EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY + " <b>NEW BOT UPGRADES</b> " + EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY, false);
+            sendToChat(update.getMessage(), EmojiUtil.MEMO + " New words added to dictionary.", false);
+            sendToChat(update.getMessage(), EmojiUtil.HAMMER + " Minor bugs fixed.", false);
+            log.info("newBotUpgrade() - msg: completed for user={}", user.getChatId());
         }
     }
 

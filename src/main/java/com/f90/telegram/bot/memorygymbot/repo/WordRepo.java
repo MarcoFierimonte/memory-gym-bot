@@ -7,4 +7,6 @@ public interface WordRepo {
     Word update(Word word);
 
     Word deleteEntry(Word word);
+
+    void restoreFrequencies(Long chatId);
 }

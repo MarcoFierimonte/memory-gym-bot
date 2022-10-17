@@ -20,11 +20,26 @@ public class UserService {
     private final UserRepo userRepo;
 
     public String getUserName(Update update) {
-        String userName = update.getMessage().getFrom().getUserName();
-        if (StringUtils.isEmpty(userName)) {
-            userName = update.getMessage().getFrom().getFirstName() + "/" + update.getMessage().getFrom().getLastName();
+        StringBuilder userIdentifier = new StringBuilder("");
+        if (StringUtils.isNotEmpty(update.getMessage().getFrom().getId() + "")) {
+            userIdentifier.append(update.getMessage().getFrom().getId());
         }
-        return userName;
+        if (StringUtils.isNotEmpty(update.getMessage().getFrom().getUserName())) {
+            userIdentifier
+                    .append("/")
+                    .append(update.getMessage().getFrom().getUserName());
+        }
+        if (StringUtils.isNotEmpty(update.getMessage().getFrom().getFirstName())) {
+            userIdentifier
+                    .append("/")
+                    .append(update.getMessage().getFrom().getFirstName());
+        }
+        if (StringUtils.isNotEmpty(update.getMessage().getFrom().getLastName())) {
+            userIdentifier
+                    .append("/")
+                    .append(update.getMessage().getFrom().getLastName());
+        }
+        return userIdentifier.toString();
     }
 
     public UserDTO save(User user) {
