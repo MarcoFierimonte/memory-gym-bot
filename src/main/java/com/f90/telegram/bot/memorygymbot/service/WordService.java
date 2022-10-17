@@ -7,7 +7,6 @@ import com.f90.telegram.bot.memorygymbot.model.InitDatasetWord;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
 import com.f90.telegram.bot.memorygymbot.repo.InitDatasetRepo;
-import com.f90.telegram.bot.memorygymbot.repo.WordRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -49,7 +48,7 @@ public class WordService {
     public List<WordDTO> test(Long chatId, Integer wordsToGuessNumber) {
         Integer wordsToGuess = Objects.requireNonNullElse(wordsToGuessNumber, 4);
         List<Word> extractedWords = dictionaryRepo.random(chatId, wordsToGuess).getMappedResults();
-        if(extractedWords.size() == wordsToGuess) {
+        if (extractedWords.size() == wordsToGuess) {
             // set words as "extracted"
             extractedWords.forEach(current ->
             {
@@ -79,6 +78,7 @@ public class WordService {
                     .ita(initWord.getIta())
                     .eng(initWord.getEng())
                     .pronounce(initWord.getPronounce())
+                    .frequency(0)
                     .build());
         }
     }
