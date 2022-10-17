@@ -192,6 +192,23 @@ public class MemoryGymBotExecutor {
         }
     }
 
+    public void newBotUpgrades() {
+        List<UserDTO> users = userService.findAll(Optional.empty());
+        for (UserDTO user : users) {
+            Chat chat = new Chat();
+            chat.setId(user.getChatId());
+            Message msg = new Message();
+            msg.setChat(chat);
+            Update update = new Update();
+            update.setMessage(msg);
+            sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
+            sendToChat(update.getMessage(), EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY + " <b>NEW BOT UPGRADES</b> " + EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY, false);
+            sendToChat(update.getMessage(), EmojiUtil.MEMO + " New words added to dictionary.", false);
+            sendToChat(update.getMessage(), EmojiUtil.HAMMER + " Minor bugs fixed.", false);
+            log.info("newBotUpgrade() - msg: completed for user={}", user.getChatId());
+        }
+    }
+
     public String getBotToken() {
         return token;
     }

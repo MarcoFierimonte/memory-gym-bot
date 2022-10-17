@@ -12,4 +12,10 @@ public class EmojiUtil {
     public static final String NERD_FACE = "\uD83E\uDD13";
     public static final String VOICE_HEAD = "\uD83D\uDDE3";
     public static final String HAPPY_FACE = "\uD83D\uDE0A";
+
+    public static final String TROPHY = "\uD83C\uDFC6";
+
+    public static final String HAMMER = "\uD83D\uDD28";
+    public static final String MEMO = "📝";
+    public static final String PARTY = "\uD83C\uDF89 ";
 }

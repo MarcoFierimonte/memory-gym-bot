@@ -107,4 +107,12 @@ public class WordController {
         memoryGymBotExecutor.addWordsToAllUsers();
     }
 
+    /**
+     * Used to notify to all users that it was released a new bot upgrade
+     */
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "/bot_upgrade")
+    public void notifyBotUpgrade() {
+        memoryGymBotExecutor.newBotUpgrades();
+    }
 }
