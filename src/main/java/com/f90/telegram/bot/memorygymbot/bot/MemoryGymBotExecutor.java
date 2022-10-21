@@ -216,8 +216,7 @@ public class MemoryGymBotExecutor {
             update.setMessage(msg);
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY + " <b>NEW BOT UPGRADES</b> " + EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY, false);
-            sendToChat(update.getMessage(), EmojiUtil.MEMO + " New words added to dictionary.", false);
-            sendToChat(update.getMessage(), EmojiUtil.HAMMER + " Minor bugs fixed.", false);
+            sendToChat(update.getMessage(), EmojiUtil.MEMO + " New VERBS button: learn irregular verbs.", false);
             log.info("newBotUpgrade() - msg: completed for user={}", user.getChatId());
         }
     }
