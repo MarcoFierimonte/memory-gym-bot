@@ -28,6 +28,7 @@ public final class KeyboardBuilder {
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add("TEST");
         keyboardRow1.add("LEARN");
+        keyboardRow1.add("VERBS");
         keyboard.add(keyboardRow1);
 
         // row 2
@@ -46,15 +47,16 @@ public final class KeyboardBuilder {
         keyboardRow2.add(btnDelete);
         keyboard.add(keyboardRow2);
 
-        // row 3
-        KeyboardRow keyboardRow3 = new KeyboardRow();
         KeyboardButton btnConfig = new KeyboardButton();
         btnConfig.setText("CONFIGS");
         btnConfig.setWebApp(WebAppInfo.builder()
                 .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/config?chatId=" + chatId)
                 .build());
-        keyboardRow3.add(btnConfig);
+        keyboardRow2.add(btnConfig);
 
+
+        // row 3
+        KeyboardRow keyboardRow3 = new KeyboardRow();
         KeyboardButton btnInfo = new KeyboardButton();
         btnInfo.setText("INFO");
         btnInfo.setWebApp(WebAppInfo.builder()

@@ -1,0 +1,932 @@
+[
+  {
+    "infinitive": "arise",
+    "simplePast": "arose",
+    "pastParticiple": "arisen"
+  },
+  {
+    "infinitive": "awake",
+    "simplePast": "awoke,awaked",
+    "pastParticiple": "awoken,awaked"
+  },
+  {
+    "infinitive": "be",
+    "simplePast": "was,were",
+    "pastParticiple": "been"
+  },
+  {
+    "infinitive": "bear",
+    "simplePast": "bore",
+    "pastParticiple": "borne,born"
+  },
+  {
+    "infinitive": "beat",
+    "simplePast": "beat",
+    "pastParticiple": "beaten,beat"
+  },
+  {
+    "infinitive": "become",
+    "simplePast": "became",
+    "pastParticiple": "become"
+  },
+  {
+    "infinitive": "beget",
+    "simplePast": "begot",
+    "pastParticiple": "begotten"
+  },
+  {
+    "infinitive": "begin",
+    "simplePast": "began",
+    "pastParticiple": "begun"
+  },
+  {
+    "infinitive": "bend",
+    "simplePast": "bent",
+    "pastParticiple": "bent"
+  },
+  {
+    "infinitive": "bereave",
+    "simplePast": "bereaved,bereft",
+    "pastParticiple": "bereaved,bereft"
+  },
+  {
+    "infinitive": "beseech",
+    "simplePast": "besought,beseeched",
+    "pastParticiple": "besought,beseeched"
+  },
+  {
+    "infinitive": "bet",
+    "simplePast": "bet,betted",
+    "pastParticiple": "bet,betted"
+  },
+  {
+    "infinitive": "bid",
+    "simplePast": "bade,bid",
+    "pastParticiple": "bidden,bid,bade"
+  },
+  {
+    "infinitive": "bide",
+    "simplePast": "bade,bided",
+    "pastParticiple": "bided"
+  },
+  {
+    "infinitive": "bind",
+    "simplePast": "bound",
+    "pastParticiple": "bound"
+  },
+  {
+    "infinitive": "bite",
+    "simplePast": "bit",
+    "pastParticiple": "bitten"
+  },
+  {
+    "infinitive": "bleed",
+    "simplePast": "bled",
+    "pastParticiple": "bled"
+  },
+  {
+    "infinitive": "bless",
+    "simplePast": "blessed,blest",
+    "pastParticiple": "blessed,blest"
+  },
+  {
+    "infinitive": "blow",
+    "simplePast": "blew",
+    "pastParticiple": "blown"
+  },
+  {
+    "infinitive": "break",
+    "simplePast": "broke",
+    "pastParticiple": "broken"
+  },
+  {
+    "infinitive": "breed",
+    "simplePast": "bred",
+    "pastParticiple": "bred"
+  },
+  {
+    "infinitive": "bring",
+    "simplePast": "brought",
+    "pastParticiple": "brought"
+  },
+  {
+    "infinitive": "broadcast",
+    "simplePast": "broadcast,broadcasted",
+    "pastParticiple": "broadcast,broadcasted"
+  },
+  {
+    "infinitive": "build",
+    "simplePast": "built",
+    "pastParticiple": "built"
+  },
+  {
+    "infinitive": "burn",
+    "simplePast": "burnt,burned",
+    "pastParticiple": "burnt,burned"
+  },
+  {
+    "infinitive": "burst",
+    "simplePast": "burst",
+    "pastParticiple": "burst"
+  },
+  {
+    "infinitive": "bust",
+    "simplePast": "bust,busted",
+    "pastParticiple": "bust,busted"
+  },
+  {
+    "infinitive": "buy",
+    "simplePast": "bought",
+    "pastParticiple": "bought"
+  },
+  {
+    "infinitive": "can",
+    "simplePast": "could",
+    "pastParticiple": "(kein Participle)"
+  },
+  {
+    "infinitive": "cast",
+    "simplePast": "cast",
+    "pastParticiple": "cast"
+  },
+  {
+    "infinitive": "catch",
+    "simplePast": "caught",
+    "pastParticiple": "caught"
+  },
+  {
+    "infinitive": "choose",
+    "simplePast": "chose",
+    "pastParticiple": "chosen"
+  },
+  {
+    "infinitive": "cleave",
+    "simplePast": "cleft,cleaved,clove",
+    "pastParticiple": "cleft,cleaved,cloven"
+  },
+  {
+    "infinitive": "clothe",
+    "simplePast": "clothed,clad",
+    "pastParticiple": "clothed,clad"
+  },
+  {
+    "infinitive": "come",
+    "simplePast": "came",
+    "pastParticiple": "come"
+  },
+  {
+    "infinitive": "cost",
+    "simplePast": "cost",
+    "pastParticiple": "cost"
+  },
+  {
+    "infinitive": "creep",
+    "simplePast": "crept",
+    "pastParticiple": "crept"
+  },
+  {
+    "infinitive": "crow",
+    "simplePast": "crowed",
+    "pastParticiple": "crew,crowed"
+  },
+  {
+    "infinitive": "cut",
+    "simplePast": "cut",
+    "pastParticiple": "cut"
+  },
+  {
+    "infinitive": "deal",
+    "simplePast": "dealt",
+    "pastParticiple": "dealt"
+  },
+  {
+    "infinitive": "dig",
+    "simplePast": "dug",
+    "pastParticiple": "dug"
+  },
+  {
+    "infinitive": "do",
+    "simplePast": "did",
+    "pastParticiple": "done"
+  },
+  {
+    "infinitive": "draw",
+    "simplePast": "drew",
+    "pastParticiple": "drawn"
+  },
+  {
+    "infinitive": "dream",
+    "simplePast": "dreamt,dreamed",
+    "pastParticiple": "dreamt,dreamed"
+  },
+  {
+    "infinitive": "drink",
+    "simplePast": "drank",
+    "pastParticiple": "drunk"
+  },
+  {
+    "infinitive": "drive",
+    "simplePast": "drove",
+    "pastParticiple": "driven"
+  },
+  {
+    "infinitive": "dwell",
+    "simplePast": "dwelt,dwelled",
+    "pastParticiple": "dwelt,dwelled"
+  },
+  {
+    "infinitive": "eat",
+    "simplePast": "ate",
+    "pastParticiple": "eaten"
+  },
+  {
+    "infinitive": "fall",
+    "simplePast": "fell",
+    "pastParticiple": "fallen"
+  },
+  {
+    "infinitive": "feed",
+    "simplePast": "fed",
+    "pastParticiple": "fed"
+  },
+  {
+    "infinitive": "feel",
+    "simplePast": "felt",
+    "pastParticiple": "felt"
+  },
+  {
+    "infinitive": "fight",
+    "simplePast": "fought",
+    "pastParticiple": "fought"
+  },
+  {
+    "infinitive": "find",
+    "simplePast": "found",
+    "pastParticiple": "found"
+  },
+  {
+    "infinitive": "flee",
+    "simplePast": "fled",
+    "pastParticiple": "fled"
+  },
+  {
+    "infinitive": "fling",
+    "simplePast": "flung",
+    "pastParticiple": "flung"
+  },
+  {
+    "infinitive": "fly",
+    "simplePast": "flew",
+    "pastParticiple": "flown"
+  },
+  {
+    "infinitive": "forbid",
+    "simplePast": "forbad,forbade",
+    "pastParticiple": "forbid,forbidden"
+  },
+  {
+    "infinitive": "forecast",
+    "simplePast": "forecast,forcasted",
+    "pastParticiple": "forecast,forecasted"
+  },
+  {
+    "infinitive": "forget",
+    "simplePast": "forgot",
+    "pastParticiple": "forgotten"
+  },
+  {
+    "infinitive": "forsake",
+    "simplePast": "forsook",
+    "pastParticiple": "forsaken"
+  },
+  {
+    "infinitive": "freeze",
+    "simplePast": "froze",
+    "pastParticiple": "frozen"
+  },
+  {
+    "infinitive": "geld",
+    "simplePast": "gelded,gelt",
+    "pastParticiple": "gelded,gelt"
+  },
+  {
+    "infinitive": "get",
+    "simplePast": "got",
+    "pastParticiple": "got,gotten"
+  },
+  {
+    "infinitive": "gild",
+    "simplePast": "gilded,gilt",
+    "pastParticiple": "gilded,gilt"
+  },
+  {
+    "infinitive": "give",
+    "simplePast": "gave",
+    "pastParticiple": "given"
+  },
+  {
+    "infinitive": "gnaw",
+    "simplePast": "gnawed",
+    "pastParticiple": "gnawed,gnawn"
+  },
+  {
+    "infinitive": "go",
+    "simplePast": "went",
+    "pastParticiple": "gone"
+  },
+  {
+    "infinitive": "grind",
+    "simplePast": "ground",
+    "pastParticiple": "ground"
+  },
+  {
+    "infinitive": "grow",
+    "simplePast": "grew",
+    "pastParticiple": "grown"
+  },
+  {
+    "infinitive": "hang",
+    "simplePast": "hung",
+    "pastParticiple": "hung"
+  },
+  {
+    "infinitive": "have",
+    "simplePast": "had",
+    "pastParticiple": "had"
+  },
+  {
+    "infinitive": "hear",
+    "simplePast": "heard",
+    "pastParticiple": "heard"
+  },
+  {
+    "infinitive": "heave",
+    "simplePast": "heaved,hove",
+    "pastParticiple": "heaved,hove"
+  },
+  {
+    "infinitive": "hew",
+    "simplePast": "hewed",
+    "pastParticiple": "hewed,hewn"
+  },
+  {
+    "infinitive": "hide",
+    "simplePast": "hid",
+    "pastParticiple": "hidden,hid"
+  },
+  {
+    "infinitive": "hit",
+    "simplePast": "hit",
+    "pastParticiple": "hit"
+  },
+  {
+    "infinitive": "hold",
+    "simplePast": "held",
+    "pastParticiple": "held"
+  },
+  {
+    "infinitive": "hurt",
+    "simplePast": "hurt",
+    "pastParticiple": "hurt"
+  },
+  {
+    "infinitive": "keep",
+    "simplePast": "kept",
+    "pastParticiple": "kept"
+  },
+  {
+    "infinitive": "kneel",
+    "simplePast": "knelt,kneeled",
+    "pastParticiple": "knelt,kneeled"
+  },
+  {
+    "infinitive": "knit",
+    "simplePast": "knitted,knit",
+    "pastParticiple": "knitted,knit"
+  },
+  {
+    "infinitive": "know",
+    "simplePast": "knew",
+    "pastParticiple": "known"
+  },
+  {
+    "infinitive": "lay",
+    "simplePast": "laid",
+    "pastParticiple": "laid"
+  },
+  {
+    "infinitive": "lead",
+    "simplePast": "led",
+    "pastParticiple": "led"
+  },
+  {
+    "infinitive": "lean",
+    "simplePast": "leant,leaned",
+    "pastParticiple": "leant,leaned"
+  },
+  {
+    "infinitive": "leap",
+    "simplePast": "leapt,leaped",
+    "pastParticiple": "leapt,leaped"
+  },
+  {
+    "infinitive": "learn",
+    "simplePast": "learnt,learned",
+    "pastParticiple": "learnt,learned"
+  },
+  {
+    "infinitive": "leave",
+    "simplePast": "left",
+    "pastParticiple": "left"
+  },
+  {
+    "infinitive": "lend",
+    "simplePast": "lent",
+    "pastParticiple": "lent"
+  },
+  {
+    "infinitive": "let",
+    "simplePast": "let",
+    "pastParticiple": "let"
+  },
+  {
+    "infinitive": "lie",
+    "simplePast": "lay",
+    "pastParticiple": "lain"
+  },
+  {
+    "infinitive": "light",
+    "simplePast": "lit,lighted",
+    "pastParticiple": "lit,lighted"
+  },
+  {
+    "infinitive": "lose",
+    "simplePast": "lost",
+    "pastParticiple": "lost"
+  },
+  {
+    "infinitive": "make",
+    "simplePast": "made",
+    "pastParticiple": "made"
+  },
+  {
+    "infinitive": "may",
+    "simplePast": "might",
+    "pastParticiple": "(kein Participle)"
+  },
+  {
+    "infinitive": "mean",
+    "simplePast": "meant",
+    "pastParticiple": "meant"
+  },
+  {
+    "infinitive": "meet",
+    "simplePast": "met",
+    "pastParticiple": "met"
+  },
+  {
+    "infinitive": "melt",
+    "simplePast": "melted",
+    "pastParticiple": "molten,melted"
+  },
+  {
+    "infinitive": "mow",
+    "simplePast": "mowed",
+    "pastParticiple": "mown,mowed"
+  },
+  {
+    "infinitive": "pay",
+    "simplePast": "paid",
+    "pastParticiple": "paid"
+  },
+  {
+    "infinitive": "pen",
+    "simplePast": "pent,penned",
+    "pastParticiple": "pent,penned"
+  },
+  {
+    "infinitive": "plead",
+    "simplePast": "pled,pleaded",
+    "pastParticiple": "pled,pleaded"
+  },
+  {
+    "infinitive": "prove",
+    "simplePast": "proved",
+    "pastParticiple": "proven,proved"
+  },
+  {
+    "infinitive": "quit",
+    "simplePast": "quit,quitted",
+    "pastParticiple": "quit,quitted"
+  },
+  {
+    "infinitive": "read",
+    "simplePast": "read",
+    "pastParticiple": "read"
+  },
+  {
+    "infinitive": "rid",
+    "simplePast": "rid,ridded",
+    "pastParticiple": "rid,ridded"
+  },
+  {
+    "infinitive": "ride",
+    "simplePast": "rode",
+    "pastParticiple": "ridden"
+  },
+  {
+    "infinitive": "ring",
+    "simplePast": "rang",
+    "pastParticiple": "rung"
+  },
+  {
+    "infinitive": "rise",
+    "simplePast": "rose",
+    "pastParticiple": "risen"
+  },
+  {
+    "infinitive": "run",
+    "simplePast": "ran",
+    "pastParticiple": "run"
+  },
+  {
+    "infinitive": "saw",
+    "simplePast": "sawed",
+    "pastParticiple": "sawn,sawed"
+  },
+  {
+    "infinitive": "say",
+    "simplePast": "said",
+    "pastParticiple": "said"
+  },
+  {
+    "infinitive": "see",
+    "simplePast": "saw",
+    "pastParticiple": "seen"
+  },
+  {
+    "infinitive": "seek",
+    "simplePast": "sought",
+    "pastParticiple": "sought"
+  },
+  {
+    "infinitive": "sell",
+    "simplePast": "sold",
+    "pastParticiple": "sold"
+  },
+  {
+    "infinitive": "send",
+    "simplePast": "sent",
+    "pastParticiple": "sent"
+  },
+  {
+    "infinitive": "set",
+    "simplePast": "set",
+    "pastParticiple": "set"
+  },
+  {
+    "infinitive": "sew",
+    "simplePast": "sewed",
+    "pastParticiple": "sewn,sewed"
+  },
+  {
+    "infinitive": "shake",
+    "simplePast": "shook",
+    "pastParticiple": "shaken"
+  },
+  {
+    "infinitive": "shall",
+    "simplePast": "should",
+    "pastParticiple": "(kein Participle)"
+  },
+  {
+    "infinitive": "shear",
+    "simplePast": "sheared",
+    "pastParticiple": "shorn,sheared"
+  },
+  {
+    "infinitive": "shed",
+    "simplePast": "shed",
+    "pastParticiple": "shed"
+  },
+  {
+    "infinitive": "shine",
+    "simplePast": "shone",
+    "pastParticiple": "shone"
+  },
+  {
+    "infinitive": "shit",
+    "simplePast": "shit,shitted,shat",
+    "pastParticiple": "shit,shitted,shat"
+  },
+  {
+    "infinitive": "shoe",
+    "simplePast": "shod,shoed",
+    "pastParticiple": "shod,shoed"
+  },
+  {
+    "infinitive": "shoot",
+    "simplePast": "shot",
+    "pastParticiple": "shot"
+  },
+  {
+    "infinitive": "show",
+    "simplePast": "showed",
+    "pastParticiple": "shown,showed"
+  },
+  {
+    "infinitive": "shred",
+    "simplePast": "shred,shredded",
+    "pastParticiple": "shred,shredded"
+  },
+  {
+    "infinitive": "shrink",
+    "simplePast": "shrank,shrunk",
+    "pastParticiple": "shrunk"
+  },
+  {
+    "infinitive": "shut",
+    "simplePast": "shut",
+    "pastParticiple": "shut"
+  },
+  {
+    "infinitive": "sing",
+    "simplePast": "sang",
+    "pastParticiple": "sung"
+  },
+  {
+    "infinitive": "sink",
+    "simplePast": "sank",
+    "pastParticiple": "sunk"
+  },
+  {
+    "infinitive": "sit",
+    "simplePast": "sat",
+    "pastParticiple": "sat"
+  },
+  {
+    "infinitive": "slay",
+    "simplePast": "slew",
+    "pastParticiple": "slain"
+  },
+  {
+    "infinitive": "sleep",
+    "simplePast": "slept",
+    "pastParticiple": "slept"
+  },
+  {
+    "infinitive": "slide",
+    "simplePast": "slid",
+    "pastParticiple": "slid"
+  },
+  {
+    "infinitive": "sling",
+    "simplePast": "slung",
+    "pastParticiple": "slung"
+  },
+  {
+    "infinitive": "slink",
+    "simplePast": "slunk",
+    "pastParticiple": "slunk"
+  },
+  {
+    "infinitive": "slit",
+    "simplePast": "slit",
+    "pastParticiple": "slit"
+  },
+  {
+    "infinitive": "smell",
+    "simplePast": "smelt,smelled",
+    "pastParticiple": "smelt,smelled"
+  },
+  {
+    "infinitive": "smite",
+    "simplePast": "smote",
+    "pastParticiple": "smitten"
+  },
+  {
+    "infinitive": "sow",
+    "simplePast": "sowed",
+    "pastParticiple": "sown,sowed"
+  },
+  {
+    "infinitive": "speak",
+    "simplePast": "spoke",
+    "pastParticiple": "spoken"
+  },
+  {
+    "infinitive": "speed",
+    "simplePast": "sped,speeded",
+    "pastParticiple": "sped,speeded"
+  },
+  {
+    "infinitive": "spell",
+    "simplePast": "spelt,spelled",
+    "pastParticiple": "spelt,spelled"
+  },
+  {
+    "infinitive": "spend",
+    "simplePast": "spent",
+    "pastParticiple": "spent"
+  },
+  {
+    "infinitive": "spill",
+    "simplePast": "spilt,spilled",
+    "pastParticiple": "spilt,spilled"
+  },
+  {
+    "infinitive": "spin",
+    "simplePast": "spun",
+    "pastParticiple": "spun"
+  },
+  {
+    "infinitive": "spit",
+    "simplePast": "spat",
+    "pastParticiple": "spat"
+  },
+  {
+    "infinitive": "split",
+    "simplePast": "split",
+    "pastParticiple": "split"
+  },
+  {
+    "infinitive": "spoil",
+    "simplePast": "spoilt,spoiled",
+    "pastParticiple": "spoilt,spoiled"
+  },
+  {
+    "infinitive": "spread",
+    "simplePast": "spread",
+    "pastParticiple": "spread"
+  },
+  {
+    "infinitive": "spring",
+    "simplePast": "sprang,sprung",
+    "pastParticiple": "sprung"
+  },
+  {
+    "infinitive": "stand",
+    "simplePast": "stood",
+    "pastParticiple": "stood"
+  },
+  {
+    "infinitive": "steal",
+    "simplePast": "stole",
+    "pastParticiple": "stolen"
+  },
+  {
+    "infinitive": "stick",
+    "simplePast": "stuck",
+    "pastParticiple": "stuck"
+  },
+  {
+    "infinitive": "sting",
+    "simplePast": "stung",
+    "pastParticiple": "stung"
+  },
+  {
+    "infinitive": "stink",
+    "simplePast": "stank,stunk",
+    "pastParticiple": "stunk"
+  },
+  {
+    "infinitive": "stride",
+    "simplePast": "strode",
+    "pastParticiple": "stridden"
+  },
+  {
+    "infinitive": "strike",
+    "simplePast": "struck",
+    "pastParticiple": "struck"
+  },
+  {
+    "infinitive": "string",
+    "simplePast": "strung",
+    "pastParticiple": "strung"
+  },
+  {
+    "infinitive": "strive",
+    "simplePast": "strove",
+    "pastParticiple": "striven"
+  },
+  {
+    "infinitive": "swear",
+    "simplePast": "swore",
+    "pastParticiple": "sworn"
+  },
+  {
+    "infinitive": "sweat",
+    "simplePast": "sweat,sweated",
+    "pastParticiple": "sweat,sweated"
+  },
+  {
+    "infinitive": "sweep",
+    "simplePast": "swept",
+    "pastParticiple": "swept"
+  },
+  {
+    "infinitive": "swell",
+    "simplePast": "swelled",
+    "pastParticiple": "swollen,swelled"
+  },
+  {
+    "infinitive": "swim",
+    "simplePast": "swam",
+    "pastParticiple": "swum"
+  },
+  {
+    "infinitive": "swing",
+    "simplePast": "swung",
+    "pastParticiple": "swung"
+  },
+  {
+    "infinitive": "take",
+    "simplePast": "took",
+    "pastParticiple": "taken"
+  },
+  {
+    "infinitive": "teach",
+    "simplePast": "taught",
+    "pastParticiple": "taught"
+  },
+  {
+    "infinitive": "tear",
+    "simplePast": "tore",
+    "pastParticiple": "torn"
+  },
+  {
+    "infinitive": "telecast",
+    "simplePast": "telecast,telecasted",
+    "pastParticiple": "telecast,telecasted"
+  },
+  {
+    "infinitive": "tell",
+    "simplePast": "told",
+    "pastParticiple": "told"
+  },
+  {
+    "infinitive": "throw",
+    "simplePast": "threw",
+    "pastParticiple": "thrown"
+  },
+  {
+    "infinitive": "thrust",
+    "simplePast": "thrust",
+    "pastParticiple": "thrust"
+  },
+  {
+    "infinitive": "tread",
+    "simplePast": "trod",
+    "pastParticiple": "trodden"
+  },
+  {
+    "infinitive": "wake",
+    "simplePast": "woke,waked",
+    "pastParticiple": "woken,waked"
+  },
+  {
+    "infinitive": "wear",
+    "simplePast": "wore",
+    "pastParticiple": "worn"
+  },
+  {
+    "infinitive": "weave",
+    "simplePast": "wove",
+    "pastParticiple": "woven"
+  },
+  {
+    "infinitive": "wed",
+    "simplePast": "wed,wedded",
+    "pastParticiple": "wed,wedded"
+  },
+  {
+    "infinitive": "weep",
+    "simplePast": "wept",
+    "pastParticiple": "wept"
+  },
+  {
+    "infinitive": "wet",
+    "simplePast": "wet,wetted",
+    "pastParticiple": "wet,wetted"
+  },
+  {
+    "infinitive": "win",
+    "simplePast": "won",
+    "pastParticiple": "won"
+  },
+  {
+    "infinitive": "wind",
+    "simplePast": "wound",
+    "pastParticiple": "wound"
+  },
+  {
+    "infinitive": "wring",
+    "simplePast": "wrung",
+    "pastParticiple": "wrung"
+  },
+  {
+    "infinitive": "write",
+    "simplePast": "wrote",
+    "pastParticiple": "written"
+  }
+]

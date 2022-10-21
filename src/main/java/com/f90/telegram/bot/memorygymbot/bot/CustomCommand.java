@@ -12,6 +12,7 @@ public enum CustomCommand {
     DELETE("DELETE", CmdType.MENU),
     TEST("TEST", CmdType.MENU),
     LEARN("LEARN", CmdType.MENU),
+    VERBS("VERBS", CmdType.MENU),
 
     UNKWOW("", CmdType.UNKNOW),
     ;

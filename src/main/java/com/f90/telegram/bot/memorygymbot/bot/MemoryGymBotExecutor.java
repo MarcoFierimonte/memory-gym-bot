@@ -1,11 +1,14 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
+import com.f90.telegram.bot.memorygymbot.dto.IrregularVerbDTO;
 import com.f90.telegram.bot.memorygymbot.dto.UserDTO;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.mapper.UserMapper;
 import com.f90.telegram.bot.memorygymbot.model.User;
+import com.f90.telegram.bot.memorygymbot.service.IrrebularVerbService;
 import com.f90.telegram.bot.memorygymbot.service.UserService;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,19 +23,16 @@ import java.util.Optional;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class MemoryGymBotExecutor {
 
     private final WordService wordService;
     private final UserService userService;
+    private final IrrebularVerbService irrebularVerbService;
     private Send sendExecutor;
 
     @Value("${telegram.token}")
     private String token;
-
-    protected MemoryGymBotExecutor(WordService wordService, UserService userService) {
-        this.wordService = wordService;
-        this.userService = userService;
-    }
 
     public void setSendExecutor(Send sendExecutor) {
         this.sendExecutor = sendExecutor;
@@ -86,6 +86,19 @@ public class MemoryGymBotExecutor {
                         }
                     } else {
                         sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
+                    }
+                    break;
+                }
+                case VERBS: {
+                    List<IrregularVerbDTO> verbs = irrebularVerbService.findAll();
+                    if (!verbs.isEmpty()) {
+                        sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
+                        sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE VERBS</b> " + EmojiUtil.NERD_FACE, false);
+                        for (IrregularVerbDTO current : verbs) {
+                            sendToChat(update.getMessage(), MessageUtil.buildGuessVerbText(current), false);
+                        }
+                    } else {
+                        sendToChat(update.getMessage(), "No verbs in your dictionary! Add new ones", false);
                     }
                     break;
                 }

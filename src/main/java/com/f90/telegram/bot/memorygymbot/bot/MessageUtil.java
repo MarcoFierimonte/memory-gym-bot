@@ -1,5 +1,6 @@
 package com.f90.telegram.bot.memorygymbot.bot;
 
+import com.f90.telegram.bot.memorygymbot.dto.IrregularVerbDTO;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,5 +26,11 @@ public class MessageUtil {
             out = out + " " + EmojiUtil.FINGER_TO_RIGHT + EmojiUtil.VOICE_HEAD + word.getPronounce();
         }
         return out;
+    }
+
+    public static String buildGuessVerbText(IrregularVerbDTO verb) {
+        return "INFINITE: <b>" + verb.getInfinitive() + "</b> "
+                + EmojiUtil.FINGER_TO_RIGHT + " SIMPLE PAST:" + TG_SPOILER_START + verb.getSimplePast() + TG_SPOILER_END
+                + EmojiUtil.FINGER_TO_RIGHT + " PAST PARTICIPLE:" + TG_SPOILER_START + verb.getPastParticiple() + TG_SPOILER_END;
     }
 }
