@@ -52,6 +52,7 @@ public final class KeyboardBuilder {
         btnConfig.setWebApp(WebAppInfo.builder()
                 .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/config?chatId=" + chatId)
                 .build());
+
         keyboardRow2.add(btnConfig);
 
 

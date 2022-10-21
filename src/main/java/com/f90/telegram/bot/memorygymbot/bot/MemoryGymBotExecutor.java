@@ -79,7 +79,7 @@ public class MemoryGymBotExecutor {
                 case LEARN: {
                     List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
                     if (!words.isEmpty()) {
-                        sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
+                        sendToChat(update.getMessage(), EmojiUtil.LINE, false);
                         sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
                         for (WordDTO current : words) {
                             sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
@@ -90,9 +90,9 @@ public class MemoryGymBotExecutor {
                     break;
                 }
                 case VERBS: {
-                    List<IrregularVerbDTO> verbs = irrebularVerbService.findAll();
+                    List<IrregularVerbDTO> verbs = irrebularVerbService.random(4);
                     if (!verbs.isEmpty()) {
-                        sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
+                        sendToChat(update.getMessage(), EmojiUtil.LINE, false);
                         sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE VERBS</b> " + EmojiUtil.NERD_FACE, false);
                         for (IrregularVerbDTO current : verbs) {
                             sendToChat(update.getMessage(), MessageUtil.buildGuessVerbText(current), false);
@@ -131,7 +131,7 @@ public class MemoryGymBotExecutor {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
         if (!words.isEmpty()) {
             log.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
-            sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
+            sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
                 sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
@@ -214,7 +214,7 @@ public class MemoryGymBotExecutor {
             msg.setChat(chat);
             Update update = new Update();
             update.setMessage(msg);
-            sendToChat(update.getMessage(), "➖➖➖➖➖➖➖➖➖➖", false);
+            sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY + " <b>NEW BOT UPGRADES</b> " + EmojiUtil.PARTY + EmojiUtil.PARTY + EmojiUtil.PARTY, false);
             sendToChat(update.getMessage(), EmojiUtil.MEMO + " New words added to dictionary.", false);
             sendToChat(update.getMessage(), EmojiUtil.HAMMER + " Minor bugs fixed.", false);

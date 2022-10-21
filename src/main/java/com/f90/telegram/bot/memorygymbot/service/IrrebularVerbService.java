@@ -18,5 +18,8 @@ public class IrrebularVerbService {
         return IrregularVerbMapper.toIrregularVerbDTOs(irregularVerbRepo.findAll());
     }
 
+    public List<IrregularVerbDTO> random(Integer number) {
+        return IrregularVerbMapper.toIrregularVerbDTOs(irregularVerbRepo.random(number).getMappedResults());
+    }
 
 }
