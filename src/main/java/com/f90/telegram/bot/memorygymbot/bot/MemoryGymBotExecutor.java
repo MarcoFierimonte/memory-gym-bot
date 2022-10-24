@@ -94,7 +94,6 @@ public class MemoryGymBotExecutor {
             log.info("processMessage() - msg: UNKWOW command={}", command);
             sendToChat(update.getMessage(), "Please insert a valid command.", true);
             sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
-
         }
     }
 
