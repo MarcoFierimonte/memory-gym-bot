@@ -73,49 +73,20 @@ public class MemoryGymBotExecutor {
         if (command.getCmdType() == CustomCommand.CmdType.MENU) {
             switch (command.getType()) {
                 case TEST: {
-                    testUserMemory(update);
+                    testAction(update);
                     break;
                 }
                 case LEARN: {
-                    List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
-                    if (!words.isEmpty()) {
-                        sendToChat(update.getMessage(), EmojiUtil.LINE, false);
-                        sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
-                        for (WordDTO current : words) {
-                            sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
-                        }
-                    } else {
-                        sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
-                    }
+                    learnAction(update);
                     break;
                 }
                 case VERBS: {
-                    List<IrregularVerbDTO> verbs = irrebularVerbService.random(4);
-                    if (!verbs.isEmpty()) {
-                        sendToChat(update.getMessage(), EmojiUtil.LINE, false);
-                        sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE VERBS</b> " + EmojiUtil.NERD_FACE, false);
-                        for (IrregularVerbDTO current : verbs) {
-                            sendToChat(update.getMessage(), MessageUtil.buildGuessVerbText(current), false);
-                        }
-                    } else {
-                        sendToChat(update.getMessage(), "No verbs in your dictionary! Add new ones", false);
-                    }
+                    verbsAction(update);
                     break;
                 }
                 default:
                 case START: {
-                    UserDTO user = userService.findByChatId(update.getMessage().getChatId());
-                    if (user == null) {
-                        userService.save(User.builder()
-                                .chatId(update.getMessage().getChatId())
-                                .userId(update.getMessage().getFrom().getId())
-                                .userName(userService.getUserName(update))
-                                .testNotificationEnabled(true)
-                                .build());
-                        wordService.init(update.getMessage().getChatId());
-                        log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
-                    }
-                    sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
+                    startAction(update);
                     break;
                 }
             }
@@ -127,7 +98,7 @@ public class MemoryGymBotExecutor {
         }
     }
 
-    private void testUserMemory(Update update) {
+    private void testAction(Update update) {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
         if (!words.isEmpty()) {
             log.info("sendToChatScheduled() - msg: send 'quiz' to user: {}", update.getMessage().getChatId());
@@ -139,6 +110,47 @@ public class MemoryGymBotExecutor {
         } else {
             sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
         }
+    }
+
+    private void learnAction(Update update) {
+        List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
+        if (!words.isEmpty()) {
+            sendToChat(update.getMessage(), EmojiUtil.LINE, false);
+            sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE WORDS</b> " + EmojiUtil.NERD_FACE, false);
+            for (WordDTO current : words) {
+                sendToChat(update.getMessage(), MessageUtil.buildLearnWordText(current), false);
+            }
+        } else {
+            sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
+        }
+    }
+
+    private void verbsAction(Update update) {
+        List<IrregularVerbDTO> verbs = irrebularVerbService.random(4);
+        if (!verbs.isEmpty()) {
+            sendToChat(update.getMessage(), EmojiUtil.LINE, false);
+            sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE VERBS</b> " + EmojiUtil.NERD_FACE, false);
+            for (IrregularVerbDTO current : verbs) {
+                sendToChat(update.getMessage(), MessageUtil.buildGuessVerbText(current), false);
+            }
+        } else {
+            sendToChat(update.getMessage(), "No verbs in your dictionary! Add new ones", false);
+        }
+    }
+
+    private void startAction(Update update) {
+        UserDTO user = userService.findByChatId(update.getMessage().getChatId());
+        if (user == null) {
+            userService.save(User.builder()
+                    .chatId(update.getMessage().getChatId())
+                    .userId(update.getMessage().getFrom().getId())
+                    .userName(userService.getUserName(update))
+                    .testNotificationEnabled(true)
+                    .build());
+            wordService.init(update.getMessage().getChatId());
+            log.info("processMenuCommand() - msg: user init completed. User={}", update.getMessage().getFrom().getId());
+        }
+        sendKeyboard(update.getMessage(), "Press the button.", KeyboardBuilder.menuKeyboard(update.getMessage().getChatId()));
     }
 
     private void processCallbackQuery(Update update) {
@@ -183,7 +195,7 @@ public class MemoryGymBotExecutor {
             update.setMessage(msg);
             log.info("sendTestToAllUsers() - msg: sending 'test' to user={}", user.getUserName());
             // send test
-            testUserMemory(update);
+            testAction(update);
             // update field
             user.setTestNotificationEnabled(true);
             userService.save(UserMapper.toUser(user));
