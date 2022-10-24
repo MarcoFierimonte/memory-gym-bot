@@ -11,4 +11,3 @@ automatic_scaling:
 
 env_variables:
   ENV: "prod"
-  TELEGRAM_TOKEN: "5430654397:AAGJqJ5mXvShDTHXN4HO7ZWsKZRLhf0eHaE"
