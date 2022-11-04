@@ -1,0 +1,502 @@
+[
+  {
+    "ita": "piattino",
+    "eng": "saucer",
+    "pronounce": "souser"
+  },
+  {
+    "ita": "cappello",
+    "eng": "hat",
+    "pronounce": "haat"
+  },
+  {
+    "ita": "pacco",
+    "eng": "parcel",
+    "pronounce": "parsl"
+  },
+  {
+    "ita": "pantofola",
+    "eng": "slipper",
+    "pronounce": "sslipr"
+  },
+  {
+    "ita": "ciambella",
+    "eng": "bun",
+    "pronounce": ""
+  },
+  {
+    "ita": "disordinato",
+    "eng": "messy",
+    "pronounce": ""
+  },
+  {
+    "ita": "caccia",
+    "eng": "hunt",
+    "pronounce": "hant"
+  },
+  {
+    "ita": "gocce",
+    "eng": "drops",
+    "pronounce": ""
+  },
+  {
+    "ita": "soffitto",
+    "eng": "ceil",
+    "pronounce": "sil"
+  },
+  {
+    "ita": "colpevole",
+    "eng": "guilty",
+    "pronounce": "ghilti"
+  },
+  {
+    "ita": "fattura",
+    "eng": "invoice",
+    "pronounce": "invois"
+  },
+  {
+    "ita": "piuttosto difficile",
+    "eng": "quite difficult",
+    "pronounce": ""
+  },
+  {
+    "ita": "vergogna",
+    "eng": "shame",
+    "pronounce": ""
+  },
+  {
+    "ita": "si vergogna",
+    "eng": "ashamed",
+    "pronounce": ""
+  },
+  {
+    "ita": "presto",
+    "eng": "soon",
+    "pronounce": "seen"
+  },
+  {
+    "ita": "prendere il sole",
+    "eng": "sunbathe",
+    "pronounce": "sanbeit"
+  },
+  {
+    "ita": "essenza",
+    "eng": "gist",
+    "pronounce": ""
+  },
+  {
+    "ita": "rubare",
+    "eng": "steal",
+    "pronounce": ""
+  },
+  {
+    "ita": "tuffo",
+    "eng": "plunge",
+    "pronounce": "plange"
+  },
+  {
+    "ita": "sfocato",
+    "eng": "blurry",
+    "pronounce": "blerri"
+  },
+  {
+    "ita": "fioco,debole",
+    "eng": "dim",
+    "pronounce": ""
+  },
+  {
+    "ita": "folla",
+    "eng": "crowd",
+    "pronounce": "craud"
+  },
+  {
+    "ita": "pece,intonazione",
+    "eng": "pitch",
+    "pronounce": ""
+  },
+  {
+    "ita": "ferroviere",
+    "eng": "railway worker",
+    "pronounce": ""
+  },
+  {
+    "ita": "andare in pensione",
+    "eng": "retire",
+    "pronounce": ""
+  },
+  {
+    "ita": "tra,in mezzo a",
+    "eng": "among",
+    "pronounce": "èmong"
+  },
+  {
+    "ita": "fratello maggiore",
+    "eng": "elder brother",
+    "pronounce": "èlde brotha"
+  },
+  {
+    "ita": "fratelli,sorelle",
+    "eng": "siblings",
+    "pronounce": ""
+  },
+  {
+    "ita": "campagna",
+    "eng": "countryside",
+    "pronounce": ""
+  },
+  {
+    "ita": "rilassarsi",
+    "eng": "to chill, relax",
+    "pronounce": ""
+  },
+  {
+    "ita": "successo",
+    "eng": "success",
+    "pronounce": "sixses"
+  },
+  {
+    "ita": "gridare,urlare",
+    "eng": "shout",
+    "pronounce": ""
+  },
+  {
+    "ita": "da parte,a parte",
+    "eng": "aside",
+    "pronounce": "èside"
+  },
+  {
+    "ita": "fedeltà,lealtà",
+    "eng": "loyalty",
+    "pronounce": ""
+  },
+  {
+    "ita": "duro,difficile",
+    "eng": "tough",
+    "pronounce": "taf"
+  },
+  {
+    "ita": "ad alta voce",
+    "eng": "loud",
+    "pronounce": "laud"
+  },
+  {
+    "ita": "far uscire,sfogare",
+    "eng": "let out",
+    "pronounce": ""
+  },
+  {
+    "ita": "inciampare",
+    "eng": "stumble",
+    "pronounce": "stambl"
+  },
+  {
+    "ita": "afferrare",
+    "eng": "grab",
+    "pronounce": ""
+  },
+  {
+    "ita": "fune",
+    "eng": "rope",
+    "pronounce": "rop"
+  },
+  {
+    "ita": "zero,nulla",
+    "eng": "naught",
+    "pronounce": "noot"
+  },
+  {
+    "ita": "lettino,culla",
+    "eng": "cot",
+    "pronounce": ""
+  },
+  {
+    "ita": "gallo",
+    "eng": "rooster,cock",
+    "pronounce": ""
+  },
+  {
+    "ita": "piacevole",
+    "eng": "pleasant",
+    "pronounce": "pleznt"
+  },
+  {
+    "ita": "granelli",
+    "eng": "grains",
+    "pronounce": ""
+  },
+  {
+    "ita": "potente,possente",
+    "eng": "mighty",
+    "pronounce": "maity"
+  },
+  {
+    "ita": "muto",
+    "eng": "dumb",
+    "pronounce": "dam"
+  },
+  {
+    "ita": "sordo",
+    "eng": "deaf",
+    "pronounce": "deff"
+  },
+  {
+    "ita": "curare,trattare",
+    "eng": "treat",
+    "pronounce": "trit"
+  },
+  {
+    "ita": "poliziotto",
+    "eng": "police man",
+    "pronounce": "polis man"
+  },
+  {
+    "ita": "sterlina,libbra",
+    "eng": "pound",
+    "pronounce": "paund"
+  },
+  {
+    "ita": "valuta",
+    "eng": "currency",
+    "pronounce": "korrensi"
+  },
+  {
+    "ita": "sepolto",
+    "eng": "buried",
+    "pronounce": "berid"
+  },
+  {
+    "ita": "seppellire",
+    "eng": "bury",
+    "pronounce": "beri"
+  },
+  {
+    "ita": "loro stessi",
+    "eng": "themselves",
+    "pronounce": "themselvz"
+  },
+  {
+    "ita": "traballante,incerto,instabile",
+    "eng": "shaky",
+    "pronounce": "scheiki"
+  },
+  {
+    "ita": "abbaiare",
+    "eng": "bark",
+    "pronounce": ""
+  },
+  {
+    "ita": "sbrigati",
+    "eng": "hurry up",
+    "pronounce": "harry u"
+  },
+  {
+    "ita": "cappotto",
+    "eng": "coat",
+    "pronounce": "koot"
+  },
+  {
+    "ita": "paura",
+    "eng": "afraid",
+    "pronounce": "èfraid"
+  },
+  {
+    "ita": "fattorino",
+    "eng": "porter,delivery man",
+    "pronounce": ""
+  },
+  {
+    "ita": "colpo",
+    "eng": "hit",
+    "pronounce": "hit"
+  },
+  {
+    "ita": "calore",
+    "eng": "heat",
+    "pronounce": "hiit"
+  },
+  {
+    "ita": "anno",
+    "eng": "year",
+    "pronounce": "yee"
+  },
+  {
+    "ita": "orecchio",
+    "eng": "ear",
+    "pronounce": "eer"
+  },
+  {
+    "ita": "scendere da",
+    "eng": "get off",
+    "pronounce": ""
+  },
+  {
+    "ita": "nonna",
+    "eng": "grandmother",
+    "pronounce": ""
+  },
+  {
+    "ita": "maggiordomo",
+    "eng": "butler",
+    "pronounce": "batle'"
+  },
+  {
+    "ita": "soddisfatto",
+    "eng": "pleased with",
+    "pronounce": "plizd wit"
+  },
+  {
+    "ita": "in anticipo",
+    "eng": "in advance",
+    "pronounce": "in edvans"
+  },
+  {
+    "ita": "togliere un vestito",
+    "eng": "take off a dress",
+    "pronounce": ""
+  },
+  {
+    "ita": "esitazione",
+    "eng": "hesitation",
+    "pronounce": "hesitescion"
+  },
+  {
+    "ita": "finora",
+    "eng": "so far,till now",
+    "pronounce": ""
+  },
+  {
+    "ita": "forse",
+    "eng": "perhaps",
+    "pronounce": ""
+  },
+  {
+    "ita": "realizzare",
+    "eng": "to achieve,accomplish",
+    "pronounce": "to aciv"
+  },
+  {
+    "ita": "offerta",
+    "eng": "bid",
+    "pronounce": "biid"
+  },
+  {
+    "ita": "febbre",
+    "eng": "fever",
+    "pronounce": "feva'"
+  },
+  {
+    "ita": "unghie",
+    "eng": "nails",
+    "pronounce": "neils"
+  },
+  {
+    "ita": "mal di gola",
+    "eng": "sore throat",
+    "pronounce": "sor troth"
+  },
+  {
+    "ita": "dirottare",
+    "eng": "hijack",
+    "pronounce": "haijack"
+  },
+  {
+    "ita": "a meno che",
+    "eng": "unless",
+    "pronounce": "anles"
+  },
+  {
+    "ita": "discutere,litigare",
+    "eng": "argue",
+    "pronounce": "argyuu"
+  },
+  {
+    "ita": "marito",
+    "eng": "husband",
+    "pronounce": "hasbend"
+  },
+  {
+    "ita": "vita",
+    "eng": "life",
+    "pronounce": "laif"
+  },
+  {
+    "ita": "moglie",
+    "eng": "wife",
+    "pronounce": "waif"
+  },
+  {
+    "ita": "lupo",
+    "eng": "wolf",
+    "pronounce": ""
+  },
+  {
+    "ita": "scaffale",
+    "eng": "shelf",
+    "pronounce": ""
+  },
+  {
+    "ita": "quello,quelli",
+    "eng": "that,those",
+    "pronounce": ""
+  },
+  {
+    "ita": "buoi",
+    "eng": "oxen",
+    "pronounce": ""
+  },
+  {
+    "ita": "bue",
+    "eng": "ox",
+    "pronounce": ""
+  },
+  {
+    "ita": "oca",
+    "eng": "goose",
+    "pronounce": "goos"
+  },
+  {
+    "ita": "piedi",
+    "eng": "feet",
+    "pronounce": ""
+  },
+  {
+    "ita": "questo,questi",
+    "eng": "this,these",
+    "pronounce": ""
+  },
+  {
+    "ita": "donne",
+    "eng": "women",
+    "pronounce": "wimen"
+  },
+  {
+    "ita": "uomini",
+    "eng": "men",
+    "pronounce": ""
+  },
+  {
+    "ita": "da ora in poi",
+    "eng": "from now on",
+    "pronounce": ""
+  },
+  {
+    "ita": "comunque",
+    "eng": "anyway,however,at any rate",
+    "pronounce": ""
+  },
+  {
+    "ita": "tariffa",
+    "eng": "fare",
+    "pronounce": "fèr"
+  },
+  {
+    "ita": "marciapiede",
+    "eng": "sidewalk,pavement",
+    "pronounce": ""
+  },
+  {
+    "ita": "gonna",
+    "eng": "skirt",
+    "pronounce": "skèrt"
+  }
+]
