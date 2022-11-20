@@ -20,6 +20,7 @@ public class Word {
     private String id;
     private Long chatId;
     private Integer frequency;
+    private Integer favorite;
 
     private String eng;
     private String ita;

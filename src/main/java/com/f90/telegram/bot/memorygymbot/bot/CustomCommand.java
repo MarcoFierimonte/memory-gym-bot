@@ -2,7 +2,7 @@ package com.f90.telegram.bot.memorygymbot.bot;
 
 import java.util.Arrays;
 
-public enum CustomCommand {
+public enum  CustomCommand {
 
     START("/start", CmdType.MENU),
     STOP("/stop", CmdType.MENU),
@@ -13,6 +13,7 @@ public enum CustomCommand {
     TEST("TEST", CmdType.MENU),
     LEARN("LEARN", CmdType.MENU),
     VERBS("VERBS", CmdType.MENU),
+    FAVORITES("FAVORITES", CmdType.MENU),
 
     UNKWOW("", CmdType.UNKNOW),
     ;

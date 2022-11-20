@@ -90,6 +90,32 @@ public class WordController {
     }
 
     /**
+     * Add a new favorite word for the user .
+     *
+     * @param chatId the chatId
+     * @param ita the ita
+     */
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "/addFavorite", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void addFavourite(@RequestParam(name = "chatId") Long chatId,
+                                @RequestParam(name = "ita") String ita) {
+        wordService.addFavorite(chatId,ita);
+    }
+
+    /**
+     * Delete an existing favorite word for the user .
+     *
+     * @param chatId the chatId
+     * @param ita the ita
+     */
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "/deleteFavorite", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteFavorite(@RequestParam(name = "chatId") Long chatId,
+                                @RequestParam(name = "ita") String ita) {
+        wordService.deleteFavorite(chatId,ita);
+    }
+
+    /**
      * Trigger a 'test' notification to all users with notifications enabled.
      */
     @ResponseStatus(value = HttpStatus.OK)

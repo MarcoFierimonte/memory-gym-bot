@@ -28,5 +28,7 @@ public class WordDTO implements Dto {
 
     private Integer frequency;
 
+    private Integer favorite;
+
 }
 

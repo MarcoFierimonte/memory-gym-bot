@@ -22,7 +22,17 @@ public class WordService {
     private final InitDatasetRepo initDatasetRepo;
 
     public List<WordDTO> findAll(Long chatId) {
-        Example<Word> query = Example.of(Word.builder().chatId(chatId).build());
+        Example<Word> query = Example.of(Word.builder()
+                .chatId(chatId)
+                .build());
+        return WordMapper.toWordDTOs(dictionaryRepo.findAll(query));
+    }
+
+    public List<WordDTO> findAllFavorites(Long chatId) {
+        Example<Word> query = Example.of(Word.builder()
+                .chatId(chatId)
+                .favorite(1)
+                .build());
         return WordMapper.toWordDTOs(dictionaryRepo.findAll(query));
     }
 
@@ -68,6 +78,28 @@ public class WordService {
             throw new InternalException("add() - msg: missing mandatory 'chatId' param.");
         }
         dictionaryRepo.deleteEntry(input);
+    }
+
+    public void addFavorite(Long chatId, String ita) {
+        updateFavorite(chatId, ita, true);
+    }
+
+    public void deleteFavorite(Long chatId, String ita) {
+        updateFavorite(chatId, ita, false);
+    }
+
+    public void updateFavorite(Long chatId, String ita, boolean add) {
+        Example<Word> query = Example.of(Word.builder()
+                .chatId(chatId)
+                .ita(ita)
+                .build());
+        Word word = dictionaryRepo.findOne(query).orElse(null);
+        if (word != null) {
+            word.setFavorite(add ? 1 : 0);
+            dictionaryRepo.update(word);
+        } else {
+            throw new InternalException("Favorite word=" + ita + " not found. ChatId=" + chatId);
+        }
     }
 
     public void init(Long chatId) {

@@ -84,6 +84,10 @@ public class MemoryGymBotExecutor {
                     verbsAction(update);
                     break;
                 }
+                case FAVORITES: {
+                    favoritesAction(update);
+                    break;
+                }
                 default:
                 case START: {
                     startAction(update);
@@ -97,6 +101,19 @@ public class MemoryGymBotExecutor {
         }
     }
 
+    private void favoritesAction(Update update) {
+        List<WordDTO> favorites = wordService.findAllFavorites(update.getMessage().getChatId());
+        if (!favorites.isEmpty()) {
+            sendToChat(update.getMessage(), EmojiUtil.LINE, false);
+            sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>FAVORITES</b> " + EmojiUtil.STAR_FACE, false);
+            for (WordDTO current : favorites) {
+                sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current, update.getMessage().getChatId()), false);
+            }
+        } else {
+            sendToChat(update.getMessage(), "No favorites in your dictionary! Add new ones", false);
+        }
+    }
+
     private void testAction(Update update) {
         List<WordDTO> words = wordService.test(update.getMessage().getChatId(), 4);
         if (!words.isEmpty()) {
@@ -104,7 +121,7 @@ public class MemoryGymBotExecutor {
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
-                sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current), false);
+                sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current, update.getMessage().getChatId()), false);
             }
         } else {
             sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);

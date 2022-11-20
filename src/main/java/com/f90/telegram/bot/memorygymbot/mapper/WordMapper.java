@@ -51,6 +51,7 @@ public class WordMapper {
                 .chatId(in.getChatId())
                 .pronounce(in.getPronounce())
                 .frequency(in.getFrequency() != null ? in.getFrequency() : 0)
+                .favorite(in.getFavorite() != null ? in.getFavorite() : 0)
                 .build();
     }
 

@@ -33,6 +33,7 @@ public class WordRepoImpl implements WordRepo {
         updateFields.set("eng", word.getEng());
         updateFields.set("pronounce", word.getPronounce());
         updateFields.set("frequency", word.getFrequency() != null ? word.getFrequency() : 0);
+        updateFields.set("favorite", word.getFavorite() != null ? word.getFavorite() : 0);
 
         mongoOperations.upsert(findQuery, updateFields, Word.class);
 

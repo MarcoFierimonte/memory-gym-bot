@@ -64,6 +64,7 @@ public final class KeyboardBuilder {
                 .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/home")
                 .build());
 
+        keyboardRow3.add("FAVORITES");
         keyboardRow3.add(btnInfo);
         keyboard.add(keyboardRow3);
 
