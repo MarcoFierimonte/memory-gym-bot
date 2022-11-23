@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class IrrebularVerbService {
+public class IrregularVerbService {
 
     private final IrregularVerbRepo irregularVerbRepo;
 

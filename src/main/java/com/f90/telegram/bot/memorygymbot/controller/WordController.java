@@ -97,7 +97,7 @@ public class WordController {
      */
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/addFavorite", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addFavourite(@RequestParam(name = "chatId") Long chatId,
+    public void addFavorite(@RequestParam(name = "chatId") Long chatId,
                                 @RequestParam(name = "ita") String ita) {
         wordService.addFavorite(chatId,ita);
     }

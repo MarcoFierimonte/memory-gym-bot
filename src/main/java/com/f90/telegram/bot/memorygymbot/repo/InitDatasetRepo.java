@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface InitDatasetRepo extends MongoRepository<InitDatasetWord, String>, WordRepo {
+public interface InitDatasetRepo extends MongoRepository<InitDatasetWord, String> {
 
 }

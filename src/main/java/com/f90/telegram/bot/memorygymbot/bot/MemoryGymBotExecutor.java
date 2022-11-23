@@ -5,7 +5,7 @@ import com.f90.telegram.bot.memorygymbot.dto.UserDTO;
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
 import com.f90.telegram.bot.memorygymbot.mapper.UserMapper;
 import com.f90.telegram.bot.memorygymbot.model.User;
-import com.f90.telegram.bot.memorygymbot.service.IrrebularVerbService;
+import com.f90.telegram.bot.memorygymbot.service.IrregularVerbService;
 import com.f90.telegram.bot.memorygymbot.service.UserService;
 import com.f90.telegram.bot.memorygymbot.service.WordService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class MemoryGymBotExecutor {
 
     private final WordService wordService;
     private final UserService userService;
-    private final IrrebularVerbService irrebularVerbService;
+    private final IrregularVerbService irregularVerbService;
     private Send sendExecutor;
 
     @Value("${telegram.token}")
@@ -107,7 +107,7 @@ public class MemoryGymBotExecutor {
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>FAVORITES</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : favorites) {
-                sendToChat(update.getMessage(), MessageUtil.buildFavoritesWordText(current, update.getMessage().getChatId()), false);
+                sendKeyboard(update.getMessage(), MessageUtil.buildGuessWordText(current), KeyboardBuilder.favoritesKeyboard(false, true));
             }
         } else {
             sendToChat(update.getMessage(), "No favorites in your dictionary! Add new ones", false);
@@ -121,7 +121,7 @@ public class MemoryGymBotExecutor {
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
-                sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current, update.getMessage().getChatId()), false);
+                sendKeyboard(update.getMessage(), MessageUtil.buildGuessWordText(current), KeyboardBuilder.favoritesKeyboard(true, true));
             }
         } else {
             sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);
@@ -142,7 +142,7 @@ public class MemoryGymBotExecutor {
     }
 
     private void verbsAction(Update update) {
-        List<IrregularVerbDTO> verbs = irrebularVerbService.random(4);
+        List<IrregularVerbDTO> verbs = irregularVerbService.random(4);
         if (!verbs.isEmpty()) {
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.NERD_FACE + " <b>LEARN THE VERBS</b> " + EmojiUtil.NERD_FACE, false);
@@ -171,18 +171,23 @@ public class MemoryGymBotExecutor {
 
     private void processCallbackQuery(Update update) {
         Message msg = update.getCallbackQuery().getMessage();
-        if ("TEST_DONE".equals(update.getCallbackQuery().getData())) {
-            UserDTO user = userService.findByChatId(msg.getChatId());
-            user.setTestNotificationEnabled(false);
-            userService.save(UserMapper.toUser(user));
-            sendToChat(update.getCallbackQuery().getMessage(), "Current 'test' completed! " + EmojiUtil.HAPPY_FACE, true);
+        if ("ADD_FAVORITE".equals(update.getCallbackQuery().getData())) {
+            String ita = msg.getText().split("👉")[0].split("🇮🇹")[1].trim();
+            wordService.addFavorite(msg.getChatId(), ita);
+            sendToChat(msg, "ADDED TO FAVORITES" + EmojiUtil.HAPPY_FACE, true);
+        } else if ("DELETE_FAVORITE".equals(update.getCallbackQuery().getData())) {
+            String ita = msg.getText().split("👉")[0].split("🇮🇹")[1].trim();
+            wordService.deleteFavorite(msg.getChatId(),ita);
+            sendToChat(msg, "REMOVED FROM FAVORITES" + EmojiUtil.HAPPY_FACE, true);
+        } else {
+            log.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
         }
-        log.warn("processCallbackQuery() - msg: received not managed 'callbackQuery' operation. Update=[{}]", update);
     }
 
     private void sendKeyboard(Message message, String text, ReplyKeyboard replyKeyboard) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
+        sendMessage.enableHtml(true);
         sendMessage.setChatId(message.getChatId());
         sendMessage.setReplyMarkup(replyKeyboard);
         sendMessage.setText(text);

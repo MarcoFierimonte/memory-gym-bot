@@ -13,8 +13,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 public class Word {
 
-    public static final String FREQUENCY_FIELD = "frequency";
     public static final String CHAT_ID_FIELD = "chatId";
+    public static final String FREQUENCY_FIELD = "frequency";
+    public static final String FAVORITE_FIELD = "favorite";
+    public static final String ITA_FIELD = "ita";
+    public static final String ENG_FIELD = "eng";
+    public static final String PRONOUNCE_FIELD = "pronounce";
 
     @Id
     private String id;

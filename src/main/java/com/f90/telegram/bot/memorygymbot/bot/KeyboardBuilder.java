@@ -72,10 +72,15 @@ public final class KeyboardBuilder {
         return replyKeyboardMarkup;
     }
 
-    public static InlineKeyboardMarkup doneKeyboard() {
+    public static InlineKeyboardMarkup favoritesKeyboard(boolean addButton, boolean deleteButton) {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         List<InlineKeyboardButton> revealsButton = new ArrayList<>();
-        revealsButton.add(getButton("DONE", "TEST_DONE"));
+        if(addButton) {
+            revealsButton.add(getButton("ADD", "ADD_FAVORITE"));
+        }
+        if (deleteButton) {
+            revealsButton.add(getButton("DELETE", "DELETE_FAVORITE"));
+        }
         keyboard.add(revealsButton);
         InlineKeyboardMarkup out = new InlineKeyboardMarkup();
         out.setKeyboard(keyboard);

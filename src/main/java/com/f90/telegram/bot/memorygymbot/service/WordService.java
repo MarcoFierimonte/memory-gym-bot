@@ -7,8 +7,8 @@ import com.f90.telegram.bot.memorygymbot.model.InitDatasetWord;
 import com.f90.telegram.bot.memorygymbot.model.Word;
 import com.f90.telegram.bot.memorygymbot.repo.DictionaryRepo;
 import com.f90.telegram.bot.memorygymbot.repo.InitDatasetRepo;
+import com.f90.telegram.bot.memorygymbot.repo.WordRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,37 +18,35 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class WordService {
 
-    private final DictionaryRepo dictionaryRepo;
     private final InitDatasetRepo initDatasetRepo;
+    private final WordRepo wordRepo;
+    private final DictionaryRepo dictionaryRepo;
 
     public List<WordDTO> findAll(Long chatId) {
-        Example<Word> query = Example.of(Word.builder()
+        return WordMapper.toWordDTOs(wordRepo.findAll(Word.builder()
                 .chatId(chatId)
-                .build());
-        return WordMapper.toWordDTOs(dictionaryRepo.findAll(query));
+                .build()));
     }
 
     public List<WordDTO> findAllFavorites(Long chatId) {
-        Example<Word> query = Example.of(Word.builder()
+        return WordMapper.toWordDTOs(wordRepo.findAll(Word.builder()
                 .chatId(chatId)
                 .favorite(1)
-                .build());
-        return WordMapper.toWordDTOs(dictionaryRepo.findAll(query));
+                .build()));
     }
 
     public WordDTO find(Word input) {
-        Example<Word> query = Example.of(Word.builder()
+        return WordMapper.toWordDTO(wordRepo.findOne(Word.builder()
                 .chatId(input.getChatId())
                 .ita(input.getIta())
                 .eng(input.getEng())
-                .build());
-        return WordMapper.toWordDTO(dictionaryRepo.findOne(query).orElse(null));
+                .build()));
     }
 
     public WordDTO add(Word newWord) {
         Word updatedWord;
         if (newWord != null && newWord.getChatId() != null) {
-            updatedWord = dictionaryRepo.update(newWord);
+            updatedWord = wordRepo.update(newWord);
         } else {
             throw new InternalException("add() - msg: missing mandatory params.");
         }
@@ -63,10 +61,10 @@ public class WordService {
             extractedWords.forEach(current ->
             {
                 current.setFrequency(1);
-                dictionaryRepo.update(current);
+                wordRepo.update(current);
             });
         } else {
-            dictionaryRepo.restoreFrequencies(chatId);
+            wordRepo.restoreFrequencies(chatId);
             extractedWords = dictionaryRepo.random(chatId, wordsToGuess).getMappedResults();
         }
 
@@ -77,7 +75,7 @@ public class WordService {
         if (input.getChatId() == null) {
             throw new InternalException("add() - msg: missing mandatory 'chatId' param.");
         }
-        dictionaryRepo.deleteEntry(input);
+        wordRepo.deleteEntry(input);
     }
 
     public void addFavorite(Long chatId, String ita) {
@@ -89,23 +87,22 @@ public class WordService {
     }
 
     public void updateFavorite(Long chatId, String ita, boolean add) {
-        Example<Word> query = Example.of(Word.builder()
+        Word word = wordRepo.findOne(Word.builder()
                 .chatId(chatId)
                 .ita(ita)
                 .build());
-        Word word = dictionaryRepo.findOne(query).orElse(null);
         if (word != null) {
             word.setFavorite(add ? 1 : 0);
-            dictionaryRepo.update(word);
+            wordRepo.update(word);
         } else {
-            throw new InternalException("Favorite word=" + ita + " not found. ChatId=" + chatId);
+            throw new InternalException("Favorite word='" + ita + "' not found. ChatId=" + chatId);
         }
     }
 
     public void init(Long chatId) {
         List<InitDatasetWord> initDatasetWords = initDatasetRepo.findAll();
         for (InitDatasetWord initWord : initDatasetWords) {
-            dictionaryRepo.update(Word.builder()
+            wordRepo.update(Word.builder()
                     .chatId(chatId)
                     .ita(initWord.getIta())
                     .eng(initWord.getEng())

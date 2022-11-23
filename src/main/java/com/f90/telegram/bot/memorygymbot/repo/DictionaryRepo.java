@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface DictionaryRepo extends MongoRepository<Word, String>, WordRepo {
+public interface DictionaryRepo extends MongoRepository<Word, String> {
 
     @Aggregation(pipeline = {
             "{'$match':{'chatId': ?0 }}",
