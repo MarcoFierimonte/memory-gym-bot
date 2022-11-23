@@ -18,8 +18,18 @@ public class MessageUtil {
             out = out + EmojiUtil.FINGER_TO_RIGHT + EmojiUtil.VOICE_HEAD + TG_SPOILER_START + word.getPronounce() + TG_SPOILER_END;
         }
         out = out
-                + "\n<a href=\"https://memorygymbot.oa.r.appspot.com/v1/words/addFavourite?chatId=" + chatId + "&ita=" + word.getIta() + "\">(ADD⭐)</a> "
-                + "<a href=\"https://memorygymbot.oa.r.appspot.com/v1/words/deleteFavourite?chatId=" + chatId + "&ita=" + word.getIta() + "\">(DELETE⛔)</a>";
+                + "\n<a href=\"https://memorygymbot.oa.r.appspot.com/v1/words/addFavorite?chatId=" + chatId + "&ita=" + word.getIta() + "\">(ADD⭐)</a> "
+                + "<a href=\"https://memorygymbot.oa.r.appspot.com/v1/words/deleteFavorite?chatId=" + chatId + "&ita=" + word.getIta() + "\">(DELETE⛔)</a>";
+        return out;
+    }
+
+    public static String buildFavoritesWordText(WordDTO word, Long chatId) {
+        String out = EmojiUtil.ITA_FLAG + " <b>" + word.getIta() + "</b>" + EmojiUtil.FINGER_TO_RIGHT + EmojiUtil.ENG_FLAG + TG_SPOILER_START + word.getEng() + TG_SPOILER_END;
+        if (StringUtils.isNotEmpty(word.getPronounce())) {
+            out = out + EmojiUtil.FINGER_TO_RIGHT + EmojiUtil.VOICE_HEAD + TG_SPOILER_START + word.getPronounce() + TG_SPOILER_END;
+        }
+        out = out
+                + "<a href=\"https://memorygymbot.oa.r.appspot.com/v1/words/deleteFavorite?chatId=" + chatId + "&ita=" + word.getIta() + "\">(DELETE⛔)</a>";
         return out;
     }
 

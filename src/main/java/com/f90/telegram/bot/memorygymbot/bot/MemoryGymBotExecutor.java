@@ -107,7 +107,7 @@ public class MemoryGymBotExecutor {
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>FAVORITES</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : favorites) {
-                sendToChat(update.getMessage(), MessageUtil.buildGuessWordText(current, update.getMessage().getChatId()), false);
+                sendToChat(update.getMessage(), MessageUtil.buildFavoritesWordText(current, update.getMessage().getChatId()), false);
             }
         } else {
             sendToChat(update.getMessage(), "No favorites in your dictionary! Add new ones", false);
