@@ -37,7 +37,7 @@ public class TelegramConnection {
 
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class, defaultWebhook);
 
-            telegramBotsApi.registerBot(memoryGymBot, SetWebhook.builder().url("https://memorygymbot.oa.r.appspot.com/telegram").build());
+            telegramBotsApi.registerBot(memoryGymBot, SetWebhook.builder().url("https://esoteric-buffer-371721.lm.r.appspot.com/telegram").build());
 
         } catch (Exception e) {
             e.printStackTrace();

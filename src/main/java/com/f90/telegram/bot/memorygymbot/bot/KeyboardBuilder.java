@@ -36,13 +36,13 @@ public final class KeyboardBuilder {
         KeyboardButton btnAdd = new KeyboardButton();
         btnAdd.setText("ADD");
         btnAdd.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/addWord?chatId=" + chatId)
+                .url("https://esoteric-buffer-371721.lm.r.appspot.com/v1/memorygymbot/addWord?chatId=" + chatId)
                 .build());
         keyboardRow2.add(btnAdd);
         KeyboardButton btnDelete = new KeyboardButton();
         btnDelete.setText("DELETE");
         btnDelete.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/deleteWord?chatId=" + chatId)
+                .url("https://esoteric-buffer-371721.lm.r.appspot.com/v1/memorygymbot/deleteWord?chatId=" + chatId)
                 .build());
         keyboardRow2.add(btnDelete);
         keyboard.add(keyboardRow2);
@@ -50,7 +50,7 @@ public final class KeyboardBuilder {
         KeyboardButton btnConfig = new KeyboardButton();
         btnConfig.setText("CONFIGS");
         btnConfig.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/config?chatId=" + chatId)
+                .url("https://esoteric-buffer-371721.lm.r.appspot.com/v1/memorygymbot/config?chatId=" + chatId)
                 .build());
 
         keyboardRow2.add(btnConfig);
@@ -61,7 +61,7 @@ public final class KeyboardBuilder {
         KeyboardButton btnInfo = new KeyboardButton();
         btnInfo.setText("INFO");
         btnInfo.setWebApp(WebAppInfo.builder()
-                .url("https://memorygymbot.oa.r.appspot.com/v1/memorygymbot/home")
+                .url("https://esoteric-buffer-371721.lm.r.appspot.com/v1/memorygymbot/home")
                 .build());
 
         keyboardRow3.add("FAVORITES");
