@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(scanBasePackages = "com.f90")
+@SpringBootApplication(scanBasePackages = "com.f90", exclude = {ErrorMvcAutoConfiguration.class})
 @EnableScheduling
 @EnableAspectJAutoProxy
 @Slf4j
