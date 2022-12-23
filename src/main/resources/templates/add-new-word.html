@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Add-new-word - Notus Pro</title>
-    <meta content="Add-new-word - Notus Pro" property="og:title"/>
+    <title>Add-new-word</title>
+    <meta content="Add-new-word" property="og:title"/>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style data-tag="reset-style-sheet">
         html {
@@ -123,11 +123,12 @@
                                             type="text"
                                     />
                                     <div class="add-new-word-container4">
-                                        <div
-                                                class="secondary-button-container secondary-button-root-class-name5"
-                                        >
+                                        <div class="secondary-button-container secondary-button-root-class-name5" >
                                             <button class="secondary-button-button textXS button">
                                                 <span>Add</span>
+                                            </button>
+                                            <button class="secondary-button-button textXS button" th:formaction="@{/v1/memorygymbot/words/add-favourite}" >
+                                                <span>Add Favorite</span>
                                             </button>
                                         </div>
                                     </div>

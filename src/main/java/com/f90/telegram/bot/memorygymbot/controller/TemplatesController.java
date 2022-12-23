@@ -67,9 +67,22 @@ public class TemplatesController {
         return "index";
     }
 
+    @PostMapping("/words/add-favourite")
+    public String addFavouriteWord(@ModelAttribute("word") WordDTO wordDTO) {
+        wordDTO.setFavorite(1);
+        wordService.add(WordMapper.toWord(wordDTO));
+        return "index";
+    }
+
     @PostMapping("/words/delete")
     public String deleteWord(@ModelAttribute("word") WordDTO wordDTO) {
         wordService.delete(WordMapper.toWord(wordDTO));
+        return "index";
+    }
+
+    @PostMapping("/words/delete-favourite")
+    public String deleteFavouriteWord(@ModelAttribute("word") WordDTO wordDTO) {
+        wordService.deleteFavorite(wordDTO.getChatId(), wordDTO.getIta());
         return "index";
     }
 

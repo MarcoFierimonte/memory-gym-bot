@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Delete-word - Notus Pro</title>
-    <meta content="Delete-word - Notus Pro" property="og:title"/>
+    <title>Delete-word</title>
+    <meta content="Delete-word" property="og:title"/>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style data-tag="reset-style-sheet">
         html {
@@ -114,6 +114,9 @@
                                         >
                                             <button class="secondary-button-button textXS button">
                                                 <span>Delete</span>
+                                            </button>
+                                            <button class="secondary-button-button textXS button" th:formaction="@{/v1/memorygymbot/words/delete-favourite}" >
+                                                <span>Delete Fav</span>
                                             </button>
                                         </div>
                                     </div>

@@ -107,7 +107,7 @@ public class MemoryGymBotExecutor {
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>FAVORITES</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : favorites) {
-                sendKeyboard(update.getMessage(), MessageUtil.buildGuessWordText(current), KeyboardBuilder.favoritesKeyboard(false, true));
+                sendKeyboard(update.getMessage(), MessageUtil.buildGuessWordText(current), null);
             }
         } else {
             sendToChat(update.getMessage(), "No favorites in your dictionary! Add new ones", false);
@@ -121,7 +121,7 @@ public class MemoryGymBotExecutor {
             sendToChat(update.getMessage(), EmojiUtil.LINE, false);
             sendToChat(update.getMessage(), EmojiUtil.STAR_FACE + " <b>GUESS THE WORDS</b> " + EmojiUtil.STAR_FACE, false);
             for (WordDTO current : words) {
-                sendKeyboard(update.getMessage(), MessageUtil.buildGuessWordText(current), KeyboardBuilder.favoritesKeyboard(true, true));
+                sendKeyboard(update.getMessage(), MessageUtil.buildGuessWordText(current), null);
             }
         } else {
             sendToChat(update.getMessage(), "No words in your dictionary! Add new ones", false);

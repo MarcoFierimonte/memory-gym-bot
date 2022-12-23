@@ -1,7 +1,9 @@
 package com.f90.telegram.bot.memorygymbot.mapper;
 
 import com.f90.telegram.bot.memorygymbot.dto.WordDTO;
+import com.f90.telegram.bot.memorygymbot.exception.InternalException;
 import com.f90.telegram.bot.memorygymbot.model.Word;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,12 +21,16 @@ public class WordMapper {
         if (in == null) {
             return null;
         }
+        if(StringUtils.isEmpty(in.getIta()) || StringUtils.isEmpty(in.getEng())) {
+            throw new InternalException("Error during 'dto' to 'model' mapping. Missing mandatory fields");
+        }
         return Word.builder()
-                .ita(in.getIta())
-                .eng(in.getEng())
+                .ita(in.getIta().toLowerCase())
+                .eng(in.getEng().toLowerCase())
                 .chatId(in.getChatId())
-                .pronounce(in.getPronounce())
+                .pronounce(in.getPronounce().toLowerCase())
                 .frequency(in.getFrequency() != null ? in.getFrequency() : 0)
+                .favorite(in.getFavorite() != null ? in.getFavorite() : 0)
                 .build();
     }
 
@@ -45,11 +51,14 @@ public class WordMapper {
         if (in == null) {
             return null;
         }
+        if(StringUtils.isEmpty(in.getIta()) || StringUtils.isEmpty(in.getEng())) {
+            throw new InternalException("Error during 'model' to 'dto' mapping. Missing mandatory fields");
+        }
         return WordDTO.builder()
-                .ita(in.getIta())
-                .eng(in.getEng())
+                .ita(in.getIta().toLowerCase())
+                .eng(in.getEng().toLowerCase())
                 .chatId(in.getChatId())
-                .pronounce(in.getPronounce())
+                .pronounce(in.getPronounce().toLowerCase())
                 .frequency(in.getFrequency() != null ? in.getFrequency() : 0)
                 .favorite(in.getFavorite() != null ? in.getFavorite() : 0)
                 .build();

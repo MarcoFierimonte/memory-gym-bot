@@ -30,5 +30,7 @@ public class WordDTO implements Dto {
 
     private Integer favorite;
 
+    private String type;
+
 }
 

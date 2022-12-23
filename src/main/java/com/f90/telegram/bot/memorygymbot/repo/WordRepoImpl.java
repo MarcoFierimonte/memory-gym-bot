@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +56,7 @@ public class WordRepoImpl implements WordRepo {
         updateFields.set(PRONOUNCE_FIELD, word.getPronounce());
         updateFields.set(FREQUENCY_FIELD, word.getFrequency() != null ? word.getFrequency() : 0);
         updateFields.set(FAVORITE_FIELD, word.getFavorite() != null ? word.getFavorite() : 0);
+        updateFields.set("lastUpdate", new Date());
 
         mongoOperations.upsert(findQuery, updateFields, Word.class);
 

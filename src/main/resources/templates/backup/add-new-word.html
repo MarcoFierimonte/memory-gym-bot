@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head>
+    <title>Add-new-word</title>
+    <meta content="Add-new-word" property="og:title"/>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <!--    <link rel="stylesheet" th:href="@{/css/style.css}"/>-->
+</head>
+<body>
+<div>
+<!--    <link rel="stylesheet" th:href="@{/css/add-new-word.css}"/>-->
+    <div class="rendered-form">
+        <form action="#" method="post" th:action="@{/v1/memorygymbot/words/add}" th:object="${word}">
+            <input class="input" id="chatId" th:field="*{chatId}" th:value="${word.chatId}" type="hidden"/>
+            <div class="">
+                <h1 id="control-2618875">Add new word</h1></div>
+            <div class="formbuilder-text form-group">
+                <label for="text-1671785167602" class="formbuilder-text-label">ita<span
+                        class="formbuilder-required">*</span></label>
+                <input type="text" class="form-control" th:field="*{ita}" name="text-1671785167602" maxlength="150"
+                       id="text-1671785167602" required="required" aria-required="true">
+            </div>
+            <div class="formbuilder-text form-group">
+                <label for="text-1671785170890" class="formbuilder-text-label">eng<span
+                        class="formbuilder-required">*</span></label>
+                <input type="text" class="form-control" th:field="*{eng}" name="text-1671785170890" maxlength="150"
+                       id="text-1671785170890" required="required" aria-required="true">
+            </div>
+            <div class="formbuilder-text form-group">
+                <label for="text-1671785219889" class="formbuilder-text-label">pronounce</label>
+                <input type="text" class="form-control" th:field="*{pronounce}" name="text-1671785219889"
+                       maxlength="150" id="text-1671785219889">
+            </div>
+            <div class="formbuilder-button form-group">
+                <button type="button" class="btn-primary btn " name="button-1671785155475" style="primary"
+                        id="button-1671785155475">Add
+                </button>
+                <button type="button" class="btn-primary btn" th:formaction="@{/v1/memorygymbot/words/add-favourite}"
+                        name="button-1671782335475" style="primary" id="button-167178515543375">Add Fav
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

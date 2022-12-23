@@ -17,7 +17,11 @@ public class MyErrorController implements ErrorController {
     public String handleError(HttpServletRequest request) {
         Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         Object requestUri = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
-        String errorMessage = ((NestedServletException)request.getAttribute(RequestDispatcher.ERROR_EXCEPTION)).getMessage();
+        NestedServletException error = ((NestedServletException) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION));
+        String errorMessage = "<none>";
+        if(error != null) {
+            errorMessage = error.getMessage();
+        }
         log.warn("handleError() - msg: error on requestUri={} with statusCode={} errorMessage={}", requestUri, statusCode, errorMessage);
         return "error";
     }
