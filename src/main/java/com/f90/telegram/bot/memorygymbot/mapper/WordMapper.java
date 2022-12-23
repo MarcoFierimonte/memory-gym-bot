@@ -21,14 +21,14 @@ public class WordMapper {
         if (in == null) {
             return null;
         }
-        if(StringUtils.isEmpty(in.getIta()) || StringUtils.isEmpty(in.getEng())) {
+        if(StringUtils.isEmpty(in.getIta())) {
             throw new InternalException("Error during 'dto' to 'model' mapping. Missing mandatory fields");
         }
         return Word.builder()
-                .ita(in.getIta().toLowerCase())
-                .eng(in.getEng().toLowerCase())
+                .ita(StringUtils.toRootLowerCase(in.getIta()))
+                .eng(StringUtils.toRootLowerCase(in.getEng()))
                 .chatId(in.getChatId())
-                .pronounce(in.getPronounce().toLowerCase())
+                .pronounce(StringUtils.toRootLowerCase(in.getPronounce()))
                 .frequency(in.getFrequency() != null ? in.getFrequency() : 0)
                 .favorite(in.getFavorite() != null ? in.getFavorite() : 0)
                 .build();
@@ -55,10 +55,10 @@ public class WordMapper {
             throw new InternalException("Error during 'model' to 'dto' mapping. Missing mandatory fields");
         }
         return WordDTO.builder()
-                .ita(in.getIta().toLowerCase())
-                .eng(in.getEng().toLowerCase())
+                .ita(StringUtils.toRootLowerCase(in.getIta()))
+                .eng(StringUtils.toRootLowerCase(in.getEng()))
                 .chatId(in.getChatId())
-                .pronounce(in.getPronounce().toLowerCase())
+                .pronounce(StringUtils.toRootLowerCase(in.getPronounce()))
                 .frequency(in.getFrequency() != null ? in.getFrequency() : 0)
                 .favorite(in.getFavorite() != null ? in.getFavorite() : 0)
                 .build();
