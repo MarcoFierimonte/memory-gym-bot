@@ -69,8 +69,7 @@ public class TemplatesController {
 
     @PostMapping("/words/add-favourite")
     public String addFavouriteWord(@ModelAttribute("word") WordDTO wordDTO) {
-        wordDTO.setFavorite(1);
-        wordService.add(WordMapper.toWord(wordDTO));
+        wordService.addFavorite(wordDTO.getChatId(), wordDTO.getIta());
         return "index";
     }
 
