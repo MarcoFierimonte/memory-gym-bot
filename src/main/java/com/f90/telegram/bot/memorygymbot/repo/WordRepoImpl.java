@@ -101,7 +101,7 @@ public class WordRepoImpl implements WordRepo {
             query.addCriteria(where(CHAT_ID_FIELD).is(word.getChatId()));
         }
         if (StringUtils.isNotEmpty(word.getIta())) {
-            query.addCriteria(where(ITA_FIELD).regex(".*" + word.getIta() + ".*", "i"));
+            query.addCriteria(where(ITA_FIELD).regex(".*" + word.getIta().trim() + ".*", "i"));
         }
         if (StringUtils.isNotEmpty(word.getEng())) {
             query.addCriteria(where(ENG_FIELD).is(word.getEng()));
