@@ -79,7 +79,7 @@ public class WordRepoImpl implements WordRepo {
     @Override
     public void deleteEntry(Word word) {
         Query findQuery = new Query();
-        findQuery.addCriteria(where(ITA_FIELD).is(word.getIta()));
+        findQuery.addCriteria(where(ITA_FIELD).regex(".*" + word.getIta() + ".*", "i"));
         findQuery.addCriteria(where(CHAT_ID_FIELD).is(word.getChatId()));
         mongoOperations.findAndRemove(findQuery, Word.class);
     }
